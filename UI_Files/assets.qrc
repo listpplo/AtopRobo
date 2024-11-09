@@ -1,0 +1,65 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>Asstes/Icons/icons8-logout-100.png</file>
+    <file>Asstes/Icons/icons8-change-100.png</file>
+    <file>Asstes/Icons/icons8-change-password-100.png</file>
+    <file>Asstes/Icons/icons8-delete-all-100.png</file>
+    <file>Asstes/Icons/icons8-add-properties-100.png</file>
+    <file>Asstes/Icons/icons8-information-100.png</file>
+    <file>Asstes/Icons/icons8-help-100.png</file>
+    <file>Asstes/Icons/icons8-robot-100.png</file>
+    <file>Asstes/Icons/icons8-robot-30.png</file>
+    <file>Asstes/Icons/icons8-mapping-100.png</file>
+    <file>Asstes/Icons/icons8-15-64 (1).png</file>
+    <file>Asstes/Icons/icons8-15-64.png</file>
+    <file>Asstes/Icons/icons8-about.svg</file>
+    <file>Asstes/Icons/icons8-about-us-80.png</file>
+    <file>Asstes/Icons/icons8-add-100.png</file>
+    <file>Asstes/Icons/icons8-bar-chart-96.png</file>
+    <file>Asstes/Icons/icons8-business-64.png</file>
+    <file>Asstes/Icons/icons8-bypass-64.png</file>
+    <file>Asstes/Icons/icons8-check-document-64.png</file>
+    <file>Asstes/Icons/icons8-check-mark-48.png</file>
+    <file>Asstes/Icons/icons8-circled-right-64.png</file>
+    <file>Asstes/Icons/icons8-connected-60.png</file>
+    <file>Asstes/Icons/icons8-connected-96.png</file>
+    <file>Asstes/Icons/icons8-cross-64.png</file>
+    <file>Asstes/Icons/icons8-cross-mark-48.png</file>
+    <file>Asstes/Icons/icons8-data-backup-50.png</file>
+    <file>Asstes/Icons/icons8-delete-file-60.png</file>
+    <file>Asstes/Icons/icons8-drafting-compass-96.png</file>
+    <file>Asstes/Icons/icons8-exit-96.png</file>
+    <file>Asstes/Icons/icons8-export-96.png</file>
+    <file>Asstes/Icons/icons8-export-100.png</file>
+    <file>Asstes/Icons/icons8-forward-100.png</file>
+    <file>Asstes/Icons/icons8-go-back-64.png</file>
+    <file>Asstes/Icons/icons8-graphs-64.png</file>
+    <file>Asstes/Icons/icons8-home-80.png</file>
+    <file>Asstes/Icons/icons8-home-96.png</file>
+    <file>Asstes/Icons/icons8-inspection-64 (copy 1).png</file>
+    <file>Asstes/Icons/icons8-inspection-64.png</file>
+    <file>Asstes/Icons/icons8-inspection-96.png</file>
+    <file>Asstes/Icons/icons8-load-cargo-96.png</file>
+    <file>Asstes/Icons/icons8-menu-250.png</file>
+    <file>Asstes/Icons/icons8-model-64.png</file>
+    <file>Asstes/Icons/icons8-ok-48.png</file>
+    <file>Asstes/Icons/icons8-plc-96.png</file>
+    <file>Asstes/Icons/icons8-plus-minus-100.png</file>
+    <file>Asstes/Icons/icons8-preview-48.png</file>
+    <file>Asstes/Icons/icons8-save-64.png</file>
+    <file>Asstes/Icons/icons8-save-96.png</file>
+    <file>Asstes/Icons/icons8-search-48.png</file>
+    <file>Asstes/Icons/icons8-search-data-66.png</file>
+    <file>Asstes/Icons/icons8-settings-96 (copy 1).png</file>
+    <file>Asstes/Icons/icons8-settings-96.png</file>
+    <file>Asstes/Icons/icons8-status-96.png</file>
+    <file>Asstes/Icons/icons8-update-64.png</file>
+    <file>Asstes/Icons/icons8-user-96.png</file>
+    <file>Asstes/Icons/icons8-validation-96.png</file>
+    <file>Asstes/Icons/icons8-view-50.png</file>
+    <file>Asstes/Icons/icons8-view-94.png</file>
+    <file>Asstes/Icons/icons8-view-96.png</file>
+    <file>Asstes/Icons/icons8-waiting-48.png</file>
+    <file>Asstes/Icons/icons8-xls-export-80.png</file>
+  </qresource>
+</RCC>
