@@ -1,11 +1,190 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLineEdit
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLineEdit, QTableWidgetItem
+from PySide6.QtCore import Qt, Signal, Slot, Qt
 from Mainwindow import Ui_MainWindow
 from AddRecipeWindow import Ui_AddRecipe
 from MappingWindow import Ui_MappingWindow
 from PasswordWidnow import Ui_PasswordWindow
+from RoboTeach import Ui_MainWindow as RoboTeachWindow
 from popup import Ui_popup
 import toml
+import time
+from threading import Thread
+import requests
+import json
+import csv
+import pymelsec as plc
+from pymelsec.constants import DT
+
+
+class Robo_teach_window(RoboTeachWindow, QMainWindow):
+     
+    dataSignal = Signal(dict)
+    plc_signal = Signal(int)
+
+    play_list = []
+
+    def __init__(self):
+        super().__init__()
+
+        self.setupUi(self)
+
+        # Setting up the variables
+        self.runThread = True
+
+        self.pushButton_5.clicked.connect(lambda : Thread(target=self.run).start())
+
+        self.pushButton_2.clicked.connect(self.add_location_to_table)
+
+        self.pushButton_4.clicked.connect(self.play_commands)
+
+        self.pushButton_8.clicked.connect(self.delete_row_data)
+
+        self.pushButton_9.clicked.connect(self.save_table)
+
+        self.dataSignal.connect(self.commandHandler)
+        
+        self.plc_signal.connect(self.command_handler_plc)
+
+        self.setFixedSize(self.width(), self.height())
+
+        # Regeistring popup
+        self.popup = Window_Popup()
+
+        try:
+            with open("Path.txt") as file:
+                reader = csv.reader(file, delimiter=";")
+                for row in reader:
+                    self.tableWidget.setRowCount(self.tableWidget.rowCount()+1)
+                    for i ,value in enumerate(row):
+                        item = QTableWidgetItem(f"{value}")
+                        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                        self.tableWidget.setItem(self.tableWidget.rowCount()-1, i, item)
+        except Exception as e:
+            print(e)
+
+    def delete_row_data(self):
+        selected_indices = self.tableWidget.selectedIndexes()
+        if len(selected_indices) > 1:
+            self.popup.show_pop_up("Please Select Only One Index", "Error!!")
+        else:
+            row = selected_indices[0].row()
+            self.tableWidget.removeRow(row)
+
+    def add_location_to_table(self):
+        x = float(self.label_2.text())
+        y = float(self.label_4.text())
+        z = float(self.label_8.text())
+        t = float(self.label_10.text())
+        speed = 0.5
+
+        no_of_rows = self.tableWidget.rowCount() + 1
+        self.tableWidget.setRowCount(no_of_rows)
+
+        lst = [x, y, z, t, speed]
+
+        for key, i in enumerate(lst):
+            item = QTableWidgetItem(f"{i}")
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.tableWidget.setItem(no_of_rows-1, key, item)
+
+
+    def play_commands(self):
+        lst = []
+        for i in range(self.tableWidget.rowCount()):
+            for col in range(0, self.tableWidget.columnCount()):
+                item = float(self.tableWidget.item(i, col).text())
+                lst.append(item)
+            
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{lst[0]}, 'y':{lst[1]}, 'z':{lst[2]}, 't':{lst[3]}, 'spd':{lst[4]}" + "}"
+            response = requests.get(url)
+            lst.clear()
+        
+    def save_table(self):
+        lst = []
+        for i in range(0, self.tableWidget.rowCount()):
+            row_list = []
+            for j in range(0, self.tableWidget.columnCount()):
+                item = float(self.tableWidget.item(i, j).text())
+                row_list.append(item)
+            lst.append(row_list)
+        
+        print(lst)
+
+        with open("Path.txt", "w+") as file:
+            writer = csv.writer(file, delimiter=";", lineterminator="\n")
+            for item in lst:
+                writer.writerow(item)
+            
+
+    @Slot(dict)
+    def commandHandler(self, data: dict):
+        try:
+            self.label_2.setText(f'{data["x"]}')
+            self.label_4.setText(f'{data["y"]}')
+            self.label_8.setText(f'{data["z"]}')
+            self.label_10.setText(f'{data["t"]}')
+        except Exception as e:
+            ...
+    
+    @Slot(int)
+    def command_handler_plc(self, command:int):
+        self.label_13.setText(command)
+
+    def run(self):
+        # Connecting to plc
+        plc_device  = plc.Type3E("192.168.250.3", port=1200)
+        try:
+            plc_device.connect("192.168.250.3", 1200)
+            connected = True
+        except Exception as e:
+            print(e)
+            connected = False
+
+        while self.pushButton_5.isChecked():
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':105}"
+            response = requests.get(url)
+            data = response.text
+            try:
+                if data != '{"T":105}':
+                    json_data = json.loads(data)
+                    self.dataSignal.emit(json_data)
+            except Exception as e:
+                ...
+
+            if self.pushButton.isChecked():
+                url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':210, 'cmd':1}"
+                response = requests.get(url)
+                self.pushButton.setChecked(False)
+            
+            if self.pushButton_6.isChecked():
+                url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':210, 'cmd':0}"
+                response = requests.get(url)
+                self.pushButton_6.setChecked(False)
+
+            if self.pushButton_10.isChecked():
+                url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':100}"
+                response = requests.get(url)
+                self.pushButton_10.setChecked(False)
+
+            # if not connected:
+            #     try:
+            #         plc_device.connect("192.168.250.3", 1200)
+            #         connected = True
+            #     except Exception as e:
+            #         print(e)
+            #         connected = False
+
+            # command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
+            # self.plc_signal.emit(command)
+            # if command == 1:
+            #     self.play_commands()
+            #     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+
+
+    def closeEvent(self, event):
+        self.pushButton_5.setChecked(False)
+        return super().closeEvent(event)
+
 
 class Window_Popup(Ui_popup, QWidget):
     def __init__(self):
@@ -145,13 +324,13 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self.showMaximized()
 
     def add_recipe(self):
-        self._window_password.showWindow()
+        self._window_password.show()
         if self._window_password.is_logged_in:
             self._window_add_recipe.show()
             self.actionLogout.setDisabled(False)
     
     def add_mapping(self):
-        self._window_password.showWindow()
+        self._window_password.show()
         if self._window_password.is_logged_in:
             self._window_add_mapping.show()
             self.actionLogout.setDisabled(False)
@@ -162,6 +341,6 @@ class MyApp(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication()
-    window = MyApp()
+    window = Robo_teach_window()
     window.show()
     app.exec()

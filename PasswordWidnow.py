@@ -24,7 +24,7 @@ class Ui_PasswordWindow(object):
     def setupUi(self, PasswordWindow):
         if not PasswordWindow.objectName():
             PasswordWindow.setObjectName(u"PasswordWindow")
-        PasswordWindow.resize(309, 238)
+        PasswordWindow.resize(309, 0)
         self.horizontalLayout = QHBoxLayout(PasswordWindow)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
