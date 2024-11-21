@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLineEdit, QTableWidgetItem
-from PySide6.QtCore import Qt, Signal, Slot, Qt
+from PySide6.QtCore import Qt, Signal, Slot, Qt, QThread, QProcess
 from Mainwindow import Ui_MainWindow
 from AddRecipeWindow import Ui_AddRecipe
 from MappingWindow import Ui_MappingWindow
@@ -14,7 +14,6 @@ import json
 import csv
 import pymelsec as plc
 from pymelsec.constants import DT
-
 
 class Robo_teach_window(RoboTeachWindow, QMainWindow):
      
@@ -105,6 +104,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             
             url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{lst[0]}, 'y':{lst[1]}, 'z':{lst[2]}, 't':{lst[3]}, 'spd':{lst[4]}" + "}"
             response = requests.get(url)
+            time.sleep(lst[5])
             lst.clear()
         
     def save_table(self):
