@@ -187,6 +187,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         y_new = y_origin + self.row_B * self.doubleSpinBox_3.value() 
         url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin}, 'spd':{0.5}" + "}"
         response = requests.get(url)
+        time.sleep(1)
         if response.status_code == 200:
             if self.col >= self.tableWidget_2.columnCount():
                 item = QTableWidgetItem("X")
@@ -201,6 +202,10 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             else:
                 self.col_B += 1
             
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin-1.500}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(0.5)
+
     def save_data(self):
         lst = []
         for i in range(0, self.tableWidget.rowCount()):
