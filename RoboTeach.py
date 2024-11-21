@@ -16,17 +16,18 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QGroupBox,
-    QHBoxLayout, QHeaderView, QLabel, QMainWindow,
-    QPushButton, QSizePolicy, QTabWidget, QTableWidget,
-    QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QFrame, QGridLayout,
+    QGroupBox, QHBoxLayout, QHeaderView, QLabel,
+    QMainWindow, QPushButton, QSizePolicy, QSpacerItem,
+    QSpinBox, QTabWidget, QTableWidget, QTableWidgetItem,
+    QToolBox, QVBoxLayout, QWidget)
 import assets_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(889, 665)
+        MainWindow.resize(969, 686)
         self.actionCreate_New_Program = QAction(MainWindow)
         self.actionCreate_New_Program.setObjectName(u"actionCreate_New_Program")
         self.actionExit = QAction(MainWindow)
@@ -42,8 +43,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2 = QHBoxLayout(self.tabWidget_2Page1)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.tableWidget = QTableWidget(self.tabWidget_2Page1)
-        if (self.tableWidget.columnCount() < 5):
-            self.tableWidget.setColumnCount(5)
+        if (self.tableWidget.columnCount() < 6):
+            self.tableWidget.setColumnCount(6)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -54,12 +55,483 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         __qtablewidgetitem4 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setAlternatingRowColors(True)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(90)
 
         self.horizontalLayout_2.addWidget(self.tableWidget)
 
-        self.frame = QFrame(self.tabWidget_2Page1)
+        self.tabWidget_2.addTab(self.tabWidget_2Page1, "")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.horizontalLayout_3 = QHBoxLayout(self.tab)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.toolBox_19 = QToolBox(self.tab)
+        self.toolBox_19.setObjectName(u"toolBox_19")
+        font = QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        self.toolBox_19.setFont(font)
+        self.toolBox_19.setFrameShape(QFrame.Shape.Box)
+        self.toolBox_19.setFrameShadow(QFrame.Shadow.Raised)
+        self.toolBox_19Page1 = QWidget()
+        self.toolBox_19Page1.setObjectName(u"toolBox_19Page1")
+        self.verticalLayout_5 = QVBoxLayout(self.toolBox_19Page1)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.groupBox_3 = QGroupBox(self.toolBox_19Page1)
+        self.groupBox_3.setObjectName(u"groupBox_3")
+        font1 = QFont()
+        font1.setPointSize(10)
+        font1.setBold(True)
+        font1.setItalic(True)
+        font1.setUnderline(True)
+        self.groupBox_3.setFont(font1)
+        self.groupBox_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.groupBox_3.setCheckable(False)
+        self.gridLayout_5 = QGridLayout(self.groupBox_3)
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_5.addItem(self.horizontalSpacer, 2, 3, 1, 1)
+
+        self.label_22 = QLabel(self.groupBox_3)
+        self.label_22.setObjectName(u"label_22")
+        self.label_22.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.gridLayout_5.addWidget(self.label_22, 2, 1, 1, 1)
+
+        self.label_23 = QLabel(self.groupBox_3)
+        self.label_23.setObjectName(u"label_23")
+        self.label_23.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_5.addWidget(self.label_23, 3, 1, 1, 1)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_5.addItem(self.horizontalSpacer_2, 2, 0, 1, 1)
+
+        self.spinBox_2 = QSpinBox(self.groupBox_3)
+        self.spinBox_2.setObjectName(u"spinBox_2")
+        self.spinBox_2.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.gridLayout_5.addWidget(self.spinBox_2, 3, 2, 1, 1)
+
+        self.spinBox = QSpinBox(self.groupBox_3)
+        self.spinBox.setObjectName(u"spinBox")
+        self.spinBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.gridLayout_5.addWidget(self.spinBox, 2, 2, 1, 1)
+
+
+        self.verticalLayout_5.addWidget(self.groupBox_3)
+
+        self.pushButton_17 = QPushButton(self.toolBox_19Page1)
+        self.pushButton_17.setObjectName(u"pushButton_17")
+        font2 = QFont()
+        font2.setPointSize(12)
+        font2.setBold(True)
+        self.pushButton_17.setFont(font2)
+        self.pushButton_17.setStyleSheet(u"QPushButton{\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::hover{\n"
+"	background-color: rgb(252, 255, 51);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::checked{\n"
+"	background-color: rgb(25, 255, 140);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}")
+
+        self.verticalLayout_5.addWidget(self.pushButton_17)
+
+        self.pushButton_18 = QPushButton(self.toolBox_19Page1)
+        self.pushButton_18.setObjectName(u"pushButton_18")
+        self.pushButton_18.setFont(font2)
+        self.pushButton_18.setStyleSheet(u"QPushButton{\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::hover{\n"
+"	background-color: rgb(252, 255, 51);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::checked{\n"
+"	background-color: rgb(25, 255, 140);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}")
+
+        self.verticalLayout_5.addWidget(self.pushButton_18)
+
+        self.frame_10 = QFrame(self.toolBox_19Page1)
+        self.frame_10.setObjectName(u"frame_10")
+        self.frame_10.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_10.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.verticalLayout_5.addWidget(self.frame_10)
+
+        self.frame_16 = QFrame(self.toolBox_19Page1)
+        self.frame_16.setObjectName(u"frame_16")
+        self.frame_16.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_16.setFrameShadow(QFrame.Shadow.Raised)
+        self.gridLayout_6 = QGridLayout(self.frame_16)
+        self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.tableWidget_2 = QTableWidget(self.frame_16)
+        self.tableWidget_2.setObjectName(u"tableWidget_2")
+        self.tableWidget_2.setRowCount(0)
+        self.tableWidget_2.setColumnCount(0)
+        self.tableWidget_2.horizontalHeader().setMinimumSectionSize(10)
+        self.tableWidget_2.horizontalHeader().setDefaultSectionSize(25)
+        self.tableWidget_2.verticalHeader().setMinimumSectionSize(10)
+        self.tableWidget_2.verticalHeader().setDefaultSectionSize(20)
+
+        self.gridLayout_6.addWidget(self.tableWidget_2, 1, 3, 1, 1)
+
+        self.groupBox_22 = QGroupBox(self.frame_16)
+        self.groupBox_22.setObjectName(u"groupBox_22")
+        self.groupBox_22.setMinimumSize(QSize(0, 50))
+        self.groupBox_22.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.horizontalLayout_4 = QHBoxLayout(self.groupBox_22)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.label_27 = QLabel(self.groupBox_22)
+        self.label_27.setObjectName(u"label_27")
+        self.label_27.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_4.addWidget(self.label_27)
+
+        self.label_28 = QLabel(self.groupBox_22)
+        self.label_28.setObjectName(u"label_28")
+        self.label_28.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_4.addWidget(self.label_28)
+
+        self.label_30 = QLabel(self.groupBox_22)
+        self.label_30.setObjectName(u"label_30")
+        self.label_30.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_4.addWidget(self.label_30)
+
+        self.label_29 = QLabel(self.groupBox_22)
+        self.label_29.setObjectName(u"label_29")
+        self.label_29.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_4.addWidget(self.label_29)
+
+        self.label_32 = QLabel(self.groupBox_22)
+        self.label_32.setObjectName(u"label_32")
+        self.label_32.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_4.addWidget(self.label_32)
+
+        self.label_31 = QLabel(self.groupBox_22)
+        self.label_31.setObjectName(u"label_31")
+        self.label_31.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_4.addWidget(self.label_31)
+
+        self.label_33 = QLabel(self.groupBox_22)
+        self.label_33.setObjectName(u"label_33")
+        self.label_33.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_4.addWidget(self.label_33)
+
+        self.label_34 = QLabel(self.groupBox_22)
+        self.label_34.setObjectName(u"label_34")
+        self.label_34.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_4.addWidget(self.label_34)
+
+
+        self.gridLayout_6.addWidget(self.groupBox_22, 2, 3, 1, 1)
+
+        self.groupBox_20 = QGroupBox(self.frame_16)
+        self.groupBox_20.setObjectName(u"groupBox_20")
+        self.groupBox_20.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_8 = QVBoxLayout(self.groupBox_20)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.label_25 = QLabel(self.groupBox_20)
+        self.label_25.setObjectName(u"label_25")
+        self.label_25.setMaximumSize(QSize(50, 50))
+        self.label_25.setPixmap(QPixmap(u":/icons/Asstes/Icons/icons8-height-100.png"))
+        self.label_25.setScaledContents(True)
+
+        self.verticalLayout_8.addWidget(self.label_25)
+
+        self.doubleSpinBox = QDoubleSpinBox(self.groupBox_20)
+        self.doubleSpinBox.setObjectName(u"doubleSpinBox")
+        self.doubleSpinBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_8.addWidget(self.doubleSpinBox)
+
+
+        self.gridLayout_6.addWidget(self.groupBox_20, 1, 0, 1, 1, Qt.AlignmentFlag.AlignTop)
+
+        self.groupBox_21 = QGroupBox(self.frame_16)
+        self.groupBox_21.setObjectName(u"groupBox_21")
+        self.groupBox_21.setMaximumSize(QSize(130, 100))
+        self.groupBox_21.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_9 = QVBoxLayout(self.groupBox_21)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.label_26 = QLabel(self.groupBox_21)
+        self.label_26.setObjectName(u"label_26")
+        self.label_26.setMaximumSize(QSize(50, 50))
+        self.label_26.setPixmap(QPixmap(u":/icons/Asstes/Icons/icons8-width-100.png"))
+        self.label_26.setScaledContents(True)
+
+        self.verticalLayout_9.addWidget(self.label_26)
+
+        self.doubleSpinBox_2 = QDoubleSpinBox(self.groupBox_21)
+        self.doubleSpinBox_2.setObjectName(u"doubleSpinBox_2")
+        self.doubleSpinBox_2.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_9.addWidget(self.doubleSpinBox_2)
+
+
+        self.gridLayout_6.addWidget(self.groupBox_21, 0, 3, 1, 1)
+
+
+        self.verticalLayout_5.addWidget(self.frame_16)
+
+        icon = QIcon()
+        icon.addFile(u":/icons/Asstes/Icons/icons8-a-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.toolBox_19.addItem(self.toolBox_19Page1, icon, u"Part \"A\" Tray")
+        self.page = QWidget()
+        self.page.setObjectName(u"page")
+        self.verticalLayout_4 = QVBoxLayout(self.page)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.groupBox_4 = QGroupBox(self.page)
+        self.groupBox_4.setObjectName(u"groupBox_4")
+        self.groupBox_4.setFont(font1)
+        self.groupBox_4.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.groupBox_4.setCheckable(False)
+        self.gridLayout_7 = QGridLayout(self.groupBox_4)
+        self.gridLayout_7.setObjectName(u"gridLayout_7")
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_7.addItem(self.horizontalSpacer_3, 2, 3, 1, 1)
+
+        self.label_24 = QLabel(self.groupBox_4)
+        self.label_24.setObjectName(u"label_24")
+        self.label_24.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.gridLayout_7.addWidget(self.label_24, 2, 1, 1, 1)
+
+        self.label_35 = QLabel(self.groupBox_4)
+        self.label_35.setObjectName(u"label_35")
+        self.label_35.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.gridLayout_7.addWidget(self.label_35, 3, 1, 1, 1)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_7.addItem(self.horizontalSpacer_4, 2, 0, 1, 1)
+
+        self.spinBox_4 = QSpinBox(self.groupBox_4)
+        self.spinBox_4.setObjectName(u"spinBox_4")
+        self.spinBox_4.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.gridLayout_7.addWidget(self.spinBox_4, 3, 2, 1, 1)
+
+        self.spinBox_3 = QSpinBox(self.groupBox_4)
+        self.spinBox_3.setObjectName(u"spinBox_3")
+        self.spinBox_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.gridLayout_7.addWidget(self.spinBox_3, 2, 2, 1, 1)
+
+
+        self.verticalLayout_4.addWidget(self.groupBox_4)
+
+        self.pushButton_19 = QPushButton(self.page)
+        self.pushButton_19.setObjectName(u"pushButton_19")
+        self.pushButton_19.setFont(font2)
+        self.pushButton_19.setStyleSheet(u"QPushButton{\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::hover{\n"
+"	background-color: rgb(252, 255, 51);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::checked{\n"
+"	background-color: rgb(25, 255, 140);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}")
+
+        self.verticalLayout_4.addWidget(self.pushButton_19)
+
+        self.pushButton_20 = QPushButton(self.page)
+        self.pushButton_20.setObjectName(u"pushButton_20")
+        self.pushButton_20.setFont(font2)
+        self.pushButton_20.setStyleSheet(u"QPushButton{\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::hover{\n"
+"	background-color: rgb(252, 255, 51);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::checked{\n"
+"	background-color: rgb(25, 255, 140);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}")
+
+        self.verticalLayout_4.addWidget(self.pushButton_20)
+
+        self.frame_17 = QFrame(self.page)
+        self.frame_17.setObjectName(u"frame_17")
+        self.frame_17.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_17.setFrameShadow(QFrame.Shadow.Raised)
+        self.gridLayout_8 = QGridLayout(self.frame_17)
+        self.gridLayout_8.setObjectName(u"gridLayout_8")
+        self.tableWidget_3 = QTableWidget(self.frame_17)
+        self.tableWidget_3.setObjectName(u"tableWidget_3")
+        self.tableWidget_3.setRowCount(0)
+        self.tableWidget_3.setColumnCount(0)
+        self.tableWidget_3.horizontalHeader().setMinimumSectionSize(10)
+        self.tableWidget_3.horizontalHeader().setDefaultSectionSize(25)
+        self.tableWidget_3.verticalHeader().setMinimumSectionSize(10)
+        self.tableWidget_3.verticalHeader().setDefaultSectionSize(20)
+
+        self.gridLayout_8.addWidget(self.tableWidget_3, 1, 3, 1, 1)
+
+        self.groupBox_23 = QGroupBox(self.frame_17)
+        self.groupBox_23.setObjectName(u"groupBox_23")
+        self.groupBox_23.setMinimumSize(QSize(0, 50))
+        self.groupBox_23.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.horizontalLayout_5 = QHBoxLayout(self.groupBox_23)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.label_36 = QLabel(self.groupBox_23)
+        self.label_36.setObjectName(u"label_36")
+        self.label_36.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_5.addWidget(self.label_36)
+
+        self.label_37 = QLabel(self.groupBox_23)
+        self.label_37.setObjectName(u"label_37")
+        self.label_37.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_5.addWidget(self.label_37)
+
+        self.label_38 = QLabel(self.groupBox_23)
+        self.label_38.setObjectName(u"label_38")
+        self.label_38.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_5.addWidget(self.label_38)
+
+        self.label_39 = QLabel(self.groupBox_23)
+        self.label_39.setObjectName(u"label_39")
+        self.label_39.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_5.addWidget(self.label_39)
+
+        self.label_40 = QLabel(self.groupBox_23)
+        self.label_40.setObjectName(u"label_40")
+        self.label_40.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_5.addWidget(self.label_40)
+
+        self.label_41 = QLabel(self.groupBox_23)
+        self.label_41.setObjectName(u"label_41")
+        self.label_41.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_5.addWidget(self.label_41)
+
+        self.label_42 = QLabel(self.groupBox_23)
+        self.label_42.setObjectName(u"label_42")
+        self.label_42.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_5.addWidget(self.label_42)
+
+        self.label_43 = QLabel(self.groupBox_23)
+        self.label_43.setObjectName(u"label_43")
+        self.label_43.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_5.addWidget(self.label_43)
+
+
+        self.gridLayout_8.addWidget(self.groupBox_23, 2, 3, 1, 1)
+
+        self.groupBox_24 = QGroupBox(self.frame_17)
+        self.groupBox_24.setObjectName(u"groupBox_24")
+        self.groupBox_24.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_10 = QVBoxLayout(self.groupBox_24)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.label_44 = QLabel(self.groupBox_24)
+        self.label_44.setObjectName(u"label_44")
+        self.label_44.setMaximumSize(QSize(50, 50))
+        self.label_44.setPixmap(QPixmap(u":/icons/Asstes/Icons/icons8-height-100.png"))
+        self.label_44.setScaledContents(True)
+
+        self.verticalLayout_10.addWidget(self.label_44)
+
+        self.doubleSpinBox_3 = QDoubleSpinBox(self.groupBox_24)
+        self.doubleSpinBox_3.setObjectName(u"doubleSpinBox_3")
+        self.doubleSpinBox_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_10.addWidget(self.doubleSpinBox_3)
+
+
+        self.gridLayout_8.addWidget(self.groupBox_24, 1, 0, 1, 1, Qt.AlignmentFlag.AlignTop)
+
+        self.groupBox_25 = QGroupBox(self.frame_17)
+        self.groupBox_25.setObjectName(u"groupBox_25")
+        self.groupBox_25.setMaximumSize(QSize(130, 100))
+        self.groupBox_25.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_11 = QVBoxLayout(self.groupBox_25)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.label_45 = QLabel(self.groupBox_25)
+        self.label_45.setObjectName(u"label_45")
+        self.label_45.setMaximumSize(QSize(50, 50))
+        self.label_45.setPixmap(QPixmap(u":/icons/Asstes/Icons/icons8-width-100.png"))
+        self.label_45.setScaledContents(True)
+
+        self.verticalLayout_11.addWidget(self.label_45)
+
+        self.doubleSpinBox_4 = QDoubleSpinBox(self.groupBox_25)
+        self.doubleSpinBox_4.setObjectName(u"doubleSpinBox_4")
+        self.doubleSpinBox_4.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_11.addWidget(self.doubleSpinBox_4)
+
+
+        self.gridLayout_8.addWidget(self.groupBox_25, 0, 3, 1, 1)
+
+
+        self.verticalLayout_4.addWidget(self.frame_17)
+
+        icon1 = QIcon()
+        icon1.addFile(u":/icons/Asstes/Icons/icons8-b-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.toolBox_19.addItem(self.page, icon1, u"Part \"B\" Tray")
+
+        self.horizontalLayout_3.addWidget(self.toolBox_19)
+
+        self.tabWidget_2.addTab(self.tab, "")
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.tabWidget_2.addTab(self.tab_2, "")
+
+        self.horizontalLayout.addWidget(self.tabWidget_2)
+
+        self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -335,9 +807,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.label_11 = QLabel(self.frame_8)
         self.label_11.setObjectName(u"label_11")
-        font = QFont()
-        font.setPointSize(12)
-        self.label_11.setFont(font)
+        font3 = QFont()
+        font3.setPointSize(12)
+        self.label_11.setFont(font3)
         self.label_11.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_3.addWidget(self.label_11)
@@ -421,15 +893,14 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.frame_2)
 
 
-        self.horizontalLayout_2.addWidget(self.frame)
-
-        self.tabWidget_2.addTab(self.tabWidget_2Page1, "")
-
-        self.horizontalLayout.addWidget(self.tabWidget_2)
+        self.horizontalLayout.addWidget(self.frame)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
+
+        self.tabWidget_2.setCurrentIndex(1)
+
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
@@ -448,6 +919,49 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"T", None));
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Speed", None));
+        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Delay", None));
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tabWidget_2Page1), QCoreApplication.translate("MainWindow", u"Pick Step", None))
+        self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"Part Tray \"A\" Orientation", None))
+        self.label_22.setText(QCoreApplication.translate("MainWindow", u"Rows", None))
+        self.label_23.setText(QCoreApplication.translate("MainWindow", u"Columns", None))
+        self.pushButton_17.setText(QCoreApplication.translate("MainWindow", u"Save Origin", None))
+        self.pushButton_18.setText(QCoreApplication.translate("MainWindow", u"Reset Location", None))
+        self.groupBox_22.setTitle(QCoreApplication.translate("MainWindow", u"Origin Loaction", None))
+        self.label_27.setText(QCoreApplication.translate("MainWindow", u"X :", None))
+        self.label_28.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.label_30.setText(QCoreApplication.translate("MainWindow", u"Y :", None))
+        self.label_29.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.label_32.setText(QCoreApplication.translate("MainWindow", u"Z :", None))
+        self.label_31.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.label_33.setText(QCoreApplication.translate("MainWindow", u"T :", None))
+        self.label_34.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.groupBox_20.setTitle(QCoreApplication.translate("MainWindow", u"Vertical Height", None))
+        self.label_25.setText("")
+        self.groupBox_21.setTitle(QCoreApplication.translate("MainWindow", u"Horizontal Width", None))
+        self.label_26.setText("")
+        self.toolBox_19.setItemText(self.toolBox_19.indexOf(self.toolBox_19Page1), QCoreApplication.translate("MainWindow", u"Part \"A\" Tray", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Part Tray \"B\" Orientation", None))
+        self.label_24.setText(QCoreApplication.translate("MainWindow", u"Rows", None))
+        self.label_35.setText(QCoreApplication.translate("MainWindow", u"Columns", None))
+        self.pushButton_19.setText(QCoreApplication.translate("MainWindow", u"Save Origin", None))
+        self.pushButton_20.setText(QCoreApplication.translate("MainWindow", u"Reset Location", None))
+        self.groupBox_23.setTitle(QCoreApplication.translate("MainWindow", u"Origin Loaction", None))
+        self.label_36.setText(QCoreApplication.translate("MainWindow", u"X :", None))
+        self.label_37.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.label_38.setText(QCoreApplication.translate("MainWindow", u"Y :", None))
+        self.label_39.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.label_40.setText(QCoreApplication.translate("MainWindow", u"Z :", None))
+        self.label_41.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.label_42.setText(QCoreApplication.translate("MainWindow", u"T :", None))
+        self.label_43.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.groupBox_24.setTitle(QCoreApplication.translate("MainWindow", u"Vertical Height", None))
+        self.label_44.setText("")
+        self.groupBox_25.setTitle(QCoreApplication.translate("MainWindow", u"Horizontal Width", None))
+        self.label_45.setText("")
+        self.toolBox_19.setItemText(self.toolBox_19.indexOf(self.page), QCoreApplication.translate("MainWindow", u"Part \"B\" Tray", None))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Move Step", None))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Drop Step", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"LIve Cordinates", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Y :", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"---", None))
@@ -470,7 +984,6 @@ class Ui_MainWindow(object):
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Table Editor", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Save Location", None))
         self.pushButton_8.setText(QCoreApplication.translate("MainWindow", u"Delete Location", None))
-        self.pushButton_9.setText(QCoreApplication.translate("MainWindow", u"Save Table", None))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tabWidget_2Page1), "")
+        self.pushButton_9.setText(QCoreApplication.translate("MainWindow", u"Save Data", None))
     # retranslateUi
 

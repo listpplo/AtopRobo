@@ -347,57 +347,8 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.label_4)
 
         self.tableWidget = QTableWidget(self.frame_2)
-        if (self.tableWidget.columnCount() < 10):
-            self.tableWidget.setColumnCount(10)
-        __qtablewidgetitem = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
-        __qtablewidgetitem2 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
-        __qtablewidgetitem3 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
-        __qtablewidgetitem4 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
-        __qtablewidgetitem5 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
-        __qtablewidgetitem6 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
-        __qtablewidgetitem7 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(7, __qtablewidgetitem7)
-        __qtablewidgetitem8 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(8, __qtablewidgetitem8)
-        __qtablewidgetitem9 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(9, __qtablewidgetitem9)
-        if (self.tableWidget.rowCount() < 14):
-            self.tableWidget.setRowCount(14)
-        font6 = QFont()
-        font6.setPointSize(9)
-        __qtablewidgetitem10 = QTableWidgetItem()
-        __qtablewidgetitem10.setFont(font6);
-        self.tableWidget.setVerticalHeaderItem(0, __qtablewidgetitem10)
-        __qtablewidgetitem11 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(1, __qtablewidgetitem11)
-        __qtablewidgetitem12 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(2, __qtablewidgetitem12)
-        __qtablewidgetitem13 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(3, __qtablewidgetitem13)
-        __qtablewidgetitem14 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(4, __qtablewidgetitem14)
-        __qtablewidgetitem15 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(5, __qtablewidgetitem15)
-        __qtablewidgetitem16 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(6, __qtablewidgetitem16)
-        __qtablewidgetitem17 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(7, __qtablewidgetitem17)
-        __qtablewidgetitem18 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(8, __qtablewidgetitem18)
-        __qtablewidgetitem19 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(9, __qtablewidgetitem19)
-        __qtablewidgetitem20 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(10, __qtablewidgetitem20)
-        __qtablewidgetitem21 = QTableWidgetItem()
-        self.tableWidget.setVerticalHeaderItem(11, __qtablewidgetitem21)
+        if (self.tableWidget.rowCount() < 2):
+            self.tableWidget.setRowCount(2)
         self.tableWidget.setObjectName(u"tableWidget")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
         sizePolicy2.setHorizontalStretch(0)
@@ -405,14 +356,14 @@ class Ui_MainWindow(object):
         sizePolicy2.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
         self.tableWidget.setSizePolicy(sizePolicy2)
         self.tableWidget.setMinimumSize(QSize(275, 306))
-        font7 = QFont()
-        font7.setKerning(True)
-        self.tableWidget.setFont(font7)
+        font6 = QFont()
+        font6.setKerning(True)
+        self.tableWidget.setFont(font6)
         self.tableWidget.setStyleSheet(u"QTableWidget{\n"
 "	border:1px solid black;\n"
 "}")
         self.tableWidget.setGridStyle(Qt.PenStyle.DashDotDotLine)
-        self.tableWidget.setRowCount(14)
+        self.tableWidget.setRowCount(2)
         self.tableWidget.horizontalHeader().setVisible(True)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget.horizontalHeader().setMinimumSectionSize(10)
@@ -425,75 +376,28 @@ class Ui_MainWindow(object):
 
         self.label_5 = QLabel(self.frame_2)
         self.label_5.setObjectName(u"label_5")
-        font8 = QFont()
-        font8.setPointSize(13)
-        font8.setBold(True)
-        font8.setUnderline(True)
-        self.label_5.setFont(font8)
+        font7 = QFont()
+        font7.setPointSize(13)
+        font7.setBold(True)
+        font7.setUnderline(True)
+        self.label_5.setFont(font7)
         self.label_5.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout.addWidget(self.label_5)
 
         self.tableWidget_2 = QTableWidget(self.frame_2)
-        if (self.tableWidget_2.columnCount() < 10):
-            self.tableWidget_2.setColumnCount(10)
-        __qtablewidgetitem22 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(0, __qtablewidgetitem22)
-        __qtablewidgetitem23 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(1, __qtablewidgetitem23)
-        __qtablewidgetitem24 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(2, __qtablewidgetitem24)
-        __qtablewidgetitem25 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(3, __qtablewidgetitem25)
-        __qtablewidgetitem26 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(4, __qtablewidgetitem26)
-        __qtablewidgetitem27 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(5, __qtablewidgetitem27)
-        __qtablewidgetitem28 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(6, __qtablewidgetitem28)
-        __qtablewidgetitem29 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(7, __qtablewidgetitem29)
-        __qtablewidgetitem30 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(8, __qtablewidgetitem30)
-        __qtablewidgetitem31 = QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(9, __qtablewidgetitem31)
-        if (self.tableWidget_2.rowCount() < 14):
-            self.tableWidget_2.setRowCount(14)
-        __qtablewidgetitem32 = QTableWidgetItem()
-        __qtablewidgetitem32.setFont(font6);
-        self.tableWidget_2.setVerticalHeaderItem(0, __qtablewidgetitem32)
-        __qtablewidgetitem33 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(1, __qtablewidgetitem33)
-        __qtablewidgetitem34 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(2, __qtablewidgetitem34)
-        __qtablewidgetitem35 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(3, __qtablewidgetitem35)
-        __qtablewidgetitem36 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(4, __qtablewidgetitem36)
-        __qtablewidgetitem37 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(5, __qtablewidgetitem37)
-        __qtablewidgetitem38 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(6, __qtablewidgetitem38)
-        __qtablewidgetitem39 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(7, __qtablewidgetitem39)
-        __qtablewidgetitem40 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(8, __qtablewidgetitem40)
-        __qtablewidgetitem41 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(9, __qtablewidgetitem41)
-        __qtablewidgetitem42 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(10, __qtablewidgetitem42)
-        __qtablewidgetitem43 = QTableWidgetItem()
-        self.tableWidget_2.setVerticalHeaderItem(11, __qtablewidgetitem43)
+        if (self.tableWidget_2.rowCount() < 2):
+            self.tableWidget_2.setRowCount(2)
         self.tableWidget_2.setObjectName(u"tableWidget_2")
         sizePolicy2.setHeightForWidth(self.tableWidget_2.sizePolicy().hasHeightForWidth())
         self.tableWidget_2.setSizePolicy(sizePolicy2)
         self.tableWidget_2.setMinimumSize(QSize(275, 306))
-        self.tableWidget_2.setFont(font7)
+        self.tableWidget_2.setFont(font6)
         self.tableWidget_2.setStyleSheet(u"QTableWidget{\n"
 "	border:1px solid black;\n"
 "}")
         self.tableWidget_2.setGridStyle(Qt.PenStyle.DashDotDotLine)
-        self.tableWidget_2.setRowCount(14)
+        self.tableWidget_2.setRowCount(2)
         self.tableWidget_2.horizontalHeader().setMinimumSectionSize(10)
         self.tableWidget_2.horizontalHeader().setDefaultSectionSize(25)
         self.tableWidget_2.verticalHeader().setMinimumSectionSize(10)
@@ -540,7 +444,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget_4.setCurrentIndex(0)
+        self.tabWidget_4.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -581,95 +485,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Robo Status", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Program Parameter", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Bin A", None))
-        ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"0", None));
-        ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"1", None));
-        ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"2", None));
-        ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"3", None));
-        ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"4", None));
-        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"5", None));
-        ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
-        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"6", None));
-        ___qtablewidgetitem7 = self.tableWidget.horizontalHeaderItem(7)
-        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"7", None));
-        ___qtablewidgetitem8 = self.tableWidget.horizontalHeaderItem(8)
-        ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"8", None));
-        ___qtablewidgetitem9 = self.tableWidget.horizontalHeaderItem(9)
-        ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"9", None));
-        ___qtablewidgetitem10 = self.tableWidget.verticalHeaderItem(0)
-        ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"0", None));
-        ___qtablewidgetitem11 = self.tableWidget.verticalHeaderItem(1)
-        ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"1", None));
-        ___qtablewidgetitem12 = self.tableWidget.verticalHeaderItem(2)
-        ___qtablewidgetitem12.setText(QCoreApplication.translate("MainWindow", u"2", None));
-        ___qtablewidgetitem13 = self.tableWidget.verticalHeaderItem(3)
-        ___qtablewidgetitem13.setText(QCoreApplication.translate("MainWindow", u"3", None));
-        ___qtablewidgetitem14 = self.tableWidget.verticalHeaderItem(4)
-        ___qtablewidgetitem14.setText(QCoreApplication.translate("MainWindow", u"4", None));
-        ___qtablewidgetitem15 = self.tableWidget.verticalHeaderItem(5)
-        ___qtablewidgetitem15.setText(QCoreApplication.translate("MainWindow", u"5", None));
-        ___qtablewidgetitem16 = self.tableWidget.verticalHeaderItem(6)
-        ___qtablewidgetitem16.setText(QCoreApplication.translate("MainWindow", u"6", None));
-        ___qtablewidgetitem17 = self.tableWidget.verticalHeaderItem(7)
-        ___qtablewidgetitem17.setText(QCoreApplication.translate("MainWindow", u"7", None));
-        ___qtablewidgetitem18 = self.tableWidget.verticalHeaderItem(8)
-        ___qtablewidgetitem18.setText(QCoreApplication.translate("MainWindow", u"8", None));
-        ___qtablewidgetitem19 = self.tableWidget.verticalHeaderItem(9)
-        ___qtablewidgetitem19.setText(QCoreApplication.translate("MainWindow", u"9", None));
-        ___qtablewidgetitem20 = self.tableWidget.verticalHeaderItem(10)
-        ___qtablewidgetitem20.setText(QCoreApplication.translate("MainWindow", u"10", None));
-        ___qtablewidgetitem21 = self.tableWidget.verticalHeaderItem(11)
-        ___qtablewidgetitem21.setText(QCoreApplication.translate("MainWindow", u"11", None));
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Bin B", None))
-        ___qtablewidgetitem22 = self.tableWidget_2.horizontalHeaderItem(0)
-        ___qtablewidgetitem22.setText(QCoreApplication.translate("MainWindow", u"0", None));
-        ___qtablewidgetitem23 = self.tableWidget_2.horizontalHeaderItem(1)
-        ___qtablewidgetitem23.setText(QCoreApplication.translate("MainWindow", u"1", None));
-        ___qtablewidgetitem24 = self.tableWidget_2.horizontalHeaderItem(2)
-        ___qtablewidgetitem24.setText(QCoreApplication.translate("MainWindow", u"2", None));
-        ___qtablewidgetitem25 = self.tableWidget_2.horizontalHeaderItem(3)
-        ___qtablewidgetitem25.setText(QCoreApplication.translate("MainWindow", u"3", None));
-        ___qtablewidgetitem26 = self.tableWidget_2.horizontalHeaderItem(4)
-        ___qtablewidgetitem26.setText(QCoreApplication.translate("MainWindow", u"4", None));
-        ___qtablewidgetitem27 = self.tableWidget_2.horizontalHeaderItem(5)
-        ___qtablewidgetitem27.setText(QCoreApplication.translate("MainWindow", u"5", None));
-        ___qtablewidgetitem28 = self.tableWidget_2.horizontalHeaderItem(6)
-        ___qtablewidgetitem28.setText(QCoreApplication.translate("MainWindow", u"6", None));
-        ___qtablewidgetitem29 = self.tableWidget_2.horizontalHeaderItem(7)
-        ___qtablewidgetitem29.setText(QCoreApplication.translate("MainWindow", u"7", None));
-        ___qtablewidgetitem30 = self.tableWidget_2.horizontalHeaderItem(8)
-        ___qtablewidgetitem30.setText(QCoreApplication.translate("MainWindow", u"8", None));
-        ___qtablewidgetitem31 = self.tableWidget_2.horizontalHeaderItem(9)
-        ___qtablewidgetitem31.setText(QCoreApplication.translate("MainWindow", u"9", None));
-        ___qtablewidgetitem32 = self.tableWidget_2.verticalHeaderItem(0)
-        ___qtablewidgetitem32.setText(QCoreApplication.translate("MainWindow", u"0", None));
-        ___qtablewidgetitem33 = self.tableWidget_2.verticalHeaderItem(1)
-        ___qtablewidgetitem33.setText(QCoreApplication.translate("MainWindow", u"1", None));
-        ___qtablewidgetitem34 = self.tableWidget_2.verticalHeaderItem(2)
-        ___qtablewidgetitem34.setText(QCoreApplication.translate("MainWindow", u"2", None));
-        ___qtablewidgetitem35 = self.tableWidget_2.verticalHeaderItem(3)
-        ___qtablewidgetitem35.setText(QCoreApplication.translate("MainWindow", u"3", None));
-        ___qtablewidgetitem36 = self.tableWidget_2.verticalHeaderItem(4)
-        ___qtablewidgetitem36.setText(QCoreApplication.translate("MainWindow", u"4", None));
-        ___qtablewidgetitem37 = self.tableWidget_2.verticalHeaderItem(5)
-        ___qtablewidgetitem37.setText(QCoreApplication.translate("MainWindow", u"5", None));
-        ___qtablewidgetitem38 = self.tableWidget_2.verticalHeaderItem(6)
-        ___qtablewidgetitem38.setText(QCoreApplication.translate("MainWindow", u"6", None));
-        ___qtablewidgetitem39 = self.tableWidget_2.verticalHeaderItem(7)
-        ___qtablewidgetitem39.setText(QCoreApplication.translate("MainWindow", u"7", None));
-        ___qtablewidgetitem40 = self.tableWidget_2.verticalHeaderItem(8)
-        ___qtablewidgetitem40.setText(QCoreApplication.translate("MainWindow", u"8", None));
-        ___qtablewidgetitem41 = self.tableWidget_2.verticalHeaderItem(9)
-        ___qtablewidgetitem41.setText(QCoreApplication.translate("MainWindow", u"9", None));
-        ___qtablewidgetitem42 = self.tableWidget_2.verticalHeaderItem(10)
-        ___qtablewidgetitem42.setText(QCoreApplication.translate("MainWindow", u"10", None));
-        ___qtablewidgetitem43 = self.tableWidget_2.verticalHeaderItem(11)
-        ___qtablewidgetitem43.setText(QCoreApplication.translate("MainWindow", u"11", None));
         self.menuTeach.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuTeach_2.setTitle(QCoreApplication.translate("MainWindow", u"Teach", None))
         self.menuSettings.setTitle(QCoreApplication.translate("MainWindow", u"Settings", None))

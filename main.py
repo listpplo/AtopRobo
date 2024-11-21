@@ -45,7 +45,15 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         
         self.plc_signal.connect(self.command_handler_plc)
 
-        self.setFixedSize(self.width(), self.height())
+        self.spinBox.valueChanged.connect(self.create_table_move_location_A)
+
+        self.spinBox_2.valueChanged.connect(self.create_table_move_location_A)
+
+        self.spinBox_3.valueChanged.connect(self.create_table_move_location_B)
+
+        self.spinBox_4.valueChanged.connect(self.create_table_move_location_B)
+
+        self.setFixedSize(self.width()+100, self.height()+100)
 
         # Regeistring popup
         self.popup = Window_Popup()
@@ -76,17 +84,17 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         z = float(self.label_8.text())
         t = float(self.label_10.text())
         speed = 0.5
+        delay = 0.5
 
         no_of_rows = self.tableWidget.rowCount() + 1
         self.tableWidget.setRowCount(no_of_rows)
 
-        lst = [x, y, z, t, speed]
+        lst = [x, y, z, t, speed, delay]
 
         for key, i in enumerate(lst):
             item = QTableWidgetItem(f"{i}")
             item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.tableWidget.setItem(no_of_rows-1, key, item)
-
 
     def play_commands(self):
         lst = []
@@ -114,7 +122,20 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             writer = csv.writer(file, delimiter=";", lineterminator="\n")
             for item in lst:
                 writer.writerow(item)
-            
+    
+    def create_table_move_location_A(self):
+        row = self.spinBox.value()
+        col = self.spinBox_2.value()
+
+        self.tableWidget_2.setRowCount(row)
+        self.tableWidget_2.setColumnCount(col)
+    
+    def create_table_move_location_B(self):
+        row = self.spinBox_3.value()
+        col = self.spinBox_4.value()
+
+        self.tableWidget_3.setRowCount(row)
+        self.tableWidget_3.setColumnCount(col)
 
     @Slot(dict)
     def commandHandler(self, data: dict):
@@ -179,7 +200,6 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             # if command == 1:
             #     self.play_commands()
             #     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
-
 
     def closeEvent(self, event):
         self.pushButton_5.setChecked(False)
