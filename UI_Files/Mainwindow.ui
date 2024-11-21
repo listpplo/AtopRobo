@@ -53,7 +53,7 @@
 }</string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="iconSize">
           <size>
@@ -319,28 +319,6 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab">
-          <attribute name="icon">
-           <iconset resource="assets.qrc">
-            <normaloff>:/icons/Asstes/Icons/icons8-graphs-64.png</normaloff>:/icons/Asstes/Icons/icons8-graphs-64.png</iconset>
-          </attribute>
-          <attribute name="title">
-           <string>Graphs</string>
-          </attribute>
-          <widget class="QLabel" name="label_3">
-           <property name="geometry">
-            <rect>
-             <x>160</x>
-             <y>130</y>
-             <width>49</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Graph</string>
-           </property>
-          </widget>
-         </widget>
         </widget>
        </item>
        <item>
@@ -525,7 +503,7 @@ QLabel{
           <enum>Qt::PenStyle::DashDotDotLine</enum>
          </property>
          <property name="rowCount">
-          <number>2</number>
+          <number>0</number>
          </property>
          <attribute name="horizontalHeaderVisible">
           <bool>true</bool>
@@ -548,8 +526,6 @@ QLabel{
          <attribute name="verticalHeaderStretchLastSection">
           <bool>false</bool>
          </attribute>
-         <row/>
-         <row/>
         </widget>
        </item>
        <item>
@@ -597,7 +573,7 @@ QLabel{
           <enum>Qt::PenStyle::DashDotDotLine</enum>
          </property>
          <property name="rowCount">
-          <number>2</number>
+          <number>0</number>
          </property>
          <attribute name="horizontalHeaderMinimumSectionSize">
           <number>10</number>
@@ -611,8 +587,6 @@ QLabel{
          <attribute name="verticalHeaderDefaultSectionSize">
           <number>20</number>
          </attribute>
-         <row/>
-         <row/>
         </widget>
        </item>
        <item>

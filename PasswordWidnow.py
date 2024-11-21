@@ -24,7 +24,7 @@ class Ui_PasswordWindow(object):
     def setupUi(self, PasswordWindow):
         if not PasswordWindow.objectName():
             PasswordWindow.setObjectName(u"PasswordWindow")
-        PasswordWindow.resize(309, 0)
+        PasswordWindow.resize(309, 238)
         self.horizontalLayout = QHBoxLayout(PasswordWindow)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -258,10 +258,21 @@ class Ui_PasswordWindow(object):
 
         self.horizontalLayout.addWidget(self.tabWidget_4)
 
+        QWidget.setTabOrder(self.lineEdit, self.lineEdit_2)
+        QWidget.setTabOrder(self.lineEdit_2, self.checkBox)
+        QWidget.setTabOrder(self.checkBox, self.pushButton)
+        QWidget.setTabOrder(self.pushButton, self.pushButton_2)
+        QWidget.setTabOrder(self.pushButton_2, self.pushButton_3)
+        QWidget.setTabOrder(self.pushButton_3, self.lineEdit_4)
+        QWidget.setTabOrder(self.lineEdit_4, self.lineEdit_5)
+        QWidget.setTabOrder(self.lineEdit_5, self.lineEdit_3)
+        QWidget.setTabOrder(self.lineEdit_3, self.tabWidget_4)
+        QWidget.setTabOrder(self.tabWidget_4, self.pushButton_4)
+        QWidget.setTabOrder(self.pushButton_4, self.pushButton_5)
 
         self.retranslateUi(PasswordWindow)
 
-        self.tabWidget_4.setCurrentIndex(1)
+        self.tabWidget_4.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(PasswordWindow)

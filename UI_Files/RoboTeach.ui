@@ -205,7 +205,7 @@ QPushButton::checked{
 }</string>
               </property>
               <property name="text">
-               <string>Save Origin</string>
+               <string>Set Origin</string>
               </property>
              </widget>
             </item>
@@ -585,7 +585,7 @@ QPushButton::checked{
 }</string>
               </property>
               <property name="text">
-               <string>Save Origin</string>
+               <string>Set Origin</string>
               </property>
              </widget>
             </item>
@@ -752,7 +752,7 @@ QPushButton::checked{
                <item row="1" column="0" alignment="Qt::AlignmentFlag::Qt::AlignmentFlag::AlignTop">
                 <widget class="QGroupBox" name="groupBox_24">
                  <property name="title">
-                  <string>Vertical Height</string>
+                  <string>Vertical Height (Y)</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -796,7 +796,7 @@ QPushButton::checked{
                   </size>
                  </property>
                  <property name="title">
-                  <string>Horizontal Width</string>
+                  <string>Horizontal Width (X)</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1230,7 +1230,41 @@ QPushButton::checked{
 }</string>
                </property>
                <property name="text">
-                <string>Replay</string>
+                <string>Play A</string>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_7">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+	border:2px dashed black;
+	border-radius:20%;
+}
+
+QPushButton::hover{
+	background-color: rgb(252, 255, 51);
+	border:2px dashed black;
+	border-radius:20%;
+}
+
+QPushButton::checked{
+	background-color: rgb(25, 255, 140);
+	border:2px dashed black;
+	border-radius:20%;
+}</string>
+               </property>
+               <property name="text">
+                <string>Play B</string>
                </property>
                <property name="checkable">
                 <bool>false</bool>

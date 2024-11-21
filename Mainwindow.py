@@ -250,14 +250,6 @@ class Ui_MainWindow(object):
         icon9 = QIcon()
         icon9.addFile(u":/icons/Asstes/Icons/icons8-home-96.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.tabWidget_4.addTab(self.tabWidget_4Page1, icon9, "")
-        self.tab = QWidget()
-        self.tab.setObjectName(u"tab")
-        self.label_3 = QLabel(self.tab)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(160, 130, 49, 16))
-        icon10 = QIcon()
-        icon10.addFile(u":/icons/Asstes/Icons/icons8-graphs-64.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.tabWidget_4.addTab(self.tab, icon10, "")
 
         self.verticalLayout_2.addWidget(self.tabWidget_4)
 
@@ -347,8 +339,6 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.label_4)
 
         self.tableWidget = QTableWidget(self.frame_2)
-        if (self.tableWidget.rowCount() < 2):
-            self.tableWidget.setRowCount(2)
         self.tableWidget.setObjectName(u"tableWidget")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
         sizePolicy2.setHorizontalStretch(0)
@@ -363,7 +353,7 @@ class Ui_MainWindow(object):
 "	border:1px solid black;\n"
 "}")
         self.tableWidget.setGridStyle(Qt.PenStyle.DashDotDotLine)
-        self.tableWidget.setRowCount(2)
+        self.tableWidget.setRowCount(0)
         self.tableWidget.horizontalHeader().setVisible(True)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget.horizontalHeader().setMinimumSectionSize(10)
@@ -386,8 +376,6 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.label_5)
 
         self.tableWidget_2 = QTableWidget(self.frame_2)
-        if (self.tableWidget_2.rowCount() < 2):
-            self.tableWidget_2.setRowCount(2)
         self.tableWidget_2.setObjectName(u"tableWidget_2")
         sizePolicy2.setHeightForWidth(self.tableWidget_2.sizePolicy().hasHeightForWidth())
         self.tableWidget_2.setSizePolicy(sizePolicy2)
@@ -397,7 +385,7 @@ class Ui_MainWindow(object):
 "	border:1px solid black;\n"
 "}")
         self.tableWidget_2.setGridStyle(Qt.PenStyle.DashDotDotLine)
-        self.tableWidget_2.setRowCount(2)
+        self.tableWidget_2.setRowCount(0)
         self.tableWidget_2.horizontalHeader().setMinimumSectionSize(10)
         self.tableWidget_2.horizontalHeader().setDefaultSectionSize(25)
         self.tableWidget_2.verticalHeader().setMinimumSectionSize(10)
@@ -444,7 +432,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget_4.setCurrentIndex(1)
+        self.tabWidget_4.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -479,8 +467,6 @@ class Ui_MainWindow(object):
         self.groupBox_5.setTitle(QCoreApplication.translate("MainWindow", u"Type \"B\"", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.tabWidget_4.setTabText(self.tabWidget_4.indexOf(self.tabWidget_4Page1), QCoreApplication.translate("MainWindow", u"Home", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Graph", None))
-        self.tabWidget_4.setTabText(self.tabWidget_4.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Graphs", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PLC Status", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Robo Status", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Program Parameter", None))

@@ -796,6 +796,30 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.pushButton_4)
 
+        self.pushButton_7 = QPushButton(self.frame_7)
+        self.pushButton_7.setObjectName(u"pushButton_7")
+        sizePolicy2.setHeightForWidth(self.pushButton_7.sizePolicy().hasHeightForWidth())
+        self.pushButton_7.setSizePolicy(sizePolicy2)
+        self.pushButton_7.setStyleSheet(u"QPushButton{\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::hover{\n"
+"	background-color: rgb(252, 255, 51);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}\n"
+"\n"
+"QPushButton::checked{\n"
+"	background-color: rgb(25, 255, 140);\n"
+"	border:2px dashed black;\n"
+"	border-radius:20%;\n"
+"}")
+        self.pushButton_7.setCheckable(False)
+
+        self.verticalLayout_2.addWidget(self.pushButton_7)
+
 
         self.gridLayout_2.addWidget(self.frame_7, 2, 1, 1, 1)
 
@@ -925,7 +949,7 @@ class Ui_MainWindow(object):
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"Part Tray \"A\" Orientation", None))
         self.label_22.setText(QCoreApplication.translate("MainWindow", u"Rows", None))
         self.label_23.setText(QCoreApplication.translate("MainWindow", u"Columns", None))
-        self.pushButton_17.setText(QCoreApplication.translate("MainWindow", u"Save Origin", None))
+        self.pushButton_17.setText(QCoreApplication.translate("MainWindow", u"Set Origin", None))
         self.pushButton_18.setText(QCoreApplication.translate("MainWindow", u"Reset Location", None))
         self.groupBox_22.setTitle(QCoreApplication.translate("MainWindow", u"Origin Loaction", None))
         self.label_27.setText(QCoreApplication.translate("MainWindow", u"X :", None))
@@ -944,7 +968,7 @@ class Ui_MainWindow(object):
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Part Tray \"B\" Orientation", None))
         self.label_24.setText(QCoreApplication.translate("MainWindow", u"Rows", None))
         self.label_35.setText(QCoreApplication.translate("MainWindow", u"Columns", None))
-        self.pushButton_19.setText(QCoreApplication.translate("MainWindow", u"Save Origin", None))
+        self.pushButton_19.setText(QCoreApplication.translate("MainWindow", u"Set Origin", None))
         self.pushButton_20.setText(QCoreApplication.translate("MainWindow", u"Reset Location", None))
         self.groupBox_23.setTitle(QCoreApplication.translate("MainWindow", u"Origin Loaction", None))
         self.label_36.setText(QCoreApplication.translate("MainWindow", u"X :", None))
@@ -955,9 +979,9 @@ class Ui_MainWindow(object):
         self.label_41.setText(QCoreApplication.translate("MainWindow", u"---", None))
         self.label_42.setText(QCoreApplication.translate("MainWindow", u"T :", None))
         self.label_43.setText(QCoreApplication.translate("MainWindow", u"---", None))
-        self.groupBox_24.setTitle(QCoreApplication.translate("MainWindow", u"Vertical Height", None))
+        self.groupBox_24.setTitle(QCoreApplication.translate("MainWindow", u"Vertical Height (Y)", None))
         self.label_44.setText("")
-        self.groupBox_25.setTitle(QCoreApplication.translate("MainWindow", u"Horizontal Width", None))
+        self.groupBox_25.setTitle(QCoreApplication.translate("MainWindow", u"Horizontal Width (X)", None))
         self.label_45.setText("")
         self.toolBox_19.setItemText(self.toolBox_19.indexOf(self.page), QCoreApplication.translate("MainWindow", u"Part \"B\" Tray", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Move Step", None))
@@ -980,7 +1004,8 @@ class Ui_MainWindow(object):
         self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"Disable\n"
 "Torque Lock", None))
         self.pushButton_10.setText(QCoreApplication.translate("MainWindow", u"Go Home", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Replay", None))
+        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Play A", None))
+        self.pushButton_7.setText(QCoreApplication.translate("MainWindow", u"Play B", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Table Editor", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Save Location", None))
         self.pushButton_8.setText(QCoreApplication.translate("MainWindow", u"Delete Location", None))

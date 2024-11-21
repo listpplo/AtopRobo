@@ -19,6 +19,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
      
     dataSignal = Signal(dict)
     plc_signal = Signal(int)
+    conn_event_handler = Signal(str)
 
     play_list = []
 
@@ -34,11 +35,13 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
         self.pushButton_2.clicked.connect(self.add_location_to_table)
 
-        self.pushButton_4.clicked.connect(self.play_commands)
+        self.pushButton_4.clicked.connect(self.play_commands_A)
+        
+        self.pushButton_7.clicked.connect(self.play_commands_B)
 
         self.pushButton_8.clicked.connect(self.delete_row_data)
 
-        self.pushButton_9.clicked.connect(self.save_table)
+        self.pushButton_9.clicked.connect(self.save_data)
 
         self.dataSignal.connect(self.commandHandler)
         
@@ -52,7 +55,42 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
         self.spinBox_4.valueChanged.connect(self.create_table_move_location_B)
 
-        self.setFixedSize(self.width()+100, self.height()+100)
+        self.pushButton_17.clicked.connect(self.set_orign_A)
+        
+        self.pushButton_19.clicked.connect(self.set_orign_B)
+
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
+
+        self.pushButton_5.click()
+
+        # Setting up the initial row and column
+        self.row_A = 0
+        self.col_A = 0
+        self.row_B = 0
+        self.col_B = 0
+
+        try:
+            with open('Config/Data.toml', 'r') as file:
+                data = toml.load(file)
+                self.spinBox.setValue(data["A_Row"])
+                self.spinBox_2.setValue(data["A_Col"])
+                self.doubleSpinBox.setValue(data["A_Height"])
+                self.doubleSpinBox_2.setValue(data["A_Width"])
+                self.spinBox_3.setValue(data["B_Row"])
+                self.spinBox_4.setValue(data["B_Col"])
+                self.doubleSpinBox_3.setValue(data["B_Height"])
+                self.doubleSpinBox_4.setValue(data["B_Width"])
+                self.label_28.setText(f'{data["A_x_origin"]}')
+                self.label_29.setText(f'{data["A_y_origin"]}')
+                self.label_31.setText(f'{data["A_z_origin"]}')
+                self.label_34.setText(f'{data["A_t_origin"]}')
+                self.label_28.setText(f'{data["B_x_origin"]}')
+                self.label_29.setText(f'{data["B_y_origin"]}')
+                self.label_31.setText(f'{data["B_z_origin"]}')
+                self.label_34.setText(f'{data["B_t_origin"]}')
+        except Exception as e:
+            print(e)
+
 
         # Regeistring popup
         self.popup = Window_Popup()
@@ -95,7 +133,15 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.tableWidget.setItem(no_of_rows-1, key, item)
 
-    def play_commands(self):
+    def play_commands_A(self):
+       self.play_pick_up()
+       self.play_move_A()
+    
+    def play_commands_B(self):
+        self.play_pick_up()
+        self.play_move_B()
+    
+    def play_pick_up(self):
         lst = []
         for i in range(self.tableWidget.rowCount()):
             for col in range(0, self.tableWidget.columnCount()):
@@ -107,7 +153,55 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             time.sleep(lst[5])
             lst.clear()
         
-    def save_table(self):
+    def play_move_A(self):
+        x_origin = float(self.label_28.text())
+        y_origin = float(self.label_29.text())
+        z_origin = float(self.label_31.text())
+        t_origin = float(self.label_34.text())
+
+        x_new = x_origin + self.col_A * self.doubleSpinBox_2.value()
+        y_new = y_origin + self.row_A * self.doubleSpinBox.value() 
+        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin}, 'spd':{0.5}" + "}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            if self.col >= self.tableWidget_2.columnCount():
+                item = QTableWidgetItem("X")
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                self.tableWidget_2.setItem(self.row_A, self.col_A, item)
+                self.col_A = 0
+                self.row_A = self.row_A + 1
+        
+            elif (self.row_A >= self.tableWidget_2.rowCount()) and (self.col_A >= self.tableWidget_2.columnCount()):
+                self.row_A = 0
+                self.col_A = 0
+            else:
+                self.col_A += 1
+    
+    def play_move_B(self):
+        x_origin = float(self.label_37.text())
+        y_origin = float(self.label_39.text())
+        z_origin = float(self.label_41.text())
+        t_origin = float(self.label_43.text())
+
+        x_new = x_origin + self.col_B * self.doubleSpinBox_4.value()
+        y_new = y_origin + self.row_B * self.doubleSpinBox_3.value() 
+        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin}, 'spd':{0.5}" + "}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            if self.col >= self.tableWidget_2.columnCount():
+                item = QTableWidgetItem("X")
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                self.tableWidget_2.setItem(self.row_B, self.col_B, item)
+                self.col_B = 0
+                self.row_B = self.row_B + 1
+        
+            elif (self.row_B >= self.tableWidget_2.rowCount()) and (self.col_B >= self.tableWidget_2.columnCount()):
+                self.row_B = 0
+                self.col_B = 0
+            else:
+                self.col_B += 1
+            
+    def save_data(self):
         lst = []
         for i in range(0, self.tableWidget.rowCount()):
             row_list = []
@@ -116,12 +210,40 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 row_list.append(item)
             lst.append(row_list)
         
-        print(lst)
+        config = {}
 
-        with open("Path.txt", "w+") as file:
-            writer = csv.writer(file, delimiter=";", lineterminator="\n")
-            for item in lst:
-                writer.writerow(item)
+        config["A_Row"] = self.spinBox.value()
+        config["A_Col"] = self.spinBox_2.value()
+        config["A_Width"] = self.doubleSpinBox_2.value()
+        config["A_Height"] = self.doubleSpinBox.value()
+        config["A_x_origin"] = float(self.label_28.text())
+        config["A_y_origin"] = float(self.label_29.text())
+        config["A_z_origin"] = float(self.label_31.text())
+        config["A_t_origin"] = float(self.label_34.text())
+
+        config["B_Row"] = self.spinBox_3.value()
+        config["B_Col"] = self.spinBox_4.value()
+        config["B_Width"] = self.doubleSpinBox_4.value()
+        config["B_Height"] = self.doubleSpinBox_3.value()
+        config["B_x_origin"] = float(self.label_28.text())
+        config["B_y_origin"] = float(self.label_29.text())
+        config["B_z_origin"] = float(self.label_31.text())
+        config["B_t_origin"] = float(self.label_34.text())
+
+        try:
+            # Saving the path details
+            with open("Path.txt", "w+") as file:
+                writer = csv.writer(file, delimiter=";", lineterminator="\n")
+                for item in lst:
+                    writer.writerow(item)
+
+            # Saving the move details   
+            with open("Config/Data.toml", "w+") as file:
+                toml.dump(config, file)
+            
+            self.popup.show_pop_up("Data Saved Successfully !!", "Success !!")
+        except Exception as e:
+            print(e)
     
     def create_table_move_location_A(self):
         row = self.spinBox.value()
@@ -151,26 +273,58 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
     def command_handler_plc(self, command:int):
         self.label_13.setText(command)
 
+    def set_orign_A(self):
+        x = float(self.label_2.text())
+        y = float(self.label_4.text())
+        z = float(self.label_8.text())
+        t = float(self.label_10.text())
+
+        self.label_28.setText(f"{x}")
+        self.label_29.setText(f"{y}")
+        self.label_31.setText(f"{z}")
+        self.label_34.setText(f"{t}")
+    
+    def set_orign_B(self):
+        x = float(self.label_2.text())
+        y = float(self.label_4.text())
+        z = float(self.label_8.text())
+        t = float(self.label_10.text())
+
+        self.label_37.setText(f"{x}")
+        self.label_39.setText(f"{y}")
+        self.label_41.setText(f"{z}")
+        self.label_43.setText(f"{t}")
+
     def run(self):
         # Connecting to plc
         plc_device  = plc.Type3E("192.168.250.3", port=1200)
         try:
             plc_device.connect("192.168.250.3", 1200)
             connected = True
+            self.conn_event_handler.emit("PLC:Connected")
         except Exception as e:
             print(e)
+            self.conn_event_handler.emit("PLC:Disconnected")
             connected = False
 
         while self.pushButton_5.isChecked():
-            url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':105}"
-            response = requests.get(url)
-            data = response.text
             try:
-                if data != '{"T":105}':
-                    json_data = json.loads(data)
-                    self.dataSignal.emit(json_data)
+                url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':105}"
+                response = requests.get(url, timeout=2)
+                if response.status_code == 200:
+                    data = response.text
+                    self.conn_event_handler.emit("Robo:Connected")
+                    try:
+                        if data != '{"T":105}':
+                            json_data = json.loads(data)
+                            self.dataSignal.emit(json_data)
+                    except Exception as e:
+                        ...
+                else:
+                    self.conn_event_handler.emit("Robo:Disconnected")
             except Exception as e:
-                ...
+                print(e)
+                self.conn_event_handler.emit("Robo:Disconnected")
 
             if self.pushButton.isChecked():
                 url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':210, 'cmd':1}"
@@ -187,24 +341,25 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 response = requests.get(url)
                 self.pushButton_10.setChecked(False)
 
-            # if not connected:
-            #     try:
-            #         plc_device.connect("192.168.250.3", 1200)
-            #         connected = True
-            #     except Exception as e:
-            #         print(e)
-            #         connected = False
+            if not connected:
+                try:
+                    plc_device.connect("192.168.250.3", 1200)
+                    connected = True
+                except Exception as e:
+                    print(e)
+                    connected = False
 
-            # command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
-            # self.plc_signal.emit(command)
-            # if command == 1:
-            #     self.play_commands()
-            #     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+            try:
+                command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
+                self.plc_signal.emit(command)
+                if command == 1:
+                    self.play_commands()
+                    plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+            except Exception as e:
+                print(e)
 
     def closeEvent(self, event):
-        self.pushButton_5.setChecked(False)
         return super().closeEvent(event)
-
 
 class Window_Popup(Ui_popup, QWidget):
     def __init__(self):
@@ -261,11 +416,12 @@ class Password_Window(Ui_PasswordWindow, QWidget):
         self.lineEdit_4.clear()
         self.lineEdit_5.clear()
         self.lineEdit.setFocus()
-        return super().showEvent(event)
     
     def showWindow(self):
         if not self.is_logged_in:
             self.show()
+        else:
+            self.close()
 
     def validate_password(self):
         with open("Config/user.toml", "r") as file:
@@ -274,6 +430,7 @@ class Password_Window(Ui_PasswordWindow, QWidget):
         if data["id"] == self.lineEdit.text():
             if data["password"] == self.lineEdit_2.text():
                 self.is_logged_in = True
+                self._popup_window.show_pop_up("Now You can Acess The Features", "Sucess !!")
                 self.close()
             else:
                 self._popup_window.show_pop_up("Wrong Id or Password !!!", "Error !!!")
@@ -330,12 +487,17 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self.actionExit.triggered.connect(lambda: self.close())
         self.actionMapping.triggered.connect(self.add_mapping)
         self.actionLogout.triggered.connect(self.logout_app)
+        self.actionTeach_Robo.triggered.connect(self.open_robo_teach_window)
 
         # Registring the window
         self._window_add_recipe = AddRecipeWindow()
         self._window_add_mapping = Add_Mapping()
         self._window_password = Password_Window()
         self._pop_up_window = Window_Popup()
+        self._window_robo_teach = Robo_teach_window()
+
+        # Connecting the robo teach window with the mainwindow
+        self._window_robo_teach.conn_event_handler.connect(self.connection_handler)
 
         # Setting up logout actions
         self.actionLogout.setDisabled(True)
@@ -343,14 +505,19 @@ class MyApp(QMainWindow, Ui_MainWindow):
         # Setting up fullscreen
         self.showMaximized()
 
+    def open_robo_teach_window(self):
+        self._window_password.showWindow()
+        if self._window_password.is_logged_in:
+            self._window_robo_teach.show()
+
     def add_recipe(self):
-        self._window_password.show()
+        self._window_password.showWindow()
         if self._window_password.is_logged_in:
             self._window_add_recipe.show()
             self.actionLogout.setDisabled(False)
     
     def add_mapping(self):
-        self._window_password.show()
+        self._window_password.showWindow()
         if self._window_password.is_logged_in:
             self._window_add_mapping.show()
             self.actionLogout.setDisabled(False)
@@ -358,9 +525,28 @@ class MyApp(QMainWindow, Ui_MainWindow):
     def logout_app(self):
         self._window_password.is_logged_in = False
         self.actionLogout.setDisabled(True)
+    
+    @Slot(str)
+    def connection_handler(self, command:str):
+        command_split = command.split(":")
+        if command_split[0] == "PLC":
+            if command_split[1] == "Connected":
+                self.pushButton.setStyleSheet("background-color:green;border:2px dashed black;")
+            elif command_split[1] == "Disconnected":
+                self.pushButton.setStyleSheet("background-color:red;border:2px dashed black;")
+        
+        if command_split[0] == "Robo":
+            if command_split[1] == "Connected":
+                self.pushButton.setStyleSheet("background-color:green;border:2px dashed black;")
+            elif command_split[1] == "Disconnected":
+                self.pushButton.setStyleSheet("background-color:red;border:2px dashed black;")
+
+
+    def closeEvent(self, event):
+        self._window_robo_teach.pushButton_5.setChecked(False)
 
 if __name__ == "__main__":
     app = QApplication()
-    window = Robo_teach_window()
+    window = MyApp()
     window.show()
     app.exec()
