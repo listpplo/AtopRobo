@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLineEdit, QTableWidgetItem, QMessageBox
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLineEdit, QTableWidgetItem
 from PySide6.QtCore import Qt, Signal, Slot, Qt, QTimer
 from Mainwindow import Ui_MainWindow
 from AddRecipeWindow import Ui_AddRecipe
@@ -613,15 +613,15 @@ class MyApp(QMainWindow, Ui_MainWindow):
         command_split = command.split(":")
         if command_split[0] == "PLC":
             if command_split[1] == "Connected":
-                self.pushButton.setStyleSheet("background-color:green;border:2px dashed black;")
+                self.pushButton.setStyleSheet("background-color:green;border:3px dashed black;")
             elif command_split[1] == "Disconnected":
-                self.pushButton.setStyleSheet("background-color:red;border:2px dashed black;")
+                self.pushButton.setStyleSheet("background-color:red;border:3px dashed black;")
         
         if command_split[0] == "Robo":
             if command_split[1] == "Connected":
-                self.pushButton.setStyleSheet("background-color:green;border:2px dashed black;")
+                self.pushButton_2.setStyleSheet("background-color:green;border:3px dashed black;")
             elif command_split[1] == "Disconnected":
-                self.pushButton.setStyleSheet("background-color:red;border:2px dashed black;")
+                self.pushButton_2.setStyleSheet("background-color:red;border:3px dashed black;")
 
     @Slot(str)
     def makeTable(self, command:str):
