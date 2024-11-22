@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLineEdit, QTableWidgetItem
-from PySide6.QtCore import Qt, Signal, Slot, Qt, QThread, QProcess
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLineEdit, QTableWidgetItem, QMessageBox
+from PySide6.QtCore import Qt, Signal, Slot, Qt, QTimer
 from Mainwindow import Ui_MainWindow
 from AddRecipeWindow import Ui_AddRecipe
 from MappingWindow import Ui_MappingWindow
@@ -8,6 +8,7 @@ from RoboTeach import Ui_MainWindow as RoboTeachWindow
 from popup import Ui_popup
 import toml
 import time
+from multiprocessing import Process
 from threading import Thread
 import requests
 import json
@@ -20,6 +21,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
     dataSignal = Signal(dict)
     plc_signal = Signal(str)
     conn_event_handler = Signal(str)
+    table_signal = Signal(str)
 
     play_list = []
 
@@ -61,13 +63,21 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
 
-        self.pushButton_5.click()
+        # self.pushButton_5.click()
+
+        self.tableWidget_2.itemChanged.connect(lambda: print("Item Changed"))
 
         # Setting up the initial row and column
         self.row_A = 0
         self.col_A = 0
         self.row_B = 0
         self.col_B = 0
+
+        self.timer1 = QTimer()
+        self.timer1.setSingleShot(True)
+        self.timer1.setInterval(1000)
+        self.timer1.timeout.connect(self.send_table_data)
+        self.timer1.start()
 
         try:
             with open('Config/Data.toml', 'r') as file:
@@ -88,8 +98,14 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 self.label_39.setText(f'{data["B_y_origin"]}')
                 self.label_41.setText(f'{data["B_z_origin"]}')
                 self.label_43.setText(f'{data["B_t_origin"]}')
+                
+                # Sending the table info to the MainWindow
+                # self.table_signal.emit(f"A:table:{data['A_Row']}:{data['A_Col']}")
+                # self.table_signal.emit(f"B:table:{data['B_Row']}:{data['B_Col']}")
+                self.table_signal.emit(f"A:table:2:3")
+                # print(data)
         except Exception as e:
-            print(e)
+            print("This is an error ->> ", e)
 
 
         # Regeistring popup
@@ -106,6 +122,17 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                         self.tableWidget.setItem(self.tableWidget.rowCount()-1, i, item)
         except Exception as e:
             print(e)
+
+    def send_table_data(self):
+        row_B = self.spinBox_3.value()
+        col_B = self.spinBox_4.value()
+
+        self.table_signal.emit(f"B:table:{row_B}:{col_B}")
+
+        row_A = self.spinBox.value()
+        col_A = self.spinBox_2.value()
+        
+        self.table_signal.emit(f"A:table:{row_A}:{col_A}")
 
     def delete_row_data(self):
         selected_indices = self.tableWidget.selectedIndexes()
@@ -168,6 +195,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             item = QTableWidgetItem("X")
             item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.tableWidget_2.setItem(self.row_A,self.col_A, item)
+            self.table_signal.emit(f"A:change:{self.row_A}:{self.col_A}")
             print(self.row_A, self.col_A)
             self.col_A= self.col_A + 1
             if self.col_A >= self.tableWidget_2.columnCount():
@@ -180,12 +208,8 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             self.tableWidget_2.clearContents()
             self.row_A = 0
             self.col_A = 0
-            # item = QTableWidgetItem("X")
-            # item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            # self.tableWidget_2.setItem(self.row_A,self.col_A, item)
-            # self.tableWidget_2.clearContents()
-       
-        
+            self.tableWidget_2.emit("A:reset")
+            
         url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin-0.5}, 'spd':{0.5}" + "}"
         response = requests.get(url)
         print("opening")
@@ -205,6 +229,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             item = QTableWidgetItem("X")
             item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.tableWidget_3.setItem(self.row_B, self.col_B, item)
+            self.table_signal.emit(f"B:change:{self.row_B}:{self.col_B}")
             print(self.row_B, self.col_B)
             if self.col_B >= self.tableWidget_3.columnCount():
                 self.col_B = 0
@@ -216,6 +241,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             self.row_B = 0
             self.col_B = 0
             self.tableWidget_3.clearContents()
+            self.table_signal.emit("B:reset")
         
         url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin-0.5}, 'spd':{0.5}" + "}"
         response = requests.get(url)
@@ -271,6 +297,8 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
         self.tableWidget_2.setRowCount(row)
         self.tableWidget_2.setColumnCount(col)
+
+        self.table_signal.emit(f"A:table:{row}:{col}")
     
     def create_table_move_location_B(self):
         row = self.spinBox_3.value()
@@ -278,6 +306,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
         self.tableWidget_3.setRowCount(row)
         self.tableWidget_3.setColumnCount(col)
+        self.table_signal.emit(f"B:table:{row}:{col}")
 
     @Slot(dict)
     def commandHandler(self, data: dict):
@@ -537,6 +566,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
         # Connecting the robo teach window with the mainwindow
         self._window_robo_teach.conn_event_handler.connect(self.connection_handler)
         self._window_robo_teach.plc_signal.connect(self.handle_plc_signal)
+        self._window_robo_teach.table_signal.connect(self.makeTable)
 
         # Setting up logout actions
         self.actionLogout.setDisabled(True)
@@ -593,6 +623,36 @@ class MyApp(QMainWindow, Ui_MainWindow):
             elif command_split[1] == "Disconnected":
                 self.pushButton.setStyleSheet("background-color:red;border:2px dashed black;")
 
+    @Slot(str)
+    def makeTable(self, command:str):
+        # print(command)
+        command_split = command.split(":")
+        match command_split[0]:
+            case "A":
+                if command_split[1] == "table":
+                    self.tableWidget.setRowCount(int(command_split[2]))
+                    self.tableWidget.setColumnCount(int(command_split[3]))
+                
+                if command_split[1] == "change":
+                    item = QTableWidgetItem("X")
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                    self.tableWidget.setItem(int(command_split[2]), int(command_split[3]), item)
+                
+                if command_split[2] == "reset":
+                    self.tableWidget.clearContents()
+            
+            case "B":
+                if command_split[1] == "table":
+                    self.tableWidget_2.setRowCount(int(command_split[2]))
+                    self.tableWidget_2.setColumnCount(int(command_split[3]))
+
+                if command_split[1] == "change":
+                    item = QTableWidgetItem("X")
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                    self.tableWidget_2.setItem(int(command_split[2]), int(command_split[3]), item)
+
+                if command_split[2] == "reset":
+                    self.tableWidget_2.clearContents()
 
     def closeEvent(self, event):
         self._window_robo_teach.pushButton_5.setChecked(False)

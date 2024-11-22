@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>792</height>
+    <height>616</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,22 +70,6 @@
            <string>Home</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QGroupBox" name="groupBox">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="title">
-              <string>Robo Parameter</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
            <item>
             <widget class="QGroupBox" name="groupBox_2">
              <property name="font">
@@ -450,7 +434,7 @@ QLabel{
           </font>
          </property>
          <property name="text">
-          <string>Program Parameter</string>
+          <string>Robo Parameter</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -613,7 +597,7 @@ QLabel{
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuTeach">
