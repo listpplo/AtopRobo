@@ -345,7 +345,7 @@ class Ui_MainWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
         self.tableWidget.setSizePolicy(sizePolicy2)
-        self.tableWidget.setMinimumSize(QSize(275, 306))
+        self.tableWidget.setMinimumSize(QSize(0, 0))
         font6 = QFont()
         font6.setKerning(True)
         self.tableWidget.setFont(font6)
@@ -379,7 +379,7 @@ class Ui_MainWindow(object):
         self.tableWidget_2.setObjectName(u"tableWidget_2")
         sizePolicy2.setHeightForWidth(self.tableWidget_2.sizePolicy().hasHeightForWidth())
         self.tableWidget_2.setSizePolicy(sizePolicy2)
-        self.tableWidget_2.setMinimumSize(QSize(275, 306))
+        self.tableWidget_2.setMinimumSize(QSize(0, 0))
         self.tableWidget_2.setFont(font6)
         self.tableWidget_2.setStyleSheet(u"QTableWidget{\n"
 "	border:1px solid black;\n"
@@ -403,7 +403,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 33))
+        self.menubar.setGeometry(QRect(0, 0, 800, 22))
         self.menuTeach = QMenu(self.menubar)
         self.menuTeach.setObjectName(u"menuTeach")
         self.menuTeach_2 = QMenu(self.menubar)

@@ -542,7 +542,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self.actionLogout.setDisabled(True)
 
         # Setting up fullscreen
-        self.showMaximized()
+        # self.showMaximized()
 
     @Slot(str)
     def handle_plc_signal(self, command:str):
