@@ -617,6 +617,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
             elif command_split[1] == "Disconnected":
                 self.pushButton.setStyleSheet("background-color:red;border:3px dashed black;")
         
+        # This is for my commit
         if command_split[0] == "Robo":
             if command_split[1] == "Connected":
                 self.pushButton_2.setStyleSheet("background-color:green;border:3px dashed black;")
