@@ -18,7 +18,7 @@ from pymelsec.constants import DT
 class Robo_teach_window(RoboTeachWindow, QMainWindow):
      
     dataSignal = Signal(dict)
-    plc_signal = Signal(int)
+    plc_signal = Signal(str)
     conn_event_handler = Signal(str)
 
     play_list = []
@@ -84,10 +84,10 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 self.label_29.setText(f'{data["A_y_origin"]}')
                 self.label_31.setText(f'{data["A_z_origin"]}')
                 self.label_34.setText(f'{data["A_t_origin"]}')
-                self.label_28.setText(f'{data["B_x_origin"]}')
-                self.label_29.setText(f'{data["B_y_origin"]}')
-                self.label_31.setText(f'{data["B_z_origin"]}')
-                self.label_34.setText(f'{data["B_t_origin"]}')
+                self.label_37.setText(f'{data["B_x_origin"]}')
+                self.label_39.setText(f'{data["B_y_origin"]}')
+                self.label_41.setText(f'{data["B_z_origin"]}')
+                self.label_43.setText(f'{data["B_t_origin"]}')
         except Exception as e:
             print(e)
 
@@ -159,23 +159,36 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         z_origin = float(self.label_31.text())
         t_origin = float(self.label_34.text())
 
-        x_new = x_origin + self.col_A * self.doubleSpinBox_2.value()
-        y_new = y_origin + self.row_A * self.doubleSpinBox.value() 
+        x_new = x_origin - self.col_A * self.doubleSpinBox_2.value()
+        y_new = y_origin - self.row_A * self.doubleSpinBox.value() 
         url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin}, 'spd':{0.5}" + "}"
         response = requests.get(url)
-        if response.status_code == 200:
-            if self.col >= self.tableWidget_2.columnCount():
-                item = QTableWidgetItem("X")
-                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.tableWidget_2.setItem(self.row_A, self.col_A, item)
+        time.sleep(0.5)
+        if self.col_A <= self.tableWidget_2.columnCount():
+            item = QTableWidgetItem("X")
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.tableWidget_2.setItem(self.row_A,self.col_A, item)
+            print(self.row_A, self.col_A)
+            self.col_A= self.col_A + 1
+            if self.col_A >= self.tableWidget_2.columnCount():
                 self.col_A = 0
-                self.row_A = self.row_A + 1
+                self.row_A += 1
+        else:
+            self.col_A += 1
         
-            elif (self.row_A >= self.tableWidget_2.rowCount()) and (self.col_A >= self.tableWidget_2.columnCount()):
-                self.row_A = 0
-                self.col_A = 0
-            else:
-                self.col_A += 1
+        if (self.row_A >= self.tableWidget_2.rowCount()):
+            self.tableWidget_2.clearContents()
+            self.row_A = 0
+            self.col_A = 0
+            # item = QTableWidgetItem("X")
+            # item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            # self.tableWidget_2.setItem(self.row_A,self.col_A, item)
+            # self.tableWidget_2.clearContents()
+       
+        
+        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin-0.5}, 'spd':{0.5}" + "}"
+        response = requests.get(url)
+        print("opening")
     
     def play_move_B(self):
         x_origin = float(self.label_37.text())
@@ -183,28 +196,30 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         z_origin = float(self.label_41.text())
         t_origin = float(self.label_43.text())
 
-        x_new = x_origin + self.col_B * self.doubleSpinBox_4.value()
+        x_new = x_origin - self.col_B * self.doubleSpinBox_4.value()
         y_new = y_origin + self.row_B * self.doubleSpinBox_3.value() 
         url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin}, 'spd':{0.5}" + "}"
         response = requests.get(url)
-        time.sleep(1)
-        if response.status_code == 200:
-            if self.col >= self.tableWidget_2.columnCount():
-                item = QTableWidgetItem("X")
-                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.tableWidget_2.setItem(self.row_B, self.col_B, item)
+        time.sleep(0.5)
+        if self.col_B <= self.tableWidget_3.columnCount():
+            item = QTableWidgetItem("X")
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.tableWidget_3.setItem(self.row_B, self.col_B, item)
+            print(self.row_B, self.col_B)
+            if self.col_B >= self.tableWidget_3.columnCount():
                 self.col_B = 0
-                self.row_B = self.row_B + 1
-        
-            elif (self.row_B >= self.tableWidget_2.rowCount()) and (self.col_B >= self.tableWidget_2.columnCount()):
-                self.row_B = 0
-                self.col_B = 0
+                self.row_B += 1
             else:
                 self.col_B += 1
-            
-            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin-1.500}, 'spd':{0.5}" + "}"
-            response = requests.get(url)
-            time.sleep(0.5)
+
+        if (self.row_B >= self.tableWidget_3.rowCount()):
+            self.row_B = 0
+            self.col_B = 0
+            self.tableWidget_3.clearContents()
+        
+        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin-0.5}, 'spd':{0.5}" + "}"
+        response = requests.get(url)
+        print("opening")
 
     def save_data(self):
         lst = []
@@ -230,10 +245,10 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         config["B_Col"] = self.spinBox_4.value()
         config["B_Width"] = self.doubleSpinBox_4.value()
         config["B_Height"] = self.doubleSpinBox_3.value()
-        config["B_x_origin"] = float(self.label_28.text())
-        config["B_y_origin"] = float(self.label_29.text())
-        config["B_z_origin"] = float(self.label_31.text())
-        config["B_t_origin"] = float(self.label_34.text())
+        config["B_x_origin"] = float(self.label_37.text())
+        config["B_y_origin"] = float(self.label_39.text())
+        config["B_z_origin"] = float(self.label_41.text())
+        config["B_t_origin"] = float(self.label_43.text())
 
         try:
             # Saving the path details
@@ -274,9 +289,11 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         except Exception as e:
             ...
     
-    @Slot(int)
-    def command_handler_plc(self, command:int):
-        self.label_13.setText(command)
+    @Slot(str)
+    def command_handler_plc(self, command:str):
+        command_split = command.split(":")
+        if command_split[0] == "Command":
+            self.label_13.setText(command_split[1])
 
     def set_orign_A(self):
         x = float(self.label_2.text())
@@ -356,10 +373,26 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
             try:
                 command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
-                self.plc_signal.emit(command)
+                self.plc_signal.emit(f"Command:{command}")
                 if command == 1:
-                    self.play_commands()
+                    self.play_commands_A()
                     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+                if command == 2:
+                    self.play_commands_B()
+                    plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+                
+                lvdt_value_1 = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
+                lvdt_value_2 = plc_device.batch_read("D5002", read_size=1, data_type=DT.FLOAT)[0].value
+                diff = plc_device.batch_read("D5004", read_size=1, data_type=DT.FLOAT)[0].value
+
+                part_A = plc_device.batch_read("D5006", read_size=1, data_type=DT.UWORD)[0].value
+                part_B = plc_device.batch_read("D5008", read_size=1, data_type=DT.UWORD)[0].value
+                Ng = plc_device.batch_read("D5010", read_size=1, data_type=DT.UWORD)[0].value
+
+
+                self.plc_signal.emit(f"LVDT:{lvdt_value_1}:{lvdt_value_2}:{diff}")
+                self.plc_signal.emit(f"Counter:{part_A}:{part_B}:{Ng}")
+
             except Exception as e:
                 print(e)
 
@@ -503,12 +536,26 @@ class MyApp(QMainWindow, Ui_MainWindow):
 
         # Connecting the robo teach window with the mainwindow
         self._window_robo_teach.conn_event_handler.connect(self.connection_handler)
+        self._window_robo_teach.plc_signal.connect(self.handle_plc_signal)
 
         # Setting up logout actions
         self.actionLogout.setDisabled(True)
 
         # Setting up fullscreen
         self.showMaximized()
+
+    @Slot(str)
+    def handle_plc_signal(self, command:str):
+        command_split = command.split(":")
+        match command_split[0]:
+            case "LVDT":
+                self.label_2.setText(command_split[1])
+                self.label_7.setText(command_split[2])
+                self.label_11.setText(command_split[3])
+            case "Counter":
+                self.label_8.setText(command_split[1])
+                self.label_9.setText(command_split[2])
+                self.label_10.setText(command_split[3])
 
     def open_robo_teach_window(self):
         self._window_password.showWindow()
