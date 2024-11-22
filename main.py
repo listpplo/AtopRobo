@@ -63,9 +63,9 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
 
-        # self.pushButton_5.click()
+        self.pushButton_5.click()
 
-        self.tableWidget_2.itemChanged.connect(lambda: print("Item Changed"))
+        # self.tableWidget_2.itemChanged.connect(lambda: print("Item Changed"))
 
         # Setting up the initial row and column
         self.row_A = 0
@@ -348,9 +348,9 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
     def run(self):
         # Connecting to plc
-        plc_device  = plc.Type3E("192.168.250.3", port=1200)
+        plc_device  = plc.Type3E("192.168.3.250", port=1200)
         try:
-            plc_device.connect("192.168.250.3", 1200)
+            plc_device.connect("192.168.3.250", 1200)
             connected = True
             self.conn_event_handler.emit("PLC:Connected")
         except Exception as e:
@@ -361,7 +361,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         while self.pushButton_5.isChecked():
             try:
                 url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':105}"
-                response = requests.get(url, timeout=2)
+                response = requests.get(url, timeout=0.2)
                 if response.status_code == 200:
                     data = response.text
                     self.conn_event_handler.emit("Robo:Connected")
@@ -394,33 +394,37 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
             if not connected:
                 try:
-                    plc_device.connect("192.168.250.3", 1200)
+                    plc_device.connect("192.168.3.250", 1200)
                     connected = True
                 except Exception as e:
                     print(e)
                     connected = False
 
             try:
-                command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
-                self.plc_signal.emit(f"Command:{command}")
-                if command == 1:
-                    self.play_commands_A()
-                    plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
-                if command == 2:
-                    self.play_commands_B()
-                    plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
-                
-                lvdt_value_1 = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
-                lvdt_value_2 = plc_device.batch_read("D5002", read_size=1, data_type=DT.FLOAT)[0].value
-                diff = plc_device.batch_read("D5004", read_size=1, data_type=DT.FLOAT)[0].value
+                lvdt_value_1 : float = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
+                lvdt_value_2 : float = plc_device.batch_read("D5002", read_size=1, data_type=DT.FLOAT)[0].value
+                diff : float = plc_device.batch_read("D5004", read_size=1, data_type=DT.FLOAT)[0].value
+                print(lvdt_value_1.__round__(3), lvdt_value_2.__round__(3), diff.__round__(3))
 
                 part_A = plc_device.batch_read("D5006", read_size=1, data_type=DT.UWORD)[0].value
                 part_B = plc_device.batch_read("D5008", read_size=1, data_type=DT.UWORD)[0].value
                 Ng = plc_device.batch_read("D5010", read_size=1, data_type=DT.UWORD)[0].value
 
-
-                self.plc_signal.emit(f"LVDT:{lvdt_value_1}:{lvdt_value_2}:{diff}")
+                self.plc_signal.emit(f"LVDT:{lvdt_value_1.__round__(3)}:{lvdt_value_2.__round__(3)}:{diff.__round__(3)}")
                 self.plc_signal.emit(f"Counter:{part_A}:{part_B}:{Ng}")
+
+                # command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
+                # self.plc_signal.emit(f"Command:{command}")
+                # if command == 1:
+                #     self.play_commands_A()
+                #     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+                # if command == 2:
+                #     self.play_commands_B()
+                #     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+                
+                # lvdt_value_1 = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
+                # lvdt_value_2 = plc_device.batch_read("D5002", read_size=1, data_type=DT.FLOAT)[0].value
+                # diff = plc_device.batch_read("D5004", read_size=1, data_type=DT.FLOAT)[0].value
 
             except Exception as e:
                 print(e)
@@ -576,6 +580,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
 
     @Slot(str)
     def handle_plc_signal(self, command:str):
+        print(command)
         command_split = command.split(":")
         match command_split[0]:
             case "LVDT":
@@ -603,7 +608,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
         if self._window_password.is_logged_in:
             self._window_add_mapping.show()
             self.actionLogout.setDisabled(False)
-
+ 
     def logout_app(self):
         self._window_password.is_logged_in = False
         self.actionLogout.setDisabled(True)
