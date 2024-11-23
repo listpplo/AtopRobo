@@ -413,14 +413,14 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 self.plc_signal.emit(f"LVDT:{lvdt_value_1.__round__(3)}:{lvdt_value_2.__round__(3)}:{diff.__round__(3)}")
                 self.plc_signal.emit(f"Counter:{part_A}:{part_B}:{Ng}")
 
-                # command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
-                # self.plc_signal.emit(f"Command:{command}")
-                # if command == 1:
-                #     self.play_commands_A()
-                #     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
-                # if command == 2:
-                #     self.play_commands_B()
-                #     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+                command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
+                self.plc_signal.emit(f"Command:{command}")
+                if command == 1:
+                    self.play_commands_A()
+                    plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+                if command == 2:
+                    self.play_commands_B()
+                    plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
                 
                 # lvdt_value_1 = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
                 # lvdt_value_2 = plc_device.batch_read("D5002", read_size=1, data_type=DT.FLOAT)[0].value
