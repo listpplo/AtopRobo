@@ -220,11 +220,12 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         z_origin = float(self.label_41.text())
         t_origin = float(self.label_43.text())
 
+        # 
         x_new = x_origin - self.col_B * self.doubleSpinBox_4.value()
-        y_new = y_origin + self.row_B * self.doubleSpinBox_3.value() 
+        y_new = y_origin - self.row_B * self.doubleSpinBox_3.value() 
         url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin}, 'spd':{0.5}" + "}"
         response = requests.get(url)
-        time.sleep(0.5)
+        time.sleep(1.5)
         if self.col_B <= self.tableWidget_3.columnCount():
             item = QTableWidgetItem("X")
             item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
