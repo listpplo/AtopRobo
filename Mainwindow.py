@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 616)
+        MainWindow.resize(800, 792)
         MainWindow.setDocumentMode(False)
         self.actionAdd_Recipe = QAction(MainWindow)
         self.actionAdd_Recipe.setObjectName(u"actionAdd_Recipe")
@@ -204,7 +204,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.label_10)
 
 
-        self.gridLayout.addWidget(self.groupBox_7, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.groupBox_7, 1, 2, 1, 1)
 
         self.groupBox_4 = QGroupBox(self.groupBox_3)
         self.groupBox_4.setObjectName(u"groupBox_4")
@@ -220,7 +220,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addWidget(self.label_8)
 
 
-        self.gridLayout.addWidget(self.groupBox_4, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.groupBox_4, 1, 0, 1, 1)
 
         self.groupBox_5 = QGroupBox(self.groupBox_3)
         self.groupBox_5.setObjectName(u"groupBox_5")
@@ -235,7 +235,23 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.label_9)
 
 
-        self.gridLayout.addWidget(self.groupBox_5, 0, 2, 1, 1)
+        self.gridLayout.addWidget(self.groupBox_5, 1, 1, 1, 1)
+
+        self.groupBox_11 = QGroupBox(self.groupBox_3)
+        self.groupBox_11.setObjectName(u"groupBox_11")
+        self.groupBox_11.setFont(font1)
+        self.groupBox_11.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.groupBox_11.setFlat(False)
+        self.verticalLayout_6 = QVBoxLayout(self.groupBox_11)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.label_12 = QLabel(self.groupBox_11)
+        self.label_12.setObjectName(u"label_12")
+        self.label_12.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_6.addWidget(self.label_12)
+
+
+        self.gridLayout.addWidget(self.groupBox_11, 2, 1, 1, 1)
 
 
         self.verticalLayout_3.addWidget(self.groupBox_3)
@@ -458,6 +474,8 @@ class Ui_MainWindow(object):
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.groupBox_5.setTitle(QCoreApplication.translate("MainWindow", u"Type \"B\"", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.groupBox_11.setTitle(QCoreApplication.translate("MainWindow", u"Over Size", None))
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.tabWidget_4.setTabText(self.tabWidget_4.indexOf(self.tabWidget_4Page1), QCoreApplication.translate("MainWindow", u"Home", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PLC Status", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Robo Status", None))

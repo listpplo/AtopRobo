@@ -33,7 +33,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         # Setting up the variables
         self.runThread = True
 
-        self.pushButton_5.clicked.connect(lambda : Thread(target=self.run).start())
+        # self.pushButton_5.clicked.connect(lambda : Thread(target=self.run).start())
 
         self.pushButton_2.clicked.connect(self.add_location_to_table)
 
@@ -48,65 +48,24 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         self.dataSignal.connect(self.commandHandler)
         
         self.plc_signal.connect(self.command_handler_plc)
-
-        self.spinBox.valueChanged.connect(self.create_table_move_location_A)
-
-        self.spinBox_2.valueChanged.connect(self.create_table_move_location_A)
-
-        self.spinBox_3.valueChanged.connect(self.create_table_move_location_B)
-
-        self.spinBox_4.valueChanged.connect(self.create_table_move_location_B)
-
-        self.pushButton_17.clicked.connect(self.set_orign_A)
         
-        self.pushButton_19.clicked.connect(self.set_orign_B)
+        self.spinBox.valueChanged.connect(self.set_location_table_A)
+
+        self.spinBox_2.valueChanged.connect(self.set_location_table_B)
+
+        self.pushButton_3.clicked.connect(self.add_location_to_table_A)
+        
+        self.pushButton_11.clicked.connect(self.add_location_to_table_B)
 
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
 
         self.pushButton_5.click()
 
-        # self.tableWidget_2.itemChanged.connect(lambda: print("Item Changed"))
-
         # Setting up the initial row and column
-        self.row_A = 0
-        self.col_A = 0
-        self.row_B = 0
-        self.col_B = 0
-
-        self.timer1 = QTimer()
-        self.timer1.setSingleShot(True)
-        self.timer1.setInterval(1000)
-        self.timer1.timeout.connect(self.send_table_data)
-        self.timer1.start()
-
-        try:
-            with open('Config/Data.toml', 'r') as file:
-                data = toml.load(file)
-                self.spinBox.setValue(data["A_Row"])
-                self.spinBox_2.setValue(data["A_Col"])
-                self.doubleSpinBox.setValue(data["A_Height"])
-                self.doubleSpinBox_2.setValue(data["A_Width"])
-                self.spinBox_3.setValue(data["B_Row"])
-                self.spinBox_4.setValue(data["B_Col"])
-                self.doubleSpinBox_3.setValue(data["B_Height"])
-                self.doubleSpinBox_4.setValue(data["B_Width"])
-                self.label_28.setText(f'{data["A_x_origin"]}')
-                self.label_29.setText(f'{data["A_y_origin"]}')
-                self.label_31.setText(f'{data["A_z_origin"]}')
-                self.label_34.setText(f'{data["A_t_origin"]}')
-                self.label_37.setText(f'{data["B_x_origin"]}')
-                self.label_39.setText(f'{data["B_y_origin"]}')
-                self.label_41.setText(f'{data["B_z_origin"]}')
-                self.label_43.setText(f'{data["B_t_origin"]}')
-                
-                # Sending the table info to the MainWindow
-                # self.table_signal.emit(f"A:table:{data['A_Row']}:{data['A_Col']}")
-                # self.table_signal.emit(f"B:table:{data['B_Row']}:{data['B_Col']}")
-                self.table_signal.emit(f"A:table:2:3")
-                # print(data)
-        except Exception as e:
-            print("This is an error ->> ", e)
-
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_table_A_and_B)
+        self.timer.setSingleShot(True)
+        self.timer.start(1000)
 
         # Regeistring popup
         self.popup = Window_Popup()
@@ -120,19 +79,94 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                         item = QTableWidgetItem(f"{value}")
                         item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                         self.tableWidget.setItem(self.tableWidget.rowCount()-1, i, item)
+            
+            with open("location_A.txt") as file:
+                reader = csv.reader(file, delimiter=";")
+                for row in reader:
+                    self.tableWidget_2.setRowCount(self.tableWidget_2.rowCount()+1)
+                    # self.spinBox.setValue(self.spinBox.value() + 1)
+                    for i ,value in enumerate(row):
+                        item = QTableWidgetItem(f"{value}")
+                        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                        self.tableWidget_2.setItem(self.tableWidget_2.rowCount()-1, i, item)
+            
+            with open("location_B.txt") as file:
+                reader = csv.reader(file, delimiter=";")
+                for index, row in enumerate(reader):
+                    self.tableWidget_3.setRowCount(self.tableWidget_3.rowCount()+1)
+                    # self.spinBox_2.setValue(self.spinBox_2.value() + 1)
+                    for i ,value in enumerate(row):
+                        item = QTableWidgetItem(f"{value}")
+                        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                        self.tableWidget_3.setItem(self.tableWidget_3.rowCount()-1, i, item)
+
         except Exception as e:
             print(e)
 
-    def send_table_data(self):
-        row_B = self.spinBox_3.value()
-        col_B = self.spinBox_4.value()
+    def update_table_A_and_B(self):
+        self.spinBox.setValue(self.tableWidget_2.rowCount())
+        self.spinBox_2.setValue(self.tableWidget_3.rowCount())
 
-        self.table_signal.emit(f"B:table:{row_B}:{col_B}")
+    def set_location_table_A(self):
+        print("Running")
+        self.comboBox.clear()
+        self.tableWidget_2.setRowCount(self.spinBox.value())
+        for i in range(self.spinBox.value()):
+            self.comboBox.addItem(f"Location {i}")
+            item = QTableWidgetItem(f"{i}")
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.tableWidget_2.setItem(i, 0, item)
+    
+    def set_location_table_B(self):
+        self.comboBox_3.clear()
+        self.tableWidget_3.setRowCount(self.spinBox_2.value())
+        for i in range(self.spinBox_2.value()):
+            self.comboBox_3.addItem(f"Location {i}")
+            item = QTableWidgetItem(f"{i}")
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.tableWidget_3.setItem(i, 0, item)
 
-        row_A = self.spinBox.value()
-        col_A = self.spinBox_2.value()
-        
-        self.table_signal.emit(f"A:table:{row_A}:{col_A}")
+    def add_location_to_table_A(self):
+        index = self.comboBox.currentIndex()
+        try:
+            x = float(self.label_2.text())
+            y = float(self.label_4.text())
+            z = float(self.label_8.text())
+            t = float(self.label_10.text())
+        except Exception as e:
+            print(e)
+            x=1.0
+            y=2.0
+            z=3.0
+            t=4.0
+
+        lst = [x, y, z, t]
+
+        for i in range(1, self.tableWidget_2.columnCount()):
+            item = QTableWidgetItem(f"{lst[i-1]}")
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.tableWidget_2.setItem(index, i, item)
+    
+    def add_location_to_table_B(self):
+        index = self.comboBox_2.currentIndex()
+        try:
+            x = float(self.label_2.text())
+            y = float(self.label_4.text())
+            z = float(self.label_8.text())
+            t = float(self.label_10.text())
+        except Exception as e:
+            print(e)
+            x=1.0
+            y=2.0
+            z=3.0
+            t=4.0
+
+        lst = [x, y, z, t]
+
+        for i in range(1, self.tableWidget_3.columnCount()):
+            item = QTableWidgetItem(f"{lst[i-1]}")
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.tableWidget_3.setItem(index, i, item)
 
     def delete_row_data(self):
         selected_indices = self.tableWidget.selectedIndexes()
@@ -181,72 +215,35 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             lst.clear()
         
     def play_move_A(self):
-        x_origin = float(self.label_28.text())
-        y_origin = float(self.label_29.text())
-        z_origin = float(self.label_31.text())
-        t_origin = float(self.label_34.text())
+        row = int(self.lineEdit_2.text())
+        x = float(self.tableWidget_2.item(row, 1).text())
+        y = float(self.tableWidget_2.item(row, 2).text())
+        z = float(self.tableWidget_2.item(row, 3).text())
+        t = float(self.tableWidget_2.item(row, 4).text())
 
-        x_new = x_origin - self.col_A * self.doubleSpinBox_2.value()
-        y_new = y_origin - self.row_A * self.doubleSpinBox.value() 
-        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin}, 'spd':{0.5}" + "}"
+        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.25}" + "}"
         response = requests.get(url)
-        time.sleep(0.5)
-        if self.col_A <= self.tableWidget_2.columnCount():
-            item = QTableWidgetItem("X")
-            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.tableWidget_2.setItem(self.row_A,self.col_A, item)
-            self.table_signal.emit(f"A:change:{self.row_A}:{self.col_A}")
-            print(self.row_A, self.col_A)
-            self.col_A= self.col_A + 1
-            if self.col_A >= self.tableWidget_2.columnCount():
-                self.col_A = 0
-                self.row_A += 1
-        else:
-            self.col_A += 1
-        
-        if (self.row_A >= self.tableWidget_2.rowCount()):
-            self.tableWidget_2.clearContents()
-            self.row_A = 0
-            self.col_A = 0
-            self.tableWidget_2.emit("A:reset")
-            
-        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin-0.5}, 'spd':{0.5}" + "}"
+        time.sleep(2)
+        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
         response = requests.get(url)
         print("opening")
+        self.lineEdit_2.setText(f"{row+1}")
+
     
     def play_move_B(self):
-        x_origin = float(self.label_37.text())
-        y_origin = float(self.label_39.text())
-        z_origin = float(self.label_41.text())
-        t_origin = float(self.label_43.text())
+        row = int(self.lineEdit.text())
+        x = float(self.tableWidget_3.item(row, 1).text())
+        y = float(self.tableWidget_3.item(row, 2).text())
+        z = float(self.tableWidget_3.item(row, 3).text())
+        t = float(self.tableWidget_3.item(row, 4).text())
 
-        # 
-        x_new = x_origin - self.col_B * self.doubleSpinBox_4.value()
-        y_new = y_origin - self.row_B * self.doubleSpinBox_3.value() 
-        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin}, 'spd':{0.5}" + "}"
+        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.25}" + "}"
         response = requests.get(url)
-        time.sleep(1.5)
-        if self.col_B <= self.tableWidget_3.columnCount():
-            item = QTableWidgetItem("X")
-            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.tableWidget_3.setItem(self.row_B, self.col_B, item)
-            self.table_signal.emit(f"B:change:{self.row_B}:{self.col_B}")
-            print(self.row_B, self.col_B)
-            if self.col_B >= self.tableWidget_3.columnCount():
-                self.col_B = 0
-                self.row_B += 1
-            else:
-                self.col_B += 1
-
-        if (self.row_B >= self.tableWidget_3.rowCount()):
-            self.row_B = 0
-            self.col_B = 0
-            self.tableWidget_3.clearContents()
-            self.table_signal.emit("B:reset")
-        
-        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x_new}, 'y':{y_new}, 'z':{z_origin}, 't':{t_origin-0.5}, 'spd':{0.5}" + "}"
+        time.sleep(2)
+        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
         response = requests.get(url)
         print("opening")
+        self.lineEdit.setText(f"{row+1}")
 
     def save_data(self):
         lst = []
@@ -257,25 +254,22 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 row_list.append(item)
             lst.append(row_list)
         
-        config = {}
-
-        config["A_Row"] = self.spinBox.value()
-        config["A_Col"] = self.spinBox_2.value()
-        config["A_Width"] = self.doubleSpinBox_2.value()
-        config["A_Height"] = self.doubleSpinBox.value()
-        config["A_x_origin"] = float(self.label_28.text())
-        config["A_y_origin"] = float(self.label_29.text())
-        config["A_z_origin"] = float(self.label_31.text())
-        config["A_t_origin"] = float(self.label_34.text())
-
-        config["B_Row"] = self.spinBox_3.value()
-        config["B_Col"] = self.spinBox_4.value()
-        config["B_Width"] = self.doubleSpinBox_4.value()
-        config["B_Height"] = self.doubleSpinBox_3.value()
-        config["B_x_origin"] = float(self.label_37.text())
-        config["B_y_origin"] = float(self.label_39.text())
-        config["B_z_origin"] = float(self.label_41.text())
-        config["B_t_origin"] = float(self.label_43.text())
+        lst_points_A = []
+        for i in range(0, self.tableWidget_2.rowCount()):
+            row_list = []
+            for j in range(0, self.tableWidget_2.columnCount()):
+                item = float(self.tableWidget_2.item(i, j).text())
+                row_list.append(item)
+            lst_points_A.append(row_list)
+        
+        lst_points_B = []
+        for i in range(0, self.tableWidget_2.rowCount()):
+            row_list = []
+            for j in range(0, self.tableWidget_3.columnCount()):
+                print(i, j)
+                item = float(self.tableWidget_3.item(i, j).text())
+                row_list.append(item)
+            lst_points_B.append(row_list)
 
         try:
             # Saving the path details
@@ -285,29 +279,19 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                     writer.writerow(item)
 
             # Saving the move details   
-            with open("Config/Data.toml", "w+") as file:
-                toml.dump(config, file)
+            with open("location_A.txt", "w+") as file:
+                writer = csv.writer(file, delimiter=";", lineterminator="\n")
+                for item in lst_points_A:
+                    writer.writerow(item)
+            
+            with open("location_B.txt", "w+") as file:
+                writer = csv.writer(file, delimiter=";", lineterminator="\n")
+                for item in lst_points_B:
+                    writer.writerow(item)
             
             self.popup.show_pop_up("Data Saved Successfully !!", "Success !!")
         except Exception as e:
             print(e)
-    
-    def create_table_move_location_A(self):
-        row = self.spinBox.value()
-        col = self.spinBox_2.value()
-
-        self.tableWidget_2.setRowCount(row)
-        self.tableWidget_2.setColumnCount(col)
-
-        self.table_signal.emit(f"A:table:{row}:{col}")
-    
-    def create_table_move_location_B(self):
-        row = self.spinBox_3.value()
-        col = self.spinBox_4.value()
-
-        self.tableWidget_3.setRowCount(row)
-        self.tableWidget_3.setColumnCount(col)
-        self.table_signal.emit(f"B:table:{row}:{col}")
 
     @Slot(dict)
     def commandHandler(self, data: dict):
@@ -318,34 +302,12 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             self.label_10.setText(f'{data["t"]}')
         except Exception as e:
             ...
-    
+
     @Slot(str)
     def command_handler_plc(self, command:str):
         command_split = command.split(":")
         if command_split[0] == "Command":
             self.label_13.setText(command_split[1])
-
-    def set_orign_A(self):
-        x = float(self.label_2.text())
-        y = float(self.label_4.text())
-        z = float(self.label_8.text())
-        t = float(self.label_10.text())
-
-        self.label_28.setText(f"{x}")
-        self.label_29.setText(f"{y}")
-        self.label_31.setText(f"{z}")
-        self.label_34.setText(f"{t}")
-    
-    def set_orign_B(self):
-        x = float(self.label_2.text())
-        y = float(self.label_4.text())
-        z = float(self.label_8.text())
-        t = float(self.label_10.text())
-
-        self.label_37.setText(f"{x}")
-        self.label_39.setText(f"{y}")
-        self.label_41.setText(f"{z}")
-        self.label_43.setText(f"{t}")
 
     def run(self):
         # Connecting to plc
@@ -594,7 +556,8 @@ class MyApp(QMainWindow, Ui_MainWindow):
                 self.label_10.setText(command_split[3])
 
     def open_robo_teach_window(self):
-        self._window_password.showWindow()
+        # self._window_password.showWindow()
+        self._window_password.is_logged_in = True
         if self._window_password.is_logged_in:
             self._window_robo_teach.show()
 
@@ -666,6 +629,6 @@ class MyApp(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication()
-    window = MyApp()
+    window = Robo_teach_window()
     window.show()
     app.exec()
