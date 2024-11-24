@@ -28,7 +28,7 @@ def send_dl2_data():
         print("Unable to Connect to DL2 -- ", e)
         connectToDL2 = False
 
-    plc_device = plc.Type3E(host="192.168.3.250", port=1203)
+    plc_device = plc.Type3E(host="192.168.3.250", port=1202)
     try:
         plc_device.connect("192.168.3.250", port=1203)
         plc_is_connected = True
