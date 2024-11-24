@@ -15,6 +15,58 @@ import json
 import csv
 import pymelsec as plc
 from pymelsec.constants import DT
+from socket import socket, AF_INET, SOCK_STREAM
+
+def send_dl2_data():
+    print("Google")
+    dl2 = socket(AF_INET, SOCK_STREAM)
+    dl2.settimeout(0.5)
+    try:
+        dl2.connect(("192.168.250.34", 5002))
+        connectToDL2 = True
+    except Exception as e:
+        print("Unable to Connect to DL2 -- ", e)
+        connectToDL2 = False
+
+    plc_device = plc.Type3E(host="192.168.3.250", port=1203)
+    try:
+        plc_device.connect("192.168.3.250", port=1203)
+        plc_is_connected = True
+    except Exception as e:
+        print(e)
+        plc_is_connected = False
+
+    while True:
+        print(connectToDL2)
+        if connectToDL2:
+            try:
+                dl2.sendall(b"M0\r\n")
+                data = dl2.recv(1024).decode()
+                print(data)
+                height_1 = int(data[3:13])/10000
+                height_2 = int(data[14:])/10000
+                plc_device.batch_write("D6000", [height_1, height_2], DT.FLOAT)
+                print("Sending")
+                connectToDL2 = True
+            except Exception as e:
+                print(e)
+
+        if not connectToDL2:
+            try:
+                print("Trying to Reconnect")
+                dl2.connect(("192.168.250.34", 5002))
+                connectToDL2 = True
+            except Exception as e:
+                print("This is the error ", e)
+                connectToDL2 = False
+        time.sleep(0.5)
+
+        if not plc_is_connected:
+            try:
+                plc_device.connect("192.168.3.250", port=1203)
+            except Exception as e:
+                print(e)
+    
 
 class Robo_teach_window(RoboTeachWindow, QMainWindow):
      
@@ -227,8 +279,10 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
         response = requests.get(url)
         print("opening")
-        self.lineEdit_2.setText(f"{row+1}")
-
+        new_row = row + 1
+        if row >= self.spinBox.value():
+            new_row = 0
+        self.lineEdit_2.setText(f"{new_row}")
     
     def play_move_B(self):
         row = int(self.lineEdit.text())
@@ -243,6 +297,9 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
         response = requests.get(url)
         print("opening")
+        new_row = row + 1
+        if new_row >= self.spinBox_2.value():
+            new_row = 0
         self.lineEdit.setText(f"{row+1}")
 
     def save_data(self):
@@ -512,9 +569,13 @@ class AddRecipeWindow(Ui_AddRecipe, QWidget):
         self._popup_window = Window_Popup()
         
 class MyApp(QMainWindow, Ui_MainWindow):
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        self.process = Process(target=send_dl2_data)
+        self.process.start()
 
         # Setting up actions of the of the menubar
         self.actionAdd_Recipe.triggered.connect(self.add_recipe)
@@ -626,9 +687,10 @@ class MyApp(QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, event):
         self._window_robo_teach.pushButton_5.setChecked(False)
+        self.process.terminate()
 
 if __name__ == "__main__":
     app = QApplication()
-    window = Robo_teach_window()
+    window = MyApp()
     window.show()
     app.exec()
