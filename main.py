@@ -17,36 +17,48 @@ import pymelsec as plc
 from pymelsec.constants import DT
 from socket import socket, AF_INET, SOCK_STREAM
 
+def lst_to_str(lst:list, reverse = False):
+    str1 = ""
+    if not reverse:
+        for item in lst:
+            my_int = int(bin(item.value), base=2)
+            string = my_int.to_bytes((my_int.bit_length() + 7) // 8, "big").decode()
+            if string != " ":
+                str1 = string + str1
+        return str1[::-1]
+
 def send_dl2_data():
     print("Google")
     dl2 = socket(AF_INET, SOCK_STREAM)
     dl2.settimeout(0.5)
-    try:
-        dl2.connect(("192.168.250.34", 5002))
-        connectToDL2 = True
-    except Exception as e:
-        print("Unable to Connect to DL2 -- ", e)
-        connectToDL2 = False
+    # try:
+    #     dl2.connect(("192.168.250.100", 5002))
+    #     connectToDL2 = True
+    # except Exception as e:
+    #     print("Unable to Connect to DL2 -- ", e)
+    #     connectToDL2 = False
+
+    connectToDL2 = False
 
     plc_device = plc.Type3E(host="192.168.3.250", port=1202)
     try:
-        plc_device.connect("192.168.3.250", port=1203)
+        plc_device.connect("192.168.3.250", port=1202)
         plc_is_connected = True
     except Exception as e:
         print(e)
         plc_is_connected = False
 
     while True:
-        print(connectToDL2)
+        # print(connectToDL2)
         if connectToDL2:
             try:
                 dl2.sendall(b"M0\r\n")
                 data = dl2.recv(1024).decode()
-                print(data)
+                # print(data)
                 height_1 = int(data[3:13])/10000
                 height_2 = int(data[14:])/10000
                 plc_device.batch_write("D6000", [height_1, height_2], DT.FLOAT)
-                print("Sending")
+                # print("Sending")
                 connectToDL2 = True
             except Exception as e:
                 print(e)
@@ -54,16 +66,15 @@ def send_dl2_data():
         if not connectToDL2:
             try:
                 print("Trying to Reconnect")
-                dl2.connect(("192.168.250.34", 5002))
+                dl2.connect(("192.168.3.100", 1210))
                 connectToDL2 = True
             except Exception as e:
                 print("This is the error ", e)
                 connectToDL2 = False
-        time.sleep(0.5)
 
         if not plc_is_connected:
             try:
-                plc_device.connect("192.168.3.250", port=1203)
+                plc_device.connect("192.168.3.250", port=1202)
             except Exception as e:
                 print(e)
     
@@ -85,7 +96,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         # Setting up the variables
         self.runThread = True
 
-        # self.pushButton_5.clicked.connect(lambda : Thread(target=self.run).start())
+        self.pushButton_5.clicked.connect(lambda : Thread(target=self.run).start())
 
         self.pushButton_2.clicked.connect(self.add_location_to_table)
 
@@ -200,7 +211,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             self.tableWidget_2.setItem(index, i, item)
     
     def add_location_to_table_B(self):
-        index = self.comboBox_2.currentIndex()
+        index = self.comboBox_3.currentIndex()
         try:
             x = float(self.label_2.text())
             y = float(self.label_4.text())
@@ -373,6 +384,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             plc_device.connect("192.168.3.250", 1200)
             connected = True
             self.conn_event_handler.emit("PLC:Connected")
+
         except Exception as e:
             print(e)
             self.conn_event_handler.emit("PLC:Disconnected")
@@ -424,14 +436,18 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 lvdt_value_1 : float = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
                 lvdt_value_2 : float = plc_device.batch_read("D5002", read_size=1, data_type=DT.FLOAT)[0].value
                 diff : float = plc_device.batch_read("D5004", read_size=1, data_type=DT.FLOAT)[0].value
-                print(lvdt_value_1.__round__(3), lvdt_value_2.__round__(3), diff.__round__(3))
+                # print(lvdt_value_1.__round__(3), lvdt_value_2.__round__(3), diff.__round__(3))
 
                 part_A = plc_device.batch_read("D5006", read_size=1, data_type=DT.UWORD)[0].value
                 part_B = plc_device.batch_read("D5008", read_size=1, data_type=DT.UWORD)[0].value
                 Ng = plc_device.batch_read("D5010", read_size=1, data_type=DT.UWORD)[0].value
+                over_size = plc_device.batch_read("D5012", read_size=1, data_type=DT.UWORD)[0].value
+
+                part_status = lst_to_str(plc_device.batch_read("D5014", read_size=10, data_type=DT.UWORD))
 
                 self.plc_signal.emit(f"LVDT:{lvdt_value_1.__round__(3)}:{lvdt_value_2.__round__(3)}:{diff.__round__(3)}")
-                self.plc_signal.emit(f"Counter:{part_A}:{part_B}:{Ng}")
+                self.plc_signal.emit(f"Counter:{part_A}:{part_B}:{Ng}:{over_size}")
+                self.plc_signal.emit(f"PartStatus: {part_status}")
 
                 command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
                 self.plc_signal.emit(f"Command:{command}")
@@ -441,10 +457,6 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 if command == 2:
                     self.play_commands_B()
                     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
-                
-                # lvdt_value_1 = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
-                # lvdt_value_2 = plc_device.batch_read("D5002", read_size=1, data_type=DT.FLOAT)[0].value
-                # diff = plc_device.batch_read("D5004", read_size=1, data_type=DT.FLOAT)[0].value
 
             except Exception as e:
                 print(e)
@@ -557,7 +569,7 @@ class Add_Mapping(Ui_MappingWindow, QWidget):
 
         # Regestring popup
         self._popup_window = Window_Popup()
-
+ 
 class AddRecipeWindow(Ui_AddRecipe, QWidget):
     def __init__(self):
         super().__init__()
@@ -604,7 +616,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
 
     @Slot(str)
     def handle_plc_signal(self, command:str):
-        print(command)
+        # print(command)
         command_split = command.split(":")
         match command_split[0]:
             case "LVDT":
@@ -615,6 +627,9 @@ class MyApp(QMainWindow, Ui_MainWindow):
                 self.label_8.setText(command_split[1])
                 self.label_9.setText(command_split[2])
                 self.label_10.setText(command_split[3])
+                self.label_12.setText(command_split[4])
+            case "PartStatus":
+                self.label_6.setText(command_split[1])
 
     def open_robo_teach_window(self):
         # self._window_password.showWindow()
