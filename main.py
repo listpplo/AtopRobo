@@ -78,7 +78,6 @@ def send_dl2_data():
             except Exception as e:
                 print(e)
     
-
 class Robo_teach_window(RoboTeachWindow, QMainWindow):
      
     dataSignal = Signal(dict)
@@ -87,6 +86,9 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
     table_signal = Signal(str)
 
     play_list = []
+
+    bin_a_filled = False
+    bin_b_filled = False
 
     def __init__(self):
         super().__init__()
@@ -278,40 +280,48 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             lst.clear()
         
     def play_move_A(self):
-        row = int(self.lineEdit_2.text())
-        x = float(self.tableWidget_2.item(row, 1).text())
-        y = float(self.tableWidget_2.item(row, 2).text())
-        z = float(self.tableWidget_2.item(row, 3).text())
-        t = float(self.tableWidget_2.item(row, 4).text())
+        if int(self.lineEdit_2.text) != self.spinBox.value()-1:
+            row = int(self.lineEdit_2.text())
+            x = float(self.tableWidget_2.item(row, 1).text())
+            y = float(self.tableWidget_2.item(row, 2).text())
+            z = float(self.tableWidget_2.item(row, 3).text())
+            t = float(self.tableWidget_2.item(row, 4).text())
 
-        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.25}" + "}"
-        response = requests.get(url)
-        time.sleep(2)
-        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
-        response = requests.get(url)
-        print("opening")
-        new_row = row + 1
-        if row >= self.spinBox.value():
-            new_row = 0
-        self.lineEdit_2.setText(f"{new_row}")
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(1)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            print("opening")
+            new_row = row + 1
+            if row >= self.spinBox.value():
+                new_row = 0
+            self.lineEdit_2.setText(f"{new_row}")
+            self.table_signal.emit(f"A:{new_row}")
+        else:
+            self.bin_a_filled  = True
     
     def play_move_B(self):
-        row = int(self.lineEdit.text())
-        x = float(self.tableWidget_3.item(row, 1).text())
-        y = float(self.tableWidget_3.item(row, 2).text())
-        z = float(self.tableWidget_3.item(row, 3).text())
-        t = float(self.tableWidget_3.item(row, 4).text())
+        if int(self.lineEdit.text()) == self.spinBox_2.value()-1:
+            row = int(self.lineEdit.text())
+            x = float(self.tableWidget_3.item(row, 1).text())
+            y = float(self.tableWidget_3.item(row, 2).text())
+            z = float(self.tableWidget_3.item(row, 3).text())
+            t = float(self.tableWidget_3.item(row, 4).text())
 
-        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.25}" + "}"
-        response = requests.get(url)
-        time.sleep(2)
-        url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
-        response = requests.get(url)
-        print("opening")
-        new_row = row + 1
-        if new_row >= self.spinBox_2.value():
-            new_row = 0
-        self.lineEdit.setText(f"{row+1}")
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(1)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.2}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            print("opening")
+            new_row = row + 1
+            if new_row >= self.spinBox_2.value():
+                new_row = 0
+            self.lineEdit.setText(f"{new_row}")
+            self.table_signal.emit(f"N:{new_row}")
+        else:
+            self.bin_b_filled = True
 
     def save_data(self):
         lst = []
@@ -326,7 +336,11 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         for i in range(0, self.tableWidget_2.rowCount()):
             row_list = []
             for j in range(0, self.tableWidget_2.columnCount()):
-                item = float(self.tableWidget_2.item(i, j).text())
+                try:
+                    item = float(self.tableWidget_2.item(i, j).text())
+                except Exception as e:
+                    print(e)
+                    item = "0"
                 row_list.append(item)
             lst_points_A.append(row_list)
         
@@ -334,8 +348,12 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         for i in range(0, self.tableWidget_2.rowCount()):
             row_list = []
             for j in range(0, self.tableWidget_3.columnCount()):
-                print(i, j)
-                item = float(self.tableWidget_3.item(i, j).text())
+                try:
+                    item = float(self.tableWidget_3.item(i, j).text())
+                except Exception as e:
+                    print(e)
+                    item = "0"
+
                 row_list.append(item)
             lst_points_B.append(row_list)
 
@@ -376,6 +394,11 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         command_split = command.split(":")
         if command_split[0] == "Command":
             self.label_13.setText(command_split[1])
+        if command_split[0] == "Reset":
+            if self.bin_a_filled:
+                self.lineEdit_2.setText(0)
+            if self.bin_b_filled:
+                self.lineEdit.setText(0)
 
     def run(self):
         # Connecting to plc
@@ -431,6 +454,8 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 except Exception as e:
                     print(e)
                     connected = False
+            else:
+                self.conn_event_handler.emit("PLC:Connected")
 
             try:
                 lvdt_value_1 : float = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
@@ -457,6 +482,24 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 if command == 2:
                     self.play_commands_B()
                     plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+                
+                if self.bin_a_filled:
+                    plc_device.batch_write("M4000", values=[1], data_type=DT.BIT)
+                    self.plc_signal.emit("ALARM:BIN A FULL:yellow")
+                else:
+                    plc_device.batch_write("M4000", values=[0], data_type=DT.BIT)
+                
+                if self.bin_b_filled:
+                    plc_device.batch_write("M4002", values=[1], data_type=DT.BIT)
+                    self.plc_signal.emit("ALARM:BIN B FULL:yellow")
+                else:
+                    plc_device.batch_write("M4002", values=[0], data_type=DT.BIT)
+
+                alarm = plc_device.batch_read("D4005", read_size=1, data_type=DT.UWORD)
+                match alarm:
+                    case 0:
+                        ...
+                    
 
             except Exception as e:
                 print(e)
@@ -611,8 +654,14 @@ class MyApp(QMainWindow, Ui_MainWindow):
         # Setting up logout actions
         self.actionLogout.setDisabled(True)
 
+        # Setting up actions
+        self.pushButton_3.clicked.connect(self.reset_alarm)
+
         # Setting up fullscreen
         # self.showMaximized()
+
+    def reset_alarm(self):
+        self._window_robo_teach.plc_signal.emit("Reset")
 
     @Slot(str)
     def handle_plc_signal(self, command:str):
@@ -629,7 +678,19 @@ class MyApp(QMainWindow, Ui_MainWindow):
                 self.label_10.setText(command_split[3])
                 self.label_12.setText(command_split[4])
             case "PartStatus":
+                if command_split[1] == "A":
+                    self.label_6.setStyleSheet("background-color:green;")
+                if command_split[1] == "B":
+                    self.label_6.setStyleSheet("background-color:blue;")
+                if command_split[1] == "OVERSIZE":
+                    self.label_6.setStyleSheet("background-color:yellow;")
+                if command_split[1] == "NG":
+                    self.label_6.setStyleSheet("background-color:red;")
+
                 self.label_6.setText(command_split[1])
+            case "ALARM":
+                self.label_3.setText(command_split[1])
+                self.label_3.setStyleSheet(f"background-color:{command_split[2]}")
 
     def open_robo_teach_window(self):
         # self._window_password.showWindow()
@@ -675,30 +736,10 @@ class MyApp(QMainWindow, Ui_MainWindow):
         command_split = command.split(":")
         match command_split[0]:
             case "A":
-                if command_split[1] == "table":
-                    self.tableWidget.setRowCount(int(command_split[2]))
-                    self.tableWidget.setColumnCount(int(command_split[3]))
-                
-                if command_split[1] == "change":
-                    item = QTableWidgetItem("X")
-                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                    self.tableWidget.setItem(int(command_split[2]), int(command_split[3]), item)
-                
-                if command_split[2] == "reset":
-                    self.tableWidget.clearContents()
+                self.lcdNumber.display(command_split[1])
             
             case "B":
-                if command_split[1] == "table":
-                    self.tableWidget_2.setRowCount(int(command_split[2]))
-                    self.tableWidget_2.setColumnCount(int(command_split[3]))
-
-                if command_split[1] == "change":
-                    item = QTableWidgetItem("X")
-                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                    self.tableWidget_2.setItem(int(command_split[2]), int(command_split[3]), item)
-
-                if command_split[2] == "reset":
-                    self.tableWidget_2.clearContents()
+                self.lcdNumber_2.display(command_split[1])
 
     def closeEvent(self, event):
         self._window_robo_teach.pushButton_5.setChecked(False)

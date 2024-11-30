@@ -17,10 +17,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QGroupBox,
-    QHBoxLayout, QHeaderView, QLabel, QMainWindow,
+    QHBoxLayout, QLCDNumber, QLabel, QMainWindow,
     QMenu, QMenuBar, QPushButton, QSizePolicy,
-    QSpacerItem, QTabWidget, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+    QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
 import assets_rc
 
 class Ui_MainWindow(object):
@@ -338,7 +337,7 @@ class Ui_MainWindow(object):
         self.label_4 = QLabel(self.frame_2)
         self.label_4.setObjectName(u"label_4")
         font5 = QFont()
-        font5.setPointSize(12)
+        font5.setPointSize(13)
         font5.setBold(True)
         font5.setItalic(False)
         font5.setUnderline(True)
@@ -347,31 +346,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.label_4)
 
-        self.tableWidget = QTableWidget(self.frame_2)
-        self.tableWidget.setObjectName(u"tableWidget")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
-        self.tableWidget.setSizePolicy(sizePolicy2)
-        self.tableWidget.setMinimumSize(QSize(0, 0))
+        self.lcdNumber = QLCDNumber(self.frame_2)
+        self.lcdNumber.setObjectName(u"lcdNumber")
+        self.lcdNumber.setMinimumSize(QSize(0, 50))
         font6 = QFont()
-        font6.setKerning(True)
-        self.tableWidget.setFont(font6)
-        self.tableWidget.setStyleSheet(u"QTableWidget{\n"
-"	border:1px solid black;\n"
-"}")
-        self.tableWidget.setGridStyle(Qt.PenStyle.DashDotDotLine)
-        self.tableWidget.setRowCount(0)
-        self.tableWidget.horizontalHeader().setVisible(True)
-        self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
-        self.tableWidget.horizontalHeader().setMinimumSectionSize(10)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(25)
-        self.tableWidget.verticalHeader().setMinimumSectionSize(10)
-        self.tableWidget.verticalHeader().setDefaultSectionSize(20)
-        self.tableWidget.verticalHeader().setStretchLastSection(False)
+        font6.setPointSize(13)
+        self.lcdNumber.setFont(font6)
+        self.lcdNumber.setSmallDecimalPoint(False)
+        self.lcdNumber.setDigitCount(5)
+        self.lcdNumber.setSegmentStyle(QLCDNumber.SegmentStyle.Flat)
+        self.lcdNumber.setProperty(u"intValue", 0)
 
-        self.verticalLayout.addWidget(self.tableWidget)
+        self.verticalLayout.addWidget(self.lcdNumber)
 
         self.label_5 = QLabel(self.frame_2)
         self.label_5.setObjectName(u"label_5")
@@ -384,23 +370,34 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.label_5)
 
-        self.tableWidget_2 = QTableWidget(self.frame_2)
-        self.tableWidget_2.setObjectName(u"tableWidget_2")
-        sizePolicy2.setHeightForWidth(self.tableWidget_2.sizePolicy().hasHeightForWidth())
-        self.tableWidget_2.setSizePolicy(sizePolicy2)
-        self.tableWidget_2.setMinimumSize(QSize(0, 0))
-        self.tableWidget_2.setFont(font6)
-        self.tableWidget_2.setStyleSheet(u"QTableWidget{\n"
-"	border:1px solid black;\n"
-"}")
-        self.tableWidget_2.setGridStyle(Qt.PenStyle.DashDotDotLine)
-        self.tableWidget_2.setRowCount(0)
-        self.tableWidget_2.horizontalHeader().setMinimumSectionSize(10)
-        self.tableWidget_2.horizontalHeader().setDefaultSectionSize(25)
-        self.tableWidget_2.verticalHeader().setMinimumSectionSize(10)
-        self.tableWidget_2.verticalHeader().setDefaultSectionSize(20)
+        self.lcdNumber_2 = QLCDNumber(self.frame_2)
+        self.lcdNumber_2.setObjectName(u"lcdNumber_2")
+        self.lcdNumber_2.setMinimumSize(QSize(0, 50))
+        self.lcdNumber_2.setFont(font6)
+        self.lcdNumber_2.setDigitCount(5)
+        self.lcdNumber_2.setSegmentStyle(QLCDNumber.SegmentStyle.Flat)
+        self.lcdNumber_2.setProperty(u"intValue", 0)
 
-        self.verticalLayout.addWidget(self.tableWidget_2)
+        self.verticalLayout.addWidget(self.lcdNumber_2)
+
+        self.label_3 = QLabel(self.frame_2)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setMinimumSize(QSize(0, 100))
+        self.label_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout.addWidget(self.label_3)
+
+        self.label_13 = QLabel(self.frame_2)
+        self.label_13.setObjectName(u"label_13")
+        self.label_13.setMinimumSize(QSize(0, 100))
+        self.label_13.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout.addWidget(self.label_13)
+
+        self.pushButton_3 = QPushButton(self.frame_2)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+
+        self.verticalLayout.addWidget(self.pushButton_3)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -412,7 +409,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 33))
+        self.menubar.setGeometry(QRect(0, 0, 800, 22))
         self.menuTeach = QMenu(self.menubar)
         self.menuTeach.setObjectName(u"menuTeach")
         self.menuTeach_2 = QMenu(self.menubar)
@@ -480,8 +477,11 @@ class Ui_MainWindow(object):
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PLC Status", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Robo Status", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Robo Parameter", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Bin A", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Bin B", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Bin A Location", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Bin B Location", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
         self.menuTeach.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuTeach_2.setTitle(QCoreApplication.translate("MainWindow", u"Teach", None))
         self.menuSettings.setTitle(QCoreApplication.translate("MainWindow", u"Settings", None))
