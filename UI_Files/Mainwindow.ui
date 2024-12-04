@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>792</height>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,6 +47,11 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <family>Rockwell</family>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">QLabel{
 	border:none;
@@ -57,8 +62,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>40</width>
+           <height>40</height>
           </size>
          </property>
          <widget class="QWidget" name="tabWidget_4Page1">
@@ -101,6 +106,12 @@
                 <layout class="QHBoxLayout" name="horizontalLayout_6">
                  <item>
                   <widget class="QLabel" name="label_2">
+                   <property name="font">
+                    <font>
+                     <family>Rockwell</family>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>TextLabel</string>
                    </property>
@@ -128,6 +139,12 @@
                 <layout class="QHBoxLayout" name="horizontalLayout_5">
                  <item>
                   <widget class="QLabel" name="label_6">
+                   <property name="font">
+                    <font>
+                     <family>Rockwell</family>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>TextLabel</string>
                    </property>
@@ -155,6 +172,12 @@
                 <layout class="QHBoxLayout" name="horizontalLayout_4">
                  <item>
                   <widget class="QLabel" name="label_7">
+                   <property name="font">
+                    <font>
+                     <family>Rockwell</family>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>TextLabel</string>
                    </property>
@@ -182,6 +205,12 @@
                 <layout class="QHBoxLayout" name="horizontalLayout_7">
                  <item>
                   <widget class="QLabel" name="label_11">
+                   <property name="font">
+                    <font>
+                     <family>Rockwell</family>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>TextLabel</string>
                    </property>
@@ -230,6 +259,12 @@
                 <layout class="QVBoxLayout" name="verticalLayout_5">
                  <item>
                   <widget class="QLabel" name="label_10">
+                   <property name="font">
+                    <font>
+                     <family>Rockwell</family>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>TextLabel</string>
                    </property>
@@ -260,6 +295,12 @@
                 <layout class="QVBoxLayout" name="verticalLayout_4">
                  <item>
                   <widget class="QLabel" name="label_8">
+                   <property name="font">
+                    <font>
+                     <family>Rockwell</family>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>TextLabel</string>
                    </property>
@@ -287,6 +328,12 @@
                 <layout class="QHBoxLayout" name="horizontalLayout_3">
                  <item>
                   <widget class="QLabel" name="label_9">
+                   <property name="font">
+                    <font>
+                     <family>Rockwell</family>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>TextLabel</string>
                    </property>
@@ -317,6 +364,12 @@
                 <layout class="QVBoxLayout" name="verticalLayout_6">
                  <item>
                   <widget class="QLabel" name="label_12">
+                   <property name="font">
+                    <font>
+                     <family>Rockwell</family>
+                     <pointsize>20</pointsize>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>TextLabel</string>
                    </property>
@@ -332,6 +385,15 @@
             </widget>
            </item>
           </layout>
+         </widget>
+         <widget class="QWidget" name="tab">
+          <attribute name="icon">
+           <iconset resource="assets.qrc">
+            <normaloff>:/icons/Asstes/Icons/icons8-kpi-100.png</normaloff>:/icons/Asstes/Icons/icons8-kpi-100.png</iconset>
+          </attribute>
+          <attribute name="title">
+           <string>KPI</string>
+          </attribute>
          </widget>
         </widget>
        </item>
@@ -620,7 +682,7 @@ QLabel{
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuTeach">
