@@ -1,10 +1,11 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLineEdit, QTableWidgetItem
-from PySide6.QtCore import Qt, Signal, Slot, Qt, QTimer
+from PySide6.QtCore import Qt, Signal, Slot, QTimer
 from Mainwindow import Ui_MainWindow
 from AddRecipeWindow import Ui_AddRecipe
 from MappingWindow import Ui_MappingWindow
 from PasswordWidnow import Ui_PasswordWindow
 from RoboTeach import Ui_MainWindow as RoboTeachWindow
+from AboutUs import Ui_AbouUs
 from popup import Ui_popup
 import toml
 import time
@@ -31,13 +32,6 @@ def send_dl2_data():
     print("Google")
     dl2 = socket(AF_INET, SOCK_STREAM)
     dl2.settimeout(0.5)
-    # try:
-    #     dl2.connect(("192.168.250.100", 5002))
-    #     connectToDL2 = True
-    # except Exception as e:
-    #     print("Unable to Connect to DL2 -- ", e)
-    #     connectToDL2 = False
-
     connectToDL2 = False
 
     plc_device = plc.Type3E(host="192.168.3.250", port=1202)
@@ -59,6 +53,11 @@ def send_dl2_data():
                 height_2 = int(data[14:])/10000
                 plc_device.batch_write("D6000", [height_1, height_2], DT.FLOAT)
                 # print("Sending")
+                command = plc_device.batch_read("D7591", 1, DT.UWORD)[0].value
+                if command == 1:
+                    to_mark = lst_to_str(plc_device.batch_read("D5014", 10, DT.UWORD))
+                    with open("laser.txt", "w+") as file:
+                        file.write(to_mark)
                 connectToDL2 = True
             except Exception as e:
                 print(e)
@@ -77,7 +76,13 @@ def send_dl2_data():
                 plc_device.connect("192.168.3.250", port=1202)
             except Exception as e:
                 print(e)
-    
+
+class AboutUs(QWidget, Ui_AbouUs):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        # self.setFixedSize(self.width, self.height)
+
 class Robo_teach_window(RoboTeachWindow, QMainWindow):
      
     dataSignal = Signal(dict)
@@ -280,7 +285,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             lst.clear()
         
     def play_move_A(self):
-        if int(self.lineEdit_2.text) != self.spinBox.value()-1:
+        if int(self.lineEdit_2.text()) != self.spinBox.value()-1:
             row = int(self.lineEdit_2.text())
             x = float(self.tableWidget_2.item(row, 1).text())
             y = float(self.tableWidget_2.item(row, 2).text())
@@ -416,7 +421,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         while self.pushButton_5.isChecked():
             try:
                 url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':105}"
-                response = requests.get(url, timeout=0.2)
+                response = requests.get(url, timeout=0.5)
                 if response.status_code == 200:
                     data = response.text
                     self.conn_event_handler.emit("Robo:Connected")
@@ -468,11 +473,15 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 Ng = plc_device.batch_read("D5010", read_size=1, data_type=DT.UWORD)[0].value
                 over_size = plc_device.batch_read("D5012", read_size=1, data_type=DT.UWORD)[0].value
 
+                lvdt_live_A: float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value
+                lvdt_live_B:float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value
+
                 part_status = lst_to_str(plc_device.batch_read("D5014", read_size=10, data_type=DT.UWORD))
 
                 self.plc_signal.emit(f"LVDT:{lvdt_value_1.__round__(3)}:{lvdt_value_2.__round__(3)}:{diff.__round__(3)}")
                 self.plc_signal.emit(f"Counter:{part_A}:{part_B}:{Ng}:{over_size}")
-                self.plc_signal.emit(f"PartStatus: {part_status}")
+                self.plc_signal.emit(f"PartStatus:{part_status}")
+                self.plc_signal.emit(f"LVDTLive:{lvdt_live_A.__round__(3)}:{lvdt_live_B.__round__(3)}")
 
                 command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
                 self.plc_signal.emit(f"Command:{command}")
@@ -495,12 +504,13 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 else:
                     plc_device.batch_write("M4002", values=[0], data_type=DT.BIT)
 
-                alarm = plc_device.batch_read("D4005", read_size=1, data_type=DT.UWORD)
+                alarm = plc_device.batch_read("D7590", read_size=1, data_type=DT.UWORD)[0].value
                 match alarm:
                     case 0:
-                        ...
+                        self.plc_signal.emit("ALARM:----:none")
+                    case 1:
+                        self.plc_signal.emit("ALARM:AIR PRESSURE LOW:red")
                     
-
             except Exception as e:
                 print(e)
 
@@ -638,6 +648,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self.actionMapping.triggered.connect(self.add_mapping)
         self.actionLogout.triggered.connect(self.logout_app)
         self.actionTeach_Robo.triggered.connect(self.open_robo_teach_window)
+        self.actionInformation.triggered.connect(lambda : self._ui_about_us.show())
 
         # Registring the window
         self._window_add_recipe = AddRecipeWindow()
@@ -645,6 +656,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self._window_password = Password_Window()
         self._pop_up_window = Window_Popup()
         self._window_robo_teach = Robo_teach_window()
+        self._ui_about_us = AboutUs()
 
         # Connecting the robo teach window with the mainwindow
         self._window_robo_teach.conn_event_handler.connect(self.connection_handler)
@@ -672,6 +684,9 @@ class MyApp(QMainWindow, Ui_MainWindow):
                 self.label_2.setText(command_split[1])
                 self.label_7.setText(command_split[2])
                 self.label_11.setText(command_split[3])
+            case "LVDTLive":
+                self.label_16.setText(command_split[1])
+                self.label_17.setText(command_split[2])
             case "Counter":
                 self.label_8.setText(command_split[1])
                 self.label_9.setText(command_split[2])
@@ -681,11 +696,11 @@ class MyApp(QMainWindow, Ui_MainWindow):
                 if command_split[1] == "A":
                     self.label_6.setStyleSheet("background-color:green;")
                 if command_split[1] == "B":
-                    self.label_6.setStyleSheet("background-color:blue;")
+                    self.label_6.setStyleSheet("background-color:rgb(67,255,242);")
                 if command_split[1] == "OVERSIZE":
                     self.label_6.setStyleSheet("background-color:yellow;")
                 if command_split[1] == "NG":
-                    self.label_6.setStyleSheet("background-color:red;")
+                    self.label_6.setStyleSheet(f"background-color:red;")
 
                 self.label_6.setText(command_split[1])
             case "ALARM":
@@ -693,8 +708,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
                 self.label_3.setStyleSheet(f"background-color:{command_split[2]}")
 
     def open_robo_teach_window(self):
-        # self._window_password.showWindow()
-        self._window_password.is_logged_in = True
+        self._window_password.showWindow()
         if self._window_password.is_logged_in:
             self._window_robo_teach.show()
 

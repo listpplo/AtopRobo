@@ -66,4 +66,13 @@
     <file>Asstes/Icons/icons8-waiting-48.png</file>
     <file>Asstes/Icons/icons8-xls-export-80.png</file>
   </qresource>
+  <qresource prefix="Logo">
+    <file>Asstes/Logos/Nordic logo_290x113.jpg</file>
+    <file>Asstes/Logos/maxop.ico</file>
+    <file>Asstes/Logos/maxop1.jpg</file>
+    <file>Asstes/Logos/Nordic Logo.jpg</file>
+    <file>Asstes/Logos/Nordic logo.png</file>
+    <file>Asstes/Logos/Nordic logo_290x113.png</file>
+    <file>Asstes/Logos/VR Logo.png</file>
+  </qresource>
 </RCC>

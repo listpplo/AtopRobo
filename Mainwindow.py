@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 792)
+        MainWindow.resize(842, 792)
         MainWindow.setDocumentMode(False)
         self.actionAdd_Recipe = QAction(MainWindow)
         self.actionAdd_Recipe.setObjectName(u"actionAdd_Recipe")
@@ -128,6 +128,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.label_2 = QLabel(self.groupBox_6)
         self.label_2.setObjectName(u"label_2")
+        font2 = QFont()
+        font2.setFamilies([u"Rockwell"])
+        font2.setPointSize(22)
+        font2.setBold(True)
+        self.label_2.setFont(font2)
         self.label_2.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_6.addWidget(self.label_2)
@@ -143,6 +148,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.label_6 = QLabel(self.groupBox_9)
         self.label_6.setObjectName(u"label_6")
+        self.label_6.setFont(font2)
         self.label_6.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_5.addWidget(self.label_6)
@@ -158,6 +164,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.label_7 = QLabel(self.groupBox_10)
         self.label_7.setObjectName(u"label_7")
+        self.label_7.setFont(font2)
         self.label_7.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_4.addWidget(self.label_7)
@@ -173,6 +180,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.label_11 = QLabel(self.groupBox_8)
         self.label_11.setObjectName(u"label_11")
+        self.label_11.setFont(font2)
         self.label_11.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_7.addWidget(self.label_11)
@@ -198,6 +206,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.label_10 = QLabel(self.groupBox_7)
         self.label_10.setObjectName(u"label_10")
+        font3 = QFont()
+        font3.setFamilies([u"Rockwell"])
+        font3.setPointSize(18)
+        font3.setBold(True)
+        self.label_10.setFont(font3)
         self.label_10.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_5.addWidget(self.label_10)
@@ -214,6 +227,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.label_8 = QLabel(self.groupBox_4)
         self.label_8.setObjectName(u"label_8")
+        self.label_8.setFont(font3)
         self.label_8.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_4.addWidget(self.label_8)
@@ -229,6 +243,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.label_9 = QLabel(self.groupBox_5)
         self.label_9.setObjectName(u"label_9")
+        self.label_9.setFont(font3)
         self.label_9.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_3.addWidget(self.label_9)
@@ -245,6 +260,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.label_12 = QLabel(self.groupBox_11)
         self.label_12.setObjectName(u"label_12")
+        self.label_12.setFont(font3)
         self.label_12.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_6.addWidget(self.label_12)
@@ -271,10 +287,10 @@ class Ui_MainWindow(object):
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setEnabled(True)
         self.pushButton.setMinimumSize(QSize(0, 60))
-        font2 = QFont()
-        font2.setFamilies([u"OCR A"])
-        font2.setPointSize(16)
-        self.pushButton.setFont(font2)
+        font4 = QFont()
+        font4.setFamilies([u"OCR A"])
+        font4.setPointSize(16)
+        self.pushButton.setFont(font4)
         self.pushButton.setStyleSheet(u"QPushButton{\n"
 "	color:black;\n"
 "	border:3px dashed black;\n"
@@ -290,10 +306,10 @@ class Ui_MainWindow(object):
         self.pushButton_2.setObjectName(u"pushButton_2")
         self.pushButton_2.setEnabled(True)
         self.pushButton_2.setMinimumSize(QSize(0, 60))
-        font3 = QFont()
-        font3.setFamilies([u"OCR A"])
-        font3.setPointSize(14)
-        self.pushButton_2.setFont(font3)
+        font5 = QFont()
+        font5.setFamilies([u"OCR A"])
+        font5.setPointSize(14)
+        self.pushButton_2.setFont(font5)
         self.pushButton_2.setStyleSheet(u"QPushButton{\n"
 "	color:black;\n"
 "	border:3px dashed black;\n"
@@ -327,21 +343,21 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label = QLabel(self.frame_2)
         self.label.setObjectName(u"label")
-        font4 = QFont()
-        font4.setPointSize(18)
-        self.label.setFont(font4)
+        font6 = QFont()
+        font6.setPointSize(18)
+        self.label.setFont(font6)
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout.addWidget(self.label)
 
         self.label_4 = QLabel(self.frame_2)
         self.label_4.setObjectName(u"label_4")
-        font5 = QFont()
-        font5.setPointSize(13)
-        font5.setBold(True)
-        font5.setItalic(False)
-        font5.setUnderline(True)
-        self.label_4.setFont(font5)
+        font7 = QFont()
+        font7.setPointSize(13)
+        font7.setBold(True)
+        font7.setItalic(False)
+        font7.setUnderline(True)
+        self.label_4.setFont(font7)
         self.label_4.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout.addWidget(self.label_4)
@@ -349,9 +365,9 @@ class Ui_MainWindow(object):
         self.lcdNumber = QLCDNumber(self.frame_2)
         self.lcdNumber.setObjectName(u"lcdNumber")
         self.lcdNumber.setMinimumSize(QSize(0, 50))
-        font6 = QFont()
-        font6.setPointSize(13)
-        self.lcdNumber.setFont(font6)
+        font8 = QFont()
+        font8.setPointSize(13)
+        self.lcdNumber.setFont(font8)
         self.lcdNumber.setSmallDecimalPoint(False)
         self.lcdNumber.setDigitCount(5)
         self.lcdNumber.setSegmentStyle(QLCDNumber.SegmentStyle.Flat)
@@ -361,11 +377,11 @@ class Ui_MainWindow(object):
 
         self.label_5 = QLabel(self.frame_2)
         self.label_5.setObjectName(u"label_5")
-        font7 = QFont()
-        font7.setPointSize(13)
-        font7.setBold(True)
-        font7.setUnderline(True)
-        self.label_5.setFont(font7)
+        font9 = QFont()
+        font9.setPointSize(13)
+        font9.setBold(True)
+        font9.setUnderline(True)
+        self.label_5.setFont(font9)
         self.label_5.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout.addWidget(self.label_5)
@@ -373,24 +389,68 @@ class Ui_MainWindow(object):
         self.lcdNumber_2 = QLCDNumber(self.frame_2)
         self.lcdNumber_2.setObjectName(u"lcdNumber_2")
         self.lcdNumber_2.setMinimumSize(QSize(0, 50))
-        self.lcdNumber_2.setFont(font6)
+        self.lcdNumber_2.setFont(font8)
         self.lcdNumber_2.setDigitCount(5)
         self.lcdNumber_2.setSegmentStyle(QLCDNumber.SegmentStyle.Flat)
         self.lcdNumber_2.setProperty(u"intValue", 0)
 
         self.verticalLayout.addWidget(self.lcdNumber_2)
 
+        self.groupBox_41 = QGroupBox(self.frame_2)
+        self.groupBox_41.setObjectName(u"groupBox_41")
+        self.groupBox_41.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.gridLayout_3 = QGridLayout(self.groupBox_41)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.label_14 = QLabel(self.groupBox_41)
+        self.label_14.setObjectName(u"label_14")
+        font10 = QFont()
+        font10.setFamilies([u"Rockwell"])
+        font10.setPointSize(12)
+        font10.setBold(True)
+        self.label_14.setFont(font10)
+
+        self.gridLayout_3.addWidget(self.label_14, 0, 0, 1, 1)
+
+        self.label_15 = QLabel(self.groupBox_41)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setFont(font10)
+
+        self.gridLayout_3.addWidget(self.label_15, 1, 0, 1, 1)
+
+        self.label_16 = QLabel(self.groupBox_41)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setFont(font10)
+
+        self.gridLayout_3.addWidget(self.label_16, 0, 1, 1, 1)
+
+        self.label_17 = QLabel(self.groupBox_41)
+        self.label_17.setObjectName(u"label_17")
+        self.label_17.setFont(font10)
+
+        self.gridLayout_3.addWidget(self.label_17, 1, 1, 1, 1)
+
+
+        self.verticalLayout.addWidget(self.groupBox_41)
+
         self.label_3 = QLabel(self.frame_2)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setMinimumSize(QSize(0, 100))
+        font11 = QFont()
+        font11.setFamilies([u"Rockwell"])
+        font11.setPointSize(14)
+        font11.setBold(True)
+        self.label_3.setFont(font11)
         self.label_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_3.setWordWrap(True)
 
         self.verticalLayout.addWidget(self.label_3)
 
         self.label_13 = QLabel(self.frame_2)
         self.label_13.setObjectName(u"label_13")
         self.label_13.setMinimumSize(QSize(0, 100))
+        self.label_13.setFont(font11)
         self.label_13.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_13.setWordWrap(True)
 
         self.verticalLayout.addWidget(self.label_13)
 
@@ -409,7 +469,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 22))
+        self.menubar.setGeometry(QRect(0, 0, 842, 22))
         self.menuTeach = QMenu(self.menubar)
         self.menuTeach.setObjectName(u"menuTeach")
         self.menuTeach_2 = QMenu(self.menubar)
@@ -479,6 +539,11 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Robo Parameter", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Bin A Location", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Bin B Location", None))
+        self.groupBox_41.setTitle(QCoreApplication.translate("MainWindow", u"Live Values", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"GT-01", None))
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"GT-02", None))
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.label_17.setText(QCoreApplication.translate("MainWindow", u"---", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"---", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"---", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
