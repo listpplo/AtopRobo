@@ -75,6 +75,11 @@ class Ui_MainWindow(object):
         icon8 = QIcon()
         icon8.addFile(u":/icons/Asstes/Icons/icons8-logout-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionLogout.setIcon(icon8)
+        self.actionView_Data = QAction(MainWindow)
+        self.actionView_Data.setObjectName(u"actionView_Data")
+        icon9 = QIcon()
+        icon9.addFile(u":/icons/Asstes/Icons/icons8-graphs-64.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.actionView_Data.setIcon(icon9)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
@@ -269,14 +274,14 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.groupBox_3)
 
-        icon9 = QIcon()
-        icon9.addFile(u":/icons/Asstes/Icons/icons8-home-96.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.tabWidget_4.addTab(self.tabWidget_4Page1, icon9, "")
+        icon10 = QIcon()
+        icon10.addFile(u":/icons/Asstes/Icons/icons8-home-96.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.tabWidget_4.addTab(self.tabWidget_4Page1, icon10, "")
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
-        icon10 = QIcon()
-        icon10.addFile(u":/icons/Asstes/Icons/icons8-kpi-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.tabWidget_4.addTab(self.tab, icon10, "")
+        icon11 = QIcon()
+        icon11.addFile(u":/icons/Asstes/Icons/icons8-kpi-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.tabWidget_4.addTab(self.tab, icon11, "")
 
         self.verticalLayout_2.addWidget(self.tabWidget_4)
 
@@ -479,11 +484,14 @@ class Ui_MainWindow(object):
         self.menuSettings.setObjectName(u"menuSettings")
         self.menuAbout_Help = QMenu(self.menubar)
         self.menuAbout_Help.setObjectName(u"menuAbout_Help")
+        self.menuData = QMenu(self.menubar)
+        self.menuData.setObjectName(u"menuData")
         MainWindow.setMenuBar(self.menubar)
 
         self.menubar.addAction(self.menuTeach.menuAction())
         self.menubar.addAction(self.menuTeach_2.menuAction())
         self.menubar.addAction(self.menuSettings.menuAction())
+        self.menubar.addAction(self.menuData.menuAction())
         self.menubar.addAction(self.menuAbout_Help.menuAction())
         self.menuTeach.addAction(self.actionAdd_Recipe)
         self.menuTeach.addAction(self.actionMapping)
@@ -496,6 +504,7 @@ class Ui_MainWindow(object):
         self.menuSettings.addAction(self.actionRobo_Settings)
         self.menuAbout_Help.addAction(self.actionHelp)
         self.menuAbout_Help.addAction(self.actionInformation)
+        self.menuData.addAction(self.actionView_Data)
 
         self.retranslateUi(MainWindow)
 
@@ -516,6 +525,7 @@ class Ui_MainWindow(object):
         self.actionHelp.setText(QCoreApplication.translate("MainWindow", u"Help", None))
         self.actionInformation.setText(QCoreApplication.translate("MainWindow", u"Information", None))
         self.actionLogout.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
+        self.actionView_Data.setText(QCoreApplication.translate("MainWindow", u"View Data", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Current Part Parameter", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("MainWindow", u"LVDT 1 Value", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
@@ -553,5 +563,6 @@ class Ui_MainWindow(object):
         self.menuTeach_2.setTitle(QCoreApplication.translate("MainWindow", u"Teach", None))
         self.menuSettings.setTitle(QCoreApplication.translate("MainWindow", u"Settings", None))
         self.menuAbout_Help.setTitle(QCoreApplication.translate("MainWindow", u"About", None))
+        self.menuData.setTitle(QCoreApplication.translate("MainWindow", u"Data", None))
     # retranslateUi
 

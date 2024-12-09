@@ -805,9 +805,16 @@ QLabel{
     <addaction name="actionHelp"/>
     <addaction name="actionInformation"/>
    </widget>
+   <widget class="QMenu" name="menuData">
+    <property name="title">
+     <string>Data</string>
+    </property>
+    <addaction name="actionView_Data"/>
+   </widget>
    <addaction name="menuTeach"/>
    <addaction name="menuTeach_2"/>
    <addaction name="menuSettings"/>
+   <addaction name="menuData"/>
    <addaction name="menuAbout_Help"/>
   </widget>
   <action name="actionAdd_Recipe">
@@ -895,6 +902,15 @@ QLabel{
    </property>
    <property name="text">
     <string>Logout</string>
+   </property>
+  </action>
+  <action name="actionView_Data">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/Asstes/Icons/icons8-graphs-64.png</normaloff>:/icons/Asstes/Icons/icons8-graphs-64.png</iconset>
+   </property>
+   <property name="text">
+    <string>View Data</string>
    </property>
   </action>
  </widget>

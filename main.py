@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLineEdit, QTableWidgetItem
-from PySide6.QtCore import Qt, Signal, Slot, QTimer
+from PySide6.QtCore import Qt, Signal, Slot, QTimer, QDate
 from Mainwindow import Ui_MainWindow
 from AddRecipeWindow import Ui_AddRecipe
 from MappingWindow import Ui_MappingWindow
@@ -7,6 +7,8 @@ from PasswordWidnow import Ui_PasswordWindow
 from RoboTeach import Ui_MainWindow as RoboTeachWindow
 from AboutUs import Ui_AbouUs
 from popup import Ui_popup
+from dataWindow import Ui_Form
+from datetime import datetime
 import toml
 import time
 from multiprocessing import Process
@@ -16,6 +18,8 @@ import json
 import csv
 import pymelsec as plc
 from pymelsec.constants import DT
+import sqlite3
+import pandas as pd
 from socket import socket, AF_INET, SOCK_STREAM
 
 def lst_to_str(lst:list, reverse = False):
@@ -29,6 +33,9 @@ def lst_to_str(lst:list, reverse = False):
         return str1[::-1]
 
 def send_dl2_data():
+    """
+        This class does the dl2 connumication as well as the data saving part
+    """
     print("Google")
     dl2 = socket(AF_INET, SOCK_STREAM)
     dl2.settimeout(0.5)
@@ -44,6 +51,12 @@ def send_dl2_data():
 
     while True:
         # print(connectToDL2)
+        try:
+            db = sqlite3.connect("Config/data.db")
+            cursor = db.cursor()
+        except Exception as e:
+            print(e)
+
         if connectToDL2:
             try:
                 dl2.sendall(b"M0\r\n")
@@ -58,6 +71,18 @@ def send_dl2_data():
                     to_mark = lst_to_str(plc_device.batch_read("D5014", 10, DT.UWORD))
                     with open("laser.txt", "w+") as file:
                         file.write(to_mark)
+                
+                if command == 2:
+                    lvdt1 : float = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
+                    lvdt2 : float = plc_device.batch_read("D5002", read_size=1, data_type=DT.FLOAT)[0].value
+                    diff : float = plc_device.batch_read("D5004", read_size=1, data_type=DT.FLOAT)[0].value
+                    status = lst_to_str(plc_device.batch_read("D5014", read_size=10, data_type=DT.UWORD))
+                    time_stamp = datetime.now()
+
+                    db.execute(F"INSERT INTO DATA VALUES ('{time_stamp}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {diff.__round__(3)}, '{status}');")
+                    db.commit()
+                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
+
                 connectToDL2 = True
             except Exception as e:
                 print(e)
@@ -76,6 +101,25 @@ def send_dl2_data():
                 plc_device.connect("192.168.3.250", port=1202)
             except Exception as e:
                 print(e)
+
+class dataViewWindow(QWidget, Ui_Form):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+        self.db = sqlite3.connect("Config/data.db")
+        self.cur = self.db.cursor()
+
+        self.dateEdit.setDate(QDate.currentDate())
+        self.dateEdit_2.setDate(QDate.currentDate())
+
+        self.pushButton.clicked.connect(self.getDataFrom)
+    
+    def getDataFrom(self):
+        startDate = self.dateEdit.date().toPython().__str__()
+        endDate = self.dateEdit_2.date().toPython().__str__()
+        df = pd.read_sql_query(f"SELECT * FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", self.db)
+        self.tableWidget.makeTable(df)
 
 class AboutUs(QWidget, Ui_AbouUs):
     def __init__(self):
@@ -650,6 +694,8 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self.actionTeach_Robo.triggered.connect(self.open_robo_teach_window)
         self.actionInformation.triggered.connect(lambda : self._ui_about_us.show())
         # self.actionPLC_Settings.triggered.connect(lambda : os.system("c:/Users/User/Documents/Project_2/Manual-App/dist/Manual/Manual.exe"))
+        self.actionView_Data.triggered.connect(lambda : self._data_view_window.show())
+
 
         # Registring the window
         self._window_add_recipe = AddRecipeWindow()
@@ -658,6 +704,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self._pop_up_window = Window_Popup()
         self._window_robo_teach = Robo_teach_window()
         self._ui_about_us = AboutUs()
+        self._data_view_window = dataViewWindow()
 
         # Connecting the robo teach window with the mainwindow
         self._window_robo_teach.conn_event_handler.connect(self.connection_handler)
