@@ -8,6 +8,7 @@ from RoboTeach import Ui_MainWindow as RoboTeachWindow
 from AboutUs import Ui_AbouUs
 from popup import Ui_popup
 from dataWindow import Ui_Form
+from getNameWindow import Ui_getExcelName
 from datetime import datetime
 import toml
 import time
@@ -102,6 +103,23 @@ def send_dl2_data():
             except Exception as e:
                 print(e)
 
+class getNameOfExcel(QWidget, Ui_getExcelName):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.df = None
+        self.pushButton.clicked.connect(self.generateExcelWithName)
+    
+    def showWindow(self, startDate, endDate):
+        db = sqlite3.connect("Config/data.db")
+        self.df = pd.read_sql_query(f"SELECT * FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", db)
+        self.show()
+
+    def generateExcelWithName(self):
+        name = self.lineEdit.text()
+        self.df.to_excel(f"{name}.xlsx")
+        self.close()
+
 class dataViewWindow(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
@@ -114,12 +132,21 @@ class dataViewWindow(QWidget, Ui_Form):
         self.dateEdit_2.setDate(QDate.currentDate())
 
         self.pushButton.clicked.connect(self.getDataFrom)
+        self.pushButton_3.clicked.connect(self.generateExcel)
+
+        self._name_popup = getNameOfExcel()
     
     def getDataFrom(self):
         startDate = self.dateEdit.date().toPython().__str__()
         endDate = self.dateEdit_2.date().toPython().__str__()
         df = pd.read_sql_query(f"SELECT * FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", self.db)
         self.tableWidget.makeTable(df)
+
+    def generateExcel(self):
+        startDate = self.dateEdit.date().toPython().__str__()
+        endDate = self.dateEdit_2.date().toPython().__str__()
+        self._name_popup.showWindow(startDate=startDate, endDate=endDate)
+
 
 class AboutUs(QWidget, Ui_AbouUs):
     def __init__(self):
