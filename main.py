@@ -35,7 +35,7 @@ def lst_to_str(lst:list, reverse = False):
 
 def send_dl2_data():
     """
-        This class does the dl2 connumication as well as the data saving part
+        This class does the dl2 connumication as well as the data saving part from the plc
     """
     print("Google")
     dl2 = socket(AF_INET, SOCK_STREAM)
@@ -146,7 +146,6 @@ class dataViewWindow(QWidget, Ui_Form):
         startDate = self.dateEdit.date().toPython().__str__()
         endDate = self.dateEdit_2.date().toPython().__str__()
         self._name_popup.showWindow(startDate=startDate, endDate=endDate)
-
 
 class AboutUs(QWidget, Ui_AbouUs):
     def __init__(self):
