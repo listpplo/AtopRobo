@@ -81,7 +81,7 @@ class AboutUs(QWidget, Ui_AbouUs):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        # self.setFixedSize(self.width, self.height)
+        self.setFixedSize(self.width(), self.height())
 
 class Robo_teach_window(RoboTeachWindow, QMainWindow):
      
@@ -285,7 +285,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             lst.clear()
         
     def play_move_A(self):
-        if int(self.lineEdit_2.text()) != self.spinBox.value()-1:
+        if int(self.lineEdit_2.text()) != self.spinBox.value():
             row = int(self.lineEdit_2.text())
             x = float(self.tableWidget_2.item(row, 1).text())
             y = float(self.tableWidget_2.item(row, 2).text())
@@ -307,7 +307,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             self.bin_a_filled  = True
     
     def play_move_B(self):
-        if int(self.lineEdit.text()) == self.spinBox_2.value()-1:
+        if int(self.lineEdit.text()) != self.spinBox_2.value():
             row = int(self.lineEdit.text())
             x = float(self.tableWidget_3.item(row, 1).text())
             y = float(self.tableWidget_3.item(row, 2).text())
@@ -421,7 +421,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         while self.pushButton_5.isChecked():
             try:
                 url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':105}"
-                response = requests.get(url, timeout=0.5)
+                response = requests.get(url, timeout=0.2)
                 if response.status_code == 200:
                     data = response.text
                     self.conn_event_handler.emit("Robo:Connected")
@@ -649,6 +649,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self.actionLogout.triggered.connect(self.logout_app)
         self.actionTeach_Robo.triggered.connect(self.open_robo_teach_window)
         self.actionInformation.triggered.connect(lambda : self._ui_about_us.show())
+        # self.actionPLC_Settings.triggered.connect(lambda : os.system("c:/Users/User/Documents/Project_2/Manual-App/dist/Manual/Manual.exe"))
 
         # Registring the window
         self._window_add_recipe = AddRecipeWindow()
@@ -685,7 +686,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
                 self.label_7.setText(command_split[2])
                 self.label_11.setText(command_split[3])
             case "LVDTLive":
-                self.label_16.setText(command_split[1])
+                self.label_15.setText(command_split[1])
                 self.label_17.setText(command_split[2])
             case "Counter":
                 self.label_8.setText(command_split[1])

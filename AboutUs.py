@@ -25,7 +25,7 @@ class Ui_AbouUs(object):
             AbouUs.setObjectName(u"AbouUs")
         AbouUs.resize(606, 514)
         icon = QIcon()
-        icon.addFile(u":/Logo/Asstes/Logos/Nordic logo_290x113.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/Logo/Asstes/Logos/Nordic logo_290x113.jpg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         AbouUs.setWindowIcon(icon)
         self.verticalLayout = QVBoxLayout(AbouUs)
         self.verticalLayout.setObjectName(u"verticalLayout")

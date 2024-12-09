@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 591)
+        MainWindow.resize(800, 617)
         MainWindow.setDocumentMode(False)
         self.actionAdd_Recipe = QAction(MainWindow)
         self.actionAdd_Recipe.setObjectName(u"actionAdd_Recipe")
@@ -399,6 +399,48 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.lcdNumber_2)
 
+        self.groupBox = QGroupBox(self.frame_2)
+        self.groupBox.setObjectName(u"groupBox")
+        self.groupBox.setMinimumSize(QSize(0, 30))
+        font10 = QFont()
+        font10.setFamilies([u"Rockwell"])
+        font10.setPointSize(10)
+        font10.setBold(True)
+        self.groupBox.setFont(font10)
+        self.groupBox.setStyleSheet(u"QGroupBox{\n"
+"	border:2px dashed black;\n"
+"}")
+        self.groupBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.gridLayout_3 = QGridLayout(self.groupBox)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.gridLayout_3.setContentsMargins(-1, 15, -1, -1)
+        self.label_14 = QLabel(self.groupBox)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setFont(font10)
+
+        self.gridLayout_3.addWidget(self.label_14, 0, 0, 1, 1)
+
+        self.label_15 = QLabel(self.groupBox)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setFont(font10)
+
+        self.gridLayout_3.addWidget(self.label_15, 0, 1, 1, 1)
+
+        self.label_16 = QLabel(self.groupBox)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setFont(font10)
+
+        self.gridLayout_3.addWidget(self.label_16, 1, 0, 1, 1)
+
+        self.label_17 = QLabel(self.groupBox)
+        self.label_17.setObjectName(u"label_17")
+        self.label_17.setFont(font10)
+
+        self.gridLayout_3.addWidget(self.label_17, 1, 1, 1, 1)
+
+
+        self.verticalLayout.addWidget(self.groupBox)
+
         self.label_3 = QLabel(self.frame_2)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setMinimumSize(QSize(0, 100))
@@ -428,7 +470,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 33))
+        self.menubar.setGeometry(QRect(0, 0, 800, 22))
         self.menuTeach = QMenu(self.menubar)
         self.menuTeach.setObjectName(u"menuTeach")
         self.menuTeach_2 = QMenu(self.menubar)
@@ -499,6 +541,11 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Robo Parameter", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Bin A Location", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Bin B Location", None))
+        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Live Value", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"GT-01", None))
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"GT-02", None))
+        self.label_17.setText(QCoreApplication.translate("MainWindow", u"---", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"---", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"---", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
