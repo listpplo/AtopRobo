@@ -112,7 +112,7 @@ class getNameOfExcel(QWidget, Ui_getExcelName):
     
     def showWindow(self, startDate, endDate):
         db = sqlite3.connect("Config/data.db")
-        self.df = pd.read_sql_query(f"SELECT * FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", db)
+        self.df = pd.read_sql_query(f"SELECT DATE_TIME, DATE, LVDT_1, LVDT_2, STATUS FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", db)
         self.show()
 
     def generateExcelWithName(self):
@@ -139,7 +139,7 @@ class dataViewWindow(QWidget, Ui_Form):
     def getDataFrom(self):
         startDate = self.dateEdit.date().toPython().__str__()
         endDate = self.dateEdit_2.date().toPython().__str__()
-        df = pd.read_sql_query(f"SELECT * FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", self.db)
+        df = pd.read_sql_query(f"SELECT DATE_TIME, DATE, LVDT_1, LVDT_2, STATUS FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", self.db)
         self.tableWidget.makeTable(df)
 
     def generateExcel(self):
@@ -546,7 +546,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 lvdt_live_A: float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value
                 lvdt_live_B:float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value
 
-                part_status = lst_to_str(plc_device.batch_read("D5014", read_size=10, data_type=DT.UWORD))
+                part_status = lst_to_str(plc_device.batch_read("D7900", read_size=10, data_type=DT.UWORD))
 
                 self.plc_signal.emit(f"LVDT:{lvdt_value_1.__round__(3)}:{lvdt_value_2.__round__(3)}:{diff.__round__(3)}")
                 self.plc_signal.emit(f"Counter:{part_A}:{part_B}:{Ng}:{over_size}")

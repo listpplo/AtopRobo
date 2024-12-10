@@ -17,7 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QDateEdit, QFrame,
     QHBoxLayout, QHeaderView, QLabel, QPushButton,
-    QSizePolicy, QTableWidgetItem, QVBoxLayout, QWidget)
+    QSizePolicy, QSpacerItem, QTableWidgetItem, QVBoxLayout,
+    QWidget)
 
 from dataframetable import dataframetable
 
@@ -36,25 +37,33 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.label = QLabel(self.frame)
         self.label.setObjectName(u"label")
+        self.label.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
 
         self.horizontalLayout.addWidget(self.label)
 
         self.dateEdit = QDateEdit(self.frame)
         self.dateEdit.setObjectName(u"dateEdit")
+        self.dateEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.dateEdit.setCalendarPopup(True)
 
         self.horizontalLayout.addWidget(self.dateEdit)
 
         self.label_2 = QLabel(self.frame)
         self.label_2.setObjectName(u"label_2")
+        self.label_2.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
 
         self.horizontalLayout.addWidget(self.label_2)
 
         self.dateEdit_2 = QDateEdit(self.frame)
         self.dateEdit_2.setObjectName(u"dateEdit_2")
+        self.dateEdit_2.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.dateEdit_2.setCalendarPopup(True)
 
         self.horizontalLayout.addWidget(self.dateEdit_2)
+
+        self.horizontalSpacer = QSpacerItem(90, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
 
         self.pushButton = QPushButton(self.frame)
         self.pushButton.setObjectName(u"pushButton")

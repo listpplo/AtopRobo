@@ -181,6 +181,7 @@ class Ui_MainWindow(object):
 
         self.groupBox_8 = QGroupBox(self.groupBox_2)
         self.groupBox_8.setObjectName(u"groupBox_8")
+        self.groupBox_8.setMaximumSize(QSize(16777215, 3))
         self.groupBox_8.setFont(font2)
         self.groupBox_8.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.horizontalLayout_7 = QHBoxLayout(self.groupBox_8)
