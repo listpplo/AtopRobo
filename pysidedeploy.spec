@@ -8,7 +8,7 @@ title = pyside_app_demo
 project_dir = C:\Users\User\Documents\Project\AtopRobo
 
 # source file path
-input_file = C:\Users\User\Documents\Project\AtopRobo\main.py
+input_file = C:\Users\listpplo\Documents\Programming\Python\Projects\AtopRobo\main.py
 
 # directory where exec is stored
 exec_directory = .
@@ -22,7 +22,7 @@ icon = C:\Users\User\Documents\Project\AtopRobo\venv\Lib\site-packages\PySide6\s
 [python]
 
 # python path
-python_path = C:\Users\User\Documents\Project\AtopRobo\venv\Scripts\python.exe
+python_path = C:\Users\listpplo\.conda\envs\QTAppPy312\python.exe
 
 # python packages to install
 packages = Nuitka==2.4.8
@@ -40,7 +40,7 @@ qml_files =
 excluded_qml_plugins = 
 
 # qt modules used. comma separated
-modules = Widgets,Gui,Core
+modules = 
 
 # qt plugins used by the application
 plugins = egldeviceintegrations,accessiblebridge,iconengines,styles,platformthemes,imageformats,platforminputcontexts,xcbglintegrations,platforms/darwin,generic,platforms

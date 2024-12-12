@@ -13,6 +13,7 @@ from datetime import datetime
 import toml
 import time
 from multiprocessing import Process
+import multiprocessing
 from threading import Thread
 import requests
 import json
@@ -709,8 +710,8 @@ class MyApp(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-        self.process = Process(target=send_dl2_data)
-        self.process.start()
+        # self.process = Process(target=send_dl2_data)
+        # self.process.start()
 
         # Setting up actions of the of the menubar
         self.actionAdd_Recipe.triggered.connect(self.add_recipe)
@@ -838,3 +839,4 @@ if __name__ == "__main__":
     window = MyApp()
     window.show()
     app.exec()
+    multiprocessing.freeze_support()
