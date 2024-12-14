@@ -42,6 +42,8 @@ def send_dl2_data():
     dl2 = socket(AF_INET, SOCK_STREAM)
     dl2.settimeout(0.5)
     connectToDL2 = False
+    previous = None
+    next_part = None
 
     plc_device = plc.Type3E(host="192.168.3.250", port=1202)
     try:
@@ -70,9 +72,21 @@ def send_dl2_data():
                 # print("Sending")
                 command = plc_device.batch_read("D7591", 1, DT.UWORD)[0].value
                 if command == 1:
-                    to_mark = lst_to_str(plc_device.batch_read("D5014", 10, DT.UWORD))
+                    to_mark = lst_to_str(plc_device.batch_read("D7900", 10, DT.UWORD))
+                    print(to_mark)
                     with open("laser.txt", "w+") as file:
-                        file.write(to_mark)
+                            file.write(f"{to_mark}")
+                            try:
+                                plc_device.batch_write("D7520", [previous], data_type=DT.UWORD)
+                            except Exception as e:
+                                print(e)
+                            if to_mark == "A":
+                                next_part = 1
+                            if to_mark == "B":
+                                next_part = 2
+                            
+                    previous = next_part
+                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
                 
                 if command == 2:
                     lvdt1 : float = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
@@ -83,6 +97,110 @@ def send_dl2_data():
 
                     db.execute(F"INSERT INTO DATA VALUES ('{time_stamp}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {diff.__round__(3)}, '{status}');")
                     db.commit()
+                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
+                
+                if command == 3:
+                    plc_device.batch_write("D5014", [0,0,0,0,0,0,0,0,0,0,0,0,0,0], DT.UWORD)
+                    print("Comparing")
+                    lvdt1 : float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
+                    lvdt2 : float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
+                    print(lvdt1, lvdt2)
+                    # if (lvdt1 < 43.20) and (lvdt2 < 43.20):
+                    #     # NG condition
+                    #     plc_device.batch_write("M92", [1], data_type=DT.BIT)
+                    #     time.sleep(0.5)
+                    #     plc_device.batch_write("M92", [0], data_type=DT.BIT)
+                    #     print("NG", lvdt1, lvdt2)
+
+                    # elif (lvdt1 > 43.270) or (lvdt2 > 43.270):
+                    #     # Oversize condition
+                    #     plc_device.batch_write("M93", [1], data_type=DT.BIT)
+                    #     time.sleep(0.5)
+                    #     plc_device.batch_write("M93", [0], data_type=DT.BIT)
+                    #     print("oversize", lvdt1, lvdt2)
+
+                    # elif ((lvdt1 <= 43.230) and (lvdt1 >= 43.200)) and ((lvdt2 <= 43.230) and (lvdt2 >= 43.200)):
+                    #     # Condition A
+                    #     plc_device.batch_write("M90", [1], data_type=DT.BIT)
+                    #     time.sleep(0.5)
+                    #     plc_device.batch_write("M90", [0], data_type=DT.BIT)
+                    #     print("A", lvdt1, lvdt2)
+                        
+                    # elif ((lvdt1 <= 43.200) and (43.200 <= lvdt2 <= 43.230)) or ((lvdt2 <= 43.200) and (43.200 <= lvdt1 <= 43.230)) or ((lvdt1 > 43.270) and (43.200 <= lvdt2 <= 43.230)) or ((lvdt2 >= 43.270) and (43.200 <= lvdt1 <= 43.230)):
+                    #     # Condition A
+                    #     plc_device.batch_write("M90", [1], data_type=DT.BIT)
+                    #     time.sleep(0.5)
+                    #     plc_device.batch_write("M90", [0], data_type=DT.BIT)
+                    #     print("A", lvdt1, lvdt2)
+                        
+                    # elif (lvdt1 < 43.270) and (lvdt1 > 43.230) and (lvdt2 < 43.270) and (lvdt2 > 43.230):
+                    #     #  Condition B
+                    #     plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                    #     time.sleep(0.5)
+                    #     plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                    #     print("B", lvdt1, lvdt2)
+
+                    # elif ((lvdt1 > 43.270) and (43.230 < lvdt2 < 43.270)) or ((lvdt2 >= 43.270) and (43.230 < lvdt1 < 43.270)) or ((lvdt1 < 43.200) and (43.230 <= lvdt2 <= 43.270)) or ((lvdt2 < 43.200) and (43.230 < lvdt1 < 43.270)):
+                    #     # Condition B
+                    #     plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                    #     time.sleep(0.5)
+                    #     plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                    #     print("B", lvdt1, lvdt2)
+
+                    # elif ((43.200 < lvdt1 < 43.230) and (43.230 < lvdt2 < 43.270)) or ((43.200 < lvdt2 < 43.230) and (43.200 < lvdt1 < 43.270)):
+                    #     plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                    #     time.sleep(0.5)
+                    #     plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                    #     print("B", lvdt1, lvdt2)
+                    
+                    if (lvdt1 < 43.200) or (lvdt2 < 43.200):
+                        # NG condition
+                        plc_device.batch_write("M92", [1], data_type=DT.BIT)
+                        time.sleep(0.5)
+                        plc_device.batch_write("M92", [0], data_type=DT.BIT)
+                        print("NG", lvdt1, lvdt2)
+                    
+                    elif (lvdt1 > 43.270) or (lvdt2 > 43.270):
+                          # Condition Oversize
+                        plc_device.batch_write("M93", [1], data_type=DT.BIT)
+                        time.sleep(0.5)
+                        plc_device.batch_write("M93", [0], data_type=DT.BIT)
+                        print("Oversize", lvdt1, lvdt2)
+
+                    elif (43.200 <= lvdt1 <= 43.230):
+                        print("comparing condition 1")
+                        if(43.200 <= lvdt2 <= 43.230):
+                            # Condition A
+                            plc_device.batch_write("M90", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M90", [0], data_type=DT.BIT)
+                            print("A", lvdt1, lvdt2)
+                        if(43.230 <= lvdt2 <= 43.270):
+                            #  Condition B
+                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                            print("B", lvdt1, lvdt2)
+                    
+                    elif(43.200 <= lvdt2 <= 43.230):
+                        if(43.200 <= lvdt1 <= 43.230):
+                            plc_device.batch_write("M90", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M90", [0], data_type=DT.BIT)
+                            print("A", lvdt1, lvdt2)
+                        
+                        if(43.230 <= lvdt1 <= 43.270):
+                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                            print("B", lvdt1, lvdt2)
+
+                    elif(43.230 < lvdt1 <= 43.270) or (43.230 < lvdt2 <= 43.270):
+                        plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                        time.sleep(0.5)
+                        plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                        print("B", lvdt1, lvdt2)                            
+
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
 
                 connectToDL2 = True
@@ -336,12 +454,16 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             self.tableWidget.setItem(no_of_rows-1, key, item)
 
     def play_commands_A(self):
+       print("playing Command A")
        self.play_pick_up()
        self.play_move_A()
+       print("Command A Finished")
     
     def play_commands_B(self):
+        print("Playing Command B")
         self.play_pick_up()
         self.play_move_B()
+        print("Command B Finished")
     
     def play_pick_up(self):
         lst = []
@@ -356,8 +478,9 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             lst.clear()
         
     def play_move_A(self):
-        if int(self.lineEdit_2.text()) != self.spinBox.value():
+        # if int(self.lineEdit_2.text()) < self.spinBox.value()
             row = int(self.lineEdit_2.text())
+            print("This is the current working row ---- ",row)
             x = float(self.tableWidget_2.item(row, 1).text())
             y = float(self.tableWidget_2.item(row, 2).text())
             z = float(self.tableWidget_2.item(row, 3).text())
@@ -370,15 +493,18 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             response = requests.get(url)
             print("opening")
             new_row = row + 1
-            if row >= self.spinBox.value():
+            print("This is the new row ----> ", new_row, self.spinBox.value())
+            if new_row == self.spinBox.value():
                 new_row = 0
             self.lineEdit_2.setText(f"{new_row}")
             self.table_signal.emit(f"A:{new_row}")
-        else:
-            self.bin_a_filled  = True
+        # else:
+        #     # self.bin_a_filled  = True
+        #     self.lineEdit_2.setText(f"0")
+        #     self.table_signal.emit(f"A:0")
     
     def play_move_B(self):
-        if int(self.lineEdit.text()) != self.spinBox_2.value():
+        # if int(self.lineEdit.text()) < self.spinBox_2.value():
             row = int(self.lineEdit.text())
             x = float(self.tableWidget_3.item(row, 1).text())
             y = float(self.tableWidget_3.item(row, 2).text())
@@ -392,12 +518,15 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             response = requests.get(url)
             print("opening")
             new_row = row + 1
-            if new_row >= self.spinBox_2.value():
+            print(new_row)
+            if new_row == self.spinBox_2.value():
                 new_row = 0
             self.lineEdit.setText(f"{new_row}")
-            self.table_signal.emit(f"N:{new_row}")
-        else:
-            self.bin_b_filled = True
+            self.table_signal.emit(f"B:{new_row}")
+        # else:
+        #     # self.bin_b_filled = True
+        #     self.lineEdit.setText(f"0")
+        #     self.table_signal.emit(f"B:{0}")
 
     def save_data(self):
         lst = []
@@ -492,7 +621,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         while self.pushButton_5.isChecked():
             try:
                 url = "http://" + "192.168.4.1" + "/js?json=" + "{'T':105}"
-                response = requests.get(url, timeout=0.2)
+                response = requests.get(url, timeout=0.5)
                 if response.status_code == 200:
                     data = response.text
                     self.conn_event_handler.emit("Robo:Connected")
@@ -710,8 +839,8 @@ class MyApp(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-        # self.process = Process(target=send_dl2_data)
-        # self.process.start()
+        self.process = Process(target=send_dl2_data)
+        self.process.start()
 
         # Setting up actions of the of the menubar
         self.actionAdd_Recipe.triggered.connect(self.add_recipe)
@@ -835,8 +964,8 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self.process.terminate()
 
 if __name__ == "__main__":
+    multiprocessing.freeze_support()
     app = QApplication()
     window = MyApp()
     window.show()
     app.exec()
-    multiprocessing.freeze_support()
