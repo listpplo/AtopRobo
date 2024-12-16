@@ -106,7 +106,7 @@ def send_dl2_data():
                     lvdt1 : float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
                     lvdt2 : float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
                     print(lvdt1, lvdt2)
-                    
+
                     if ((lvdt1 < 43.200) or (lvdt2 < 43.200)) or (abs(lvdt1 -lvdt2) > 0.020):
                         # NG condition
                         plc_device.batch_write("M92", [1], data_type=DT.BIT)
@@ -172,7 +172,7 @@ class getNameOfExcel(QWidget, Ui_getExcelName):
     
     def showWindow(self, startDate, endDate):
         db = sqlite3.connect("Config/data.db")
-        self.df = pd.read_sql_query(f"SELECT DATE_TIME, DATE, LVDT_1, LVDT_2, STATUS FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", db)
+        self.df = pd.read_sql_query(f"SELECT * FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", db)
         self.show()
 
     def generateExcelWithName(self):
@@ -199,7 +199,7 @@ class dataViewWindow(QWidget, Ui_Form):
     def getDataFrom(self):
         startDate = self.dateEdit.date().toPython().__str__()
         endDate = self.dateEdit_2.date().toPython().__str__()
-        df = pd.read_sql_query(f"SELECT DATE_TIME, DATE, LVDT_1, LVDT_2, STATUS FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", self.db)
+        df = pd.read_sql_query(f"SELECT * FROM 'DATA'  WHERE DATE BETWEEN '{startDate}' and '{endDate};'", self.db)
         self.tableWidget.makeTable(df)
 
     def generateExcel(self):
