@@ -22,6 +22,7 @@ import pymelsec as plc
 from pymelsec.constants import DT
 import sqlite3
 import pandas as pd
+import os
 from socket import socket, AF_INET, SOCK_STREAM
 
 def lst_to_str(lst:list, reverse = False):
@@ -105,101 +106,41 @@ def send_dl2_data():
                     lvdt1 : float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
                     lvdt2 : float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
                     print(lvdt1, lvdt2)
-                    # if (lvdt1 < 43.20) and (lvdt2 < 43.20):
-                    #     # NG condition
-                    #     plc_device.batch_write("M92", [1], data_type=DT.BIT)
-                    #     time.sleep(0.5)
-                    #     plc_device.batch_write("M92", [0], data_type=DT.BIT)
-                    #     print("NG", lvdt1, lvdt2)
-
-                    # elif (lvdt1 > 43.270) or (lvdt2 > 43.270):
-                    #     # Oversize condition
-                    #     plc_device.batch_write("M93", [1], data_type=DT.BIT)
-                    #     time.sleep(0.5)
-                    #     plc_device.batch_write("M93", [0], data_type=DT.BIT)
-                    #     print("oversize", lvdt1, lvdt2)
-
-                    # elif ((lvdt1 <= 43.230) and (lvdt1 >= 43.200)) and ((lvdt2 <= 43.230) and (lvdt2 >= 43.200)):
-                    #     # Condition A
-                    #     plc_device.batch_write("M90", [1], data_type=DT.BIT)
-                    #     time.sleep(0.5)
-                    #     plc_device.batch_write("M90", [0], data_type=DT.BIT)
-                    #     print("A", lvdt1, lvdt2)
-                        
-                    # elif ((lvdt1 <= 43.200) and (43.200 <= lvdt2 <= 43.230)) or ((lvdt2 <= 43.200) and (43.200 <= lvdt1 <= 43.230)) or ((lvdt1 > 43.270) and (43.200 <= lvdt2 <= 43.230)) or ((lvdt2 >= 43.270) and (43.200 <= lvdt1 <= 43.230)):
-                    #     # Condition A
-                    #     plc_device.batch_write("M90", [1], data_type=DT.BIT)
-                    #     time.sleep(0.5)
-                    #     plc_device.batch_write("M90", [0], data_type=DT.BIT)
-                    #     print("A", lvdt1, lvdt2)
-                        
-                    # elif (lvdt1 < 43.270) and (lvdt1 > 43.230) and (lvdt2 < 43.270) and (lvdt2 > 43.230):
-                    #     #  Condition B
-                    #     plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                    #     time.sleep(0.5)
-                    #     plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                    #     print("B", lvdt1, lvdt2)
-
-                    # elif ((lvdt1 > 43.270) and (43.230 < lvdt2 < 43.270)) or ((lvdt2 >= 43.270) and (43.230 < lvdt1 < 43.270)) or ((lvdt1 < 43.200) and (43.230 <= lvdt2 <= 43.270)) or ((lvdt2 < 43.200) and (43.230 < lvdt1 < 43.270)):
-                    #     # Condition B
-                    #     plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                    #     time.sleep(0.5)
-                    #     plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                    #     print("B", lvdt1, lvdt2)
-
-                    # elif ((43.200 < lvdt1 < 43.230) and (43.230 < lvdt2 < 43.270)) or ((43.200 < lvdt2 < 43.230) and (43.200 < lvdt1 < 43.270)):
-                    #     plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                    #     time.sleep(0.5)
-                    #     plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                    #     print("B", lvdt1, lvdt2)
                     
-                    if (lvdt1 < 43.200) or (lvdt2 < 43.200):
+                    if ((lvdt1 < 43.200) or (lvdt2 < 43.200)) or (abs(lvdt1 -lvdt2) > 0.020):
                         # NG condition
                         plc_device.batch_write("M92", [1], data_type=DT.BIT)
                         time.sleep(0.5)
                         plc_device.batch_write("M92", [0], data_type=DT.BIT)
                         print("NG", lvdt1, lvdt2)
                     
-                    elif (lvdt1 > 43.270) or (lvdt2 > 43.270):
+                    elif (lvdt1 > 43.260) or (lvdt2 > 43.260):
                           # Condition Oversize
                         plc_device.batch_write("M93", [1], data_type=DT.BIT)
                         time.sleep(0.5)
                         plc_device.batch_write("M93", [0], data_type=DT.BIT)
                         print("Oversize", lvdt1, lvdt2)
-
-                    elif (43.200 <= lvdt1 <= 43.230):
-                        print("comparing condition 1")
-                        if(43.200 <= lvdt2 <= 43.230):
-                            # Condition A
-                            plc_device.batch_write("M90", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M90", [0], data_type=DT.BIT)
-                            print("A", lvdt1, lvdt2)
-                        if(43.230 <= lvdt2 <= 43.270):
-                            #  Condition B
-                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                            print("B", lvdt1, lvdt2)
                     
-                    elif(43.200 <= lvdt2 <= 43.230):
-                        if(43.200 <= lvdt1 <= 43.230):
+                    elif (43.200 <= lvdt1 <= 43.230) and (43.200 <= lvdt2 <= 43.230):
+                        if (abs(lvdt1-lvdt2) <= 0.010):
+                            # Condition for A
                             plc_device.batch_write("M90", [1], data_type=DT.BIT)
                             time.sleep(0.5)
                             plc_device.batch_write("M90", [0], data_type=DT.BIT)
                             print("A", lvdt1, lvdt2)
-                        
-                        if(43.230 <= lvdt1 <= 43.270):
+                        else:
                             plc_device.batch_write("M91", [1], data_type=DT.BIT)
                             time.sleep(0.5)
                             plc_device.batch_write("M91", [0], data_type=DT.BIT)
                             print("B", lvdt1, lvdt2)
 
-                    elif(43.230 < lvdt1 <= 43.270) or (43.230 < lvdt2 <= 43.270):
-                        plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                        time.sleep(0.5)
-                        plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                        print("B", lvdt1, lvdt2)                            
+                    elif (43.200 <= lvdt1 <= 43.260 ) and (43.200 <= lvdt2 <= 43.260 ):
+                        if (abs(lvdt1 - lvdt2) <= 0.020):
+                            # Condition B
+                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                            print("B", lvdt1, lvdt2)
 
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
 
@@ -489,6 +430,9 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.5}" + "}"
             response = requests.get(url)
             time.sleep(1)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(0.5)
             url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
             response = requests.get(url)
             print("opening")
@@ -514,7 +458,10 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.5}" + "}"
             response = requests.get(url)
             time.sleep(1)
-            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.2}, 'spd':{0.5}" + "}"
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(0.5)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
             response = requests.get(url)
             print("opening")
             new_row = row + 1
@@ -965,6 +912,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     multiprocessing.freeze_support()
+    os.popen("ezcad2.exe Laser_Program.ezd")
     app = QApplication()
     window = MyApp()
     window.show()

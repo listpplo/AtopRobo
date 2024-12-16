@@ -181,7 +181,7 @@ class Ui_MainWindow(object):
 
         self.groupBox_8 = QGroupBox(self.groupBox_2)
         self.groupBox_8.setObjectName(u"groupBox_8")
-        self.groupBox_8.setMaximumSize(QSize(16777215, 3))
+        self.groupBox_8.setMaximumSize(QSize(16777215, 16777215))
         self.groupBox_8.setFont(font2)
         self.groupBox_8.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.horizontalLayout_7 = QHBoxLayout(self.groupBox_8)
@@ -534,7 +534,7 @@ class Ui_MainWindow(object):
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.groupBox_10.setTitle(QCoreApplication.translate("MainWindow", u"LVDT 2 Value", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
-        self.groupBox_8.setTitle(QCoreApplication.translate("MainWindow", u"Difference", None))
+        self.groupBox_8.setTitle(QCoreApplication.translate("MainWindow", u"Taper", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"Cycle Parameter", None))
         self.groupBox_7.setTitle(QCoreApplication.translate("MainWindow", u"NG Part", None))
