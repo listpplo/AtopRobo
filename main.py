@@ -433,6 +433,9 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t}, 'spd':{0.5}" + "}"
             response = requests.get(url)
             time.sleep(0.5)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t-0.5}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(0.3)
             url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
             response = requests.get(url)
             print("opening")
@@ -461,6 +464,9 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t}, 'spd':{0.5}" + "}"
             response = requests.get(url)
             time.sleep(0.5)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t-0.5}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(0.3)
             url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
             response = requests.get(url)
             print("opening")
@@ -475,7 +481,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
         #     self.lineEdit.setText(f"0")
         #     self.table_signal.emit(f"B:{0}")
 
-    def save_data(self):
+    def save_data(self): 
         lst = []
         for i in range(0, self.tableWidget.rowCount()):
             row_list = []
