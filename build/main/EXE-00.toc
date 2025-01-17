@@ -76,7 +76,7 @@
  [],
  False,
  False,
- 1734343001,
+ 1737106524,
  [('run.exe',
    'C:\\Users\\User\\Documents\\Project_2\\AtopRobo\\venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\run.exe',
    'EXECUTABLE')],

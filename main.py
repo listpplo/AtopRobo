@@ -14,6 +14,7 @@ import toml
 import time
 from multiprocessing import Process
 import multiprocessing
+from collections import deque
 from threading import Thread
 import requests
 import json
@@ -24,6 +25,7 @@ import sqlite3
 import pandas as pd
 import os
 from socket import socket, AF_INET, SOCK_STREAM
+
 
 def lst_to_str(lst:list, reverse = False):
     str1 = ""
@@ -100,49 +102,14 @@ def send_dl2_data():
                     db.commit()
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
                 
-                if command == 3:
-                    plc_device.batch_write("D5014", [0,0,0,0,0,0,0,0,0,0,0,0,0,0], DT.UWORD)
-                    print("Comparing")
-                    lvdt1 : float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
-                    lvdt2 : float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
-                    print(lvdt1, lvdt2)
-
-                    if ((lvdt1 < 43.200) or (lvdt2 < 43.200)) or (abs(lvdt1 -lvdt2) > 0.020):
-                        # NG condition
-                        plc_device.batch_write("M92", [1], data_type=DT.BIT)
-                        time.sleep(0.5)
-                        plc_device.batch_write("M92", [0], data_type=DT.BIT)
-                        print("NG", lvdt1, lvdt2)
+                # command2 = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
+                # if command2 in [1, 2]:
+                #     if datalist[::-1][0] == "A":
+                #         page.play_commands_A()
+                #     if datalist[::-1][0] == "B":
+                #         page.play_commands_B()
                     
-                    elif (lvdt1 > 43.260) or (lvdt2 > 43.260):
-                          # Condition Oversize
-                        plc_device.batch_write("M93", [1], data_type=DT.BIT)
-                        time.sleep(0.5)
-                        plc_device.batch_write("M93", [0], data_type=DT.BIT)
-                        print("Oversize", lvdt1, lvdt2)
-                    
-                    elif (43.200 <= lvdt1 <= 43.230) and (43.200 <= lvdt2 <= 43.230):
-                        if (abs(lvdt1-lvdt2) <= 0.010):
-                            # Condition for A
-                            plc_device.batch_write("M90", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M90", [0], data_type=DT.BIT)
-                            print("A", lvdt1, lvdt2)
-                        else:
-                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                            print("B", lvdt1, lvdt2)
-
-                    elif (43.200 <= lvdt1 <= 43.260 ) and (43.200 <= lvdt2 <= 43.260 ):
-                        if (abs(lvdt1 - lvdt2) <= 0.020):
-                            # Condition B
-                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                            print("B", lvdt1, lvdt2)
-
-                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
+                #     datalist.popleft()
 
                 connectToDL2 = True
             except Exception as e:
@@ -224,6 +191,8 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
     bin_a_filled = False
     bin_b_filled = False
+
+    datalist = deque()
 
     def __init__(self):
         super().__init__()
@@ -561,8 +530,10 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
     def run(self):
         # Connecting to plc
         plc_device  = plc.Type3E("192.168.3.250", port=1200)
+        global datalist
         try:
             plc_device.connect("192.168.3.250", 1200)
+            plc_device.batch_write("D800", [0], DT.UWORD)
             connected = True
             self.conn_event_handler.emit("PLC:Connected")
 
@@ -615,6 +586,19 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
             else:
                 self.conn_event_handler.emit("PLC:Connected")
 
+            # data_read = plc_device.batch_read("M91", read_size=1, data_type=DT.BIT)[0].value
+            # if data_read == True:
+            #     self.datalist.append("B")
+            #     time.sleep(0.5)
+            #     print(self.datalist)
+
+            # data_read = plc_device.batch_read("M90", read_size=1, data_type=DT.BIT)[0].value
+            # if data_read == True:
+            #     self.datalist.append("A")
+            #     time.sleep(0.5)
+            #     print(self.datalist)
+
+
             try:
                 lvdt_value_1 : float = plc_device.batch_read("D5000", read_size=1, data_type=DT.FLOAT)[0].value
                 lvdt_value_2 : float = plc_device.batch_read("D5002", read_size=1, data_type=DT.FLOAT)[0].value
@@ -638,12 +622,16 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
 
                 command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
                 self.plc_signal.emit(f"Command:{command}")
-                if command == 1:
-                    self.play_commands_A()
-                    plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
-                if command == 2:
-                    self.play_commands_B()
-                    plc_device.batch_write("D800", values=[0], data_type=DT.UWORD)
+                if command == 1 or command==2:
+                    try:
+                        if self.datalist[0] == "A":
+                            self.play_commands_A()
+                        if self.datalist[0] == "B":
+                            self.play_commands_B()
+                    except Exception as e:
+                        plc_device.batch_write("D800", [0], DT.UWORD)
+                    
+                    self.datalist.popleft()
                 
                 if self.bin_a_filled:
                     plc_device.batch_write("M4000", values=[1], data_type=DT.BIT)
@@ -664,6 +652,54 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                     case 1:
                         self.plc_signal.emit("ALARM:AIR PRESSURE LOW:red")
                     
+                command = plc_device.batch_read("D7591", 1, DT.UWORD)[0].value
+                if command == 3:
+                    plc_device.batch_write("D5014", [0,0,0,0,0,0,0,0,0,0,0,0,0,0], DT.UWORD)
+                    print("Comparing")
+                    lvdt1 : float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
+                    lvdt2 : float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
+                    print(lvdt1, lvdt2)
+
+                    if ((lvdt1 < 43.200) or (lvdt2 < 43.200)) or (abs(lvdt1 -lvdt2) > 0.0205):
+                        # NG condition
+                        plc_device.batch_write("M92", [1], data_type=DT.BIT)
+                        time.sleep(0.5)
+                        plc_device.batch_write("M92", [0], data_type=DT.BIT)
+                        print("NG", lvdt1, lvdt2)
+                    
+                    elif (lvdt1 > 43.260) or (lvdt2 > 43.260):
+                          # Condition Oversize
+                        plc_device.batch_write("M93", [1], data_type=DT.BIT)
+                        time.sleep(0.5)
+                        plc_device.batch_write("M93", [0], data_type=DT.BIT)
+                        print("Oversize", lvdt1, lvdt2)
+                    
+                    elif (43.200 <= lvdt1 <= 43.230) and (43.200 <= lvdt2 <= 43.230):
+                        if (abs(lvdt1-lvdt2) <= 0.010):
+                            # Condition for A
+                            plc_device.batch_write("M90", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M90", [0], data_type=DT.BIT)
+                            print("A", lvdt1, lvdt2)
+                        else:
+                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                            print("B", lvdt1, lvdt2)
+                            self.datalist.append("B")
+
+                    elif (43.200 <= lvdt1 <= 43.260 ) and (43.200 <= lvdt2 <= 43.260 ):
+                        if (abs(lvdt1 - lvdt2) <= 0.0204):
+                            # Condition B
+                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                            print("B", lvdt1, lvdt2)
+                            self.datalist.append("B")
+
+                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
+                    print(self.datalist)
+
             except Exception as e:
                 print(e)
 
