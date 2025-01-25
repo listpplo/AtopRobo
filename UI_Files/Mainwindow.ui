@@ -731,19 +731,73 @@ QLabel{
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_13">
+        <widget class="QGroupBox" name="groupBox_12">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>100</height>
+           <height>50</height>
           </size>
          </property>
-         <property name="text">
-          <string>---</string>
+         <property name="font">
+          <font>
+           <italic>true</italic>
+           <bold>true</bold>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="title">
+          <string>Laser Sequence</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>---</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_13">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <italic>true</italic>
+           <bold>true</bold>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="title">
+          <string>Robo Sequence</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>---</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>

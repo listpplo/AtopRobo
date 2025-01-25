@@ -5,6 +5,7 @@ from AddRecipeWindow import Ui_AddRecipe
 from MappingWindow import Ui_MappingWindow
 from PasswordWidnow import Ui_PasswordWindow
 from RoboTeach import Ui_MainWindow as RoboTeachWindow
+from OffsetSetttings import Ui_OffsetSettings
 from AboutUs import Ui_AbouUs
 from popup import Ui_popup
 from dataWindow import Ui_Form
@@ -26,6 +27,147 @@ import pandas as pd
 import os
 from socket import socket, AF_INET, SOCK_STREAM
 
+def playA():
+    if "Lock" not in os.listdir():
+        os.mkdir("Lock")
+        pickUpList = []
+        drop_list = []
+        try:
+            with open("Path.txt") as file:
+                    reader = csv.reader(file, delimiter=";")
+                    for row in reader:
+                        # self.tableWidget.setRowCount(self.tableWidget.rowCount()+1)
+                        lst = []
+                        for i ,value in enumerate(row):
+                            # item = QTableWidgetItem(f"{value}")
+                            # item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                            # self.tableWidget.setItem(self.tableWidget.rowCount()-1, i, item)
+                            lst.append(value)
+                        pickUpList.append(lst)
+            with open("location_A.txt") as file:
+                    reader = csv.reader(file, delimiter=";")
+                    for row in reader:
+                        # self.tableWidget_2.setRowCount(self.tableWidget_2.rowCount()+1)
+                        # self.spinBox.setValue(self.spinBox.value() + 1)
+                        lst = []
+                        for i ,value in enumerate(row):
+                            # item = QTableWidgetItem(f"{value}")
+                            # item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                            # self.tableWidget_2.setItem(self.tableWidget_2.rowCount()-1, i, item)
+                            lst.append(value)
+                        drop_list.append(lst)
+                
+                # with open("location_B.txt") as file:
+                #     reader = csv.reader(file, delimiter=";")
+                #     for index, row in enumerate(reader):
+                #         self.tableWidget_3.setRowCount(self.tableWidget_3.rowCount()+1)
+                #         # self.spinBox_2.setValue(self.spinBox_2.value() + 1)
+                #         for i ,value in enumerate(row):
+                #             item = QTableWidgetItem(f"{value}")
+                #             item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                #             self.tableWidget_3.setItem(self.tableWidget_3.rowCount()-1, i, item)
+
+            # print(pickUpList)
+            # print(drop_list)
+
+            for lst in pickUpList:
+                url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{lst[0]}, 'y':{lst[1]}, 'z':{lst[2]}, 't':{lst[3]}, 'spd':{lst[4]}" + "}"
+                response = requests.get(url)
+                time.sleep(float(lst[5]))
+            
+            x = float(drop_list[0][1])
+            y = float(drop_list[0][2])
+            z = float(drop_list[0][3])
+            t = float(drop_list[0][4])
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(1)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(0.5)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t-0.5}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(0.3)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            print("opening")
+
+        except Exception as e:
+                print("This error is from new Method",e)
+        
+        os.rmdir('Lock')
+    else:
+        print("Lock Engaged")
+def playB():
+    if "Lock" not in os.listdir():
+        os.mkdir("Lock")
+        pickUpList = []
+        drop_list = []
+        try:
+            with open("Path.txt") as file:
+                    reader = csv.reader(file, delimiter=";")
+                    for row in reader:
+                        # self.tableWidget.setRowCount(self.tableWidget.rowCount()+1)
+                        lst = []
+                        for i ,value in enumerate(row):
+                            # item = QTableWidgetItem(f"{value}")
+                            # item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                            # self.tableWidget.setItem(self.tableWidget.rowCount()-1, i, item)
+                            lst.append(value)
+                        pickUpList.append(lst)
+            with open("location_B.txt") as file:
+                    reader = csv.reader(file, delimiter=";")
+                    for row in reader:
+                        # self.tableWidget_2.setRowCount(self.tableWidget_2.rowCount()+1)
+                        # self.spinBox.setValue(self.spinBox.value() + 1)
+                        lst = []
+                        for i ,value in enumerate(row):
+                            # item = QTableWidgetItem(f"{value}")
+                            # item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                            # self.tableWidget_2.setItem(self.tableWidget_2.rowCount()-1, i, item)
+                            lst.append(value)
+                        drop_list.append(lst)
+                
+                # with open("location_B.txt") as file:
+                #     reader = csv.reader(file, delimiter=";")
+                #     for index, row in enumerate(reader):
+                #         self.tableWidget_3.setRowCount(self.tableWidget_3.rowCount()+1)
+                #         # self.spinBox_2.setValue(self.spinBox_2.value() + 1)
+                #         for i ,value in enumerate(row):
+                #             item = QTableWidgetItem(f"{value}")
+                #             item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                #             self.tableWidget_3.setItem(self.tableWidget_3.rowCount()-1, i, item)
+
+            # print(pickUpList)
+            # print(drop_list)
+
+            for lst in pickUpList:
+                url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{lst[0]}, 'y':{lst[1]}, 'z':{lst[2]}, 't':{lst[3]}, 'spd':{lst[4]}" + "}"
+                response = requests.get(url)
+                time.sleep(float(lst[5]))
+            
+            x = float(drop_list[0][1])
+            y = float(drop_list[0][2])
+            z = float(drop_list[0][3])
+            t = float(drop_list[0][4])
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(1)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(0.5)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z-50}, 't':{t-0.5}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            time.sleep(0.3)
+            url = "http://" + "192.168.4.1" + "/js?json=" + "{" +f"'T':104, 'x':{x}, 'y':{y}, 'z':{z}, 't':{t-0.5}, 'spd':{0.5}" + "}"
+            response = requests.get(url)
+            print("opening")
+
+        except Exception as e:
+                print("This error is from new Method",e)
+        
+        os.rmdir("Lock")
+    print("Loack Engaged")
 
 def lst_to_str(lst:list, reverse = False):
     str1 = ""
@@ -45,8 +187,7 @@ def send_dl2_data():
     dl2 = socket(AF_INET, SOCK_STREAM)
     dl2.settimeout(0.5)
     connectToDL2 = False
-    previous = None
-    next_part = None
+    laser_que = deque()
 
     plc_device = plc.Type3E(host="192.168.3.250", port=1202)
     try:
@@ -75,20 +216,12 @@ def send_dl2_data():
                 # print("Sending")
                 command = plc_device.batch_read("D7591", 1, DT.UWORD)[0].value
                 if command == 1:
-                    to_mark = lst_to_str(plc_device.batch_read("D7900", 10, DT.UWORD))
-                    print(to_mark)
+                    to_mark = laser_que[0]
+                    if to_mark == "EmptyCycle" or to_mark == "NG":
+                        to_mark = laser_que[1]
                     with open("laser.txt", "w+") as file:
                             file.write(f"{to_mark}")
-                            try:
-                                plc_device.batch_write("D7520", [previous], data_type=DT.UWORD)
-                            except Exception as e:
-                                print(e)
-                            if to_mark == "A":
-                                next_part = 1
-                            if to_mark == "B":
-                                next_part = 2
-                            
-                    previous = next_part
+                        
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
                 
                 if command == 2:
@@ -101,16 +234,79 @@ def send_dl2_data():
                     db.execute(F"INSERT INTO DATA VALUES ('{time_stamp}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {diff.__round__(3)}, '{status}');")
                     db.commit()
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
-                
-                # command2 = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
-                # if command2 in [1, 2]:
-                #     if datalist[::-1][0] == "A":
-                #         page.play_commands_A()
-                #     if datalist[::-1][0] == "B":
-                #         page.play_commands_B()
-                    
-                #     datalist.popleft()
 
+                if command == 3:
+                    plc_device.batch_write("D5014", [0,0,0,0,0,0,0,0,0,0,0,0,0,0], DT.UWORD)
+                    print("Comparing")
+                    lvdt1 : float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
+                    lvdt2 : float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
+                    print(lvdt1, lvdt2)
+
+                    if ((lvdt1 < 43.200) or (lvdt2 < 43.200)) or (abs(lvdt1 -lvdt2) > 0.0205):
+                        # NG condition
+                        plc_device.batch_write("M92", [1], data_type=DT.BIT)
+                        time.sleep(0.5)
+                        plc_device.batch_write("M92", [0], data_type=DT.BIT)
+                        print("NG", lvdt1, lvdt2)
+                        laser_que.appendleft("NG")
+                        
+                    
+                    elif (lvdt1 > 43.260) or (lvdt2 > 43.260):
+                          # Condition Oversize
+                        plc_device.batch_write("M93", [1], data_type=DT.BIT)
+                        time.sleep(0.5)
+                        plc_device.batch_write("M93", [0], data_type=DT.BIT)
+                        print("Oversize", lvdt1, lvdt2)
+                        laser_que.appendleft("NG")
+                    
+                    elif (43.200 <= lvdt1 <= 43.230) and (43.200 <= lvdt2 <= 43.230):
+                        if (abs(lvdt1-lvdt2) <= 0.010):
+                            # Condition for A
+                            plc_device.batch_write("M90", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M90", [0], data_type=DT.BIT)
+                            print("A", lvdt1, lvdt2)
+                            laser_que.appendleft("A")
+                        else:
+                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                            print("B", lvdt1, lvdt2)
+                            laser_que.appendleft("B")
+
+                    elif (43.200 <= lvdt1 <= 43.260 ) and (43.200 <= lvdt2 <= 43.260 ):
+                        if (abs(lvdt1 - lvdt2) <= 0.0204):
+                            # Condition B
+                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                            time.sleep(0.5)
+                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                            print("B", lvdt1, lvdt2)
+                            laser_que.appendleft("B")
+
+                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
+                
+                if command == 4:
+                    laser_que.appendleft("EmptyCycle")
+                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
+
+                command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
+                # self.plc_signal.emit(f"Command:{command}")
+                if command == 1 or command==2:
+                    try:
+                        if laser_que[1] == "A":
+                            Process(target=playA).start()
+                        if laser_que[1] == "B":
+                            Process(target=playB).start()
+                        if (laser_que[1] == "EmptyCycle" or laser_que[1] == "NG"):
+                            if laser_que[2] == "A":
+                                Process(target=playA).start()
+                            if laser_que[2] == "B":
+                                Process(target=playB).start()
+                                
+                    except Exception as e:
+                        print(e)
+                    
+                    plc_device.batch_write("D800", [0], DT.UWORD)
                 connectToDL2 = True
             except Exception as e:
                 print(e)
@@ -129,6 +325,33 @@ def send_dl2_data():
                 plc_device.connect("192.168.3.250", port=1202)
             except Exception as e:
                 print(e)
+
+class page_offset_settings(Ui_OffsetSettings, QWidget):
+    path = "Config/offset.toml"
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.save_data)
+        self._popup_page = Window_Popup()
+
+        try:
+            with open(self.path, "r") as file:
+                data = toml.load(file)
+            
+            self.doubleSpinBox.setValue(data["GT01"])
+            self.doubleSpinBox_2.setValue(data["GT02"])
+        except Exception as e:
+            print(e)
+    
+    def save_data(self):
+        gt_01 = self.doubleSpinBox.value()
+        gt_02 = self.doubleSpinBox_2.value()
+
+        with open(self.path, "w+") as file:
+            toml.dump({"GT01": gt_01, "GT02" :gt_02}, file)
+        
+        self._popup_page.show_pop_up("Data Saved Sucessfully", "Sucess!!")
 
 class getNameOfExcel(QWidget, Ui_getExcelName):
     def __init__(self):
@@ -530,7 +753,6 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
     def run(self):
         # Connecting to plc
         plc_device  = plc.Type3E("192.168.3.250", port=1200)
-        global datalist
         try:
             plc_device.connect("192.168.3.250", 1200)
             plc_device.batch_write("D800", [0], DT.UWORD)
@@ -620,18 +842,11 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                 self.plc_signal.emit(f"PartStatus:{part_status}")
                 self.plc_signal.emit(f"LVDTLive:{lvdt_live_A.__round__(3)}:{lvdt_live_B.__round__(3)}")
 
-                command = plc_device.batch_read("D800", read_size=1, data_type=DT.UWORD)[0].value
-                self.plc_signal.emit(f"Command:{command}")
-                if command == 1 or command==2:
-                    try:
-                        if self.datalist[0] == "A":
-                            self.play_commands_A()
-                        if self.datalist[0] == "B":
-                            self.play_commands_B()
-                    except Exception as e:
-                        plc_device.batch_write("D800", [0], DT.UWORD)
+                with open("Config/offset.toml") as file:
+                    data = toml.load(file)
+                
+                plc_device.batch_write("D7520", [data["GT01"], data["GT02"]], DT.FLOAT)
                     
-                    self.datalist.popleft()
                 
                 if self.bin_a_filled:
                     plc_device.batch_write("M4000", values=[1], data_type=DT.BIT)
@@ -652,53 +867,7 @@ class Robo_teach_window(RoboTeachWindow, QMainWindow):
                     case 1:
                         self.plc_signal.emit("ALARM:AIR PRESSURE LOW:red")
                     
-                command = plc_device.batch_read("D7591", 1, DT.UWORD)[0].value
-                if command == 3:
-                    plc_device.batch_write("D5014", [0,0,0,0,0,0,0,0,0,0,0,0,0,0], DT.UWORD)
-                    print("Comparing")
-                    lvdt1 : float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
-                    lvdt2 : float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
-                    print(lvdt1, lvdt2)
-
-                    if ((lvdt1 < 43.200) or (lvdt2 < 43.200)) or (abs(lvdt1 -lvdt2) > 0.0205):
-                        # NG condition
-                        plc_device.batch_write("M92", [1], data_type=DT.BIT)
-                        time.sleep(0.5)
-                        plc_device.batch_write("M92", [0], data_type=DT.BIT)
-                        print("NG", lvdt1, lvdt2)
-                    
-                    elif (lvdt1 > 43.260) or (lvdt2 > 43.260):
-                          # Condition Oversize
-                        plc_device.batch_write("M93", [1], data_type=DT.BIT)
-                        time.sleep(0.5)
-                        plc_device.batch_write("M93", [0], data_type=DT.BIT)
-                        print("Oversize", lvdt1, lvdt2)
-                    
-                    elif (43.200 <= lvdt1 <= 43.230) and (43.200 <= lvdt2 <= 43.230):
-                        if (abs(lvdt1-lvdt2) <= 0.010):
-                            # Condition for A
-                            plc_device.batch_write("M90", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M90", [0], data_type=DT.BIT)
-                            print("A", lvdt1, lvdt2)
-                        else:
-                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                            print("B", lvdt1, lvdt2)
-                            self.datalist.append("B")
-
-                    elif (43.200 <= lvdt1 <= 43.260 ) and (43.200 <= lvdt2 <= 43.260 ):
-                        if (abs(lvdt1 - lvdt2) <= 0.0204):
-                            # Condition B
-                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                            print("B", lvdt1, lvdt2)
-                            self.datalist.append("B")
-
-                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
-                    print(self.datalist)
+               
 
             except Exception as e:
                 print(e)
@@ -840,6 +1009,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self.actionInformation.triggered.connect(lambda : self._ui_about_us.show())
         # self.actionPLC_Settings.triggered.connect(lambda : os.system("c:/Users/User/Documents/Project_2/Manual-App/dist/Manual/Manual.exe"))
         self.actionView_Data.triggered.connect(lambda : self._data_view_window.show())
+        self.actionPLC_Settings.triggered.connect(lambda : self._offset_setting_page.show())
 
 
         # Registring the window
@@ -850,6 +1020,7 @@ class MyApp(QMainWindow, Ui_MainWindow):
         self._window_robo_teach = Robo_teach_window()
         self._ui_about_us = AboutUs()
         self._data_view_window = dataViewWindow()
+        self._offset_setting_page = page_offset_settings()
 
         # Connecting the robo teach window with the mainwindow
         self._window_robo_teach.conn_event_handler.connect(self.connection_handler)
@@ -880,6 +1051,8 @@ class MyApp(QMainWindow, Ui_MainWindow):
             case "LVDTLive":
                 self.label_15.setText(command_split[1])
                 self.label_17.setText(command_split[2])
+                self._offset_setting_page.GT01Live.setText(command_split[1])
+                self._offset_setting_page.GT02Live.setText(command_split[2])
             case "Counter":
                 self.label_8.setText(command_split[1])
                 self.label_9.setText(command_split[2])

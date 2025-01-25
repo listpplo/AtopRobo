@@ -246,7 +246,7 @@ class Ui_MainWindow(object):
         self.toolBox_19.addItem(self.toolBox_19Page1, icon, u"Part \"A\" Tray")
         self.page = QWidget()
         self.page.setObjectName(u"page")
-        self.page.setGeometry(QRect(0, 0, 627, 555))
+        self.page.setGeometry(QRect(0, 0, 379, 322))
         self.verticalLayout_4 = QVBoxLayout(self.page)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.frame_17 = QFrame(self.page)
@@ -787,7 +787,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget_2.setCurrentIndex(1)
+        self.tabWidget_2.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)

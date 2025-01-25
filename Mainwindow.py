@@ -454,12 +454,41 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.label_3)
 
-        self.label_13 = QLabel(self.frame_2)
+        self.groupBox_12 = QGroupBox(self.frame_2)
+        self.groupBox_12.setObjectName(u"groupBox_12")
+        self.groupBox_12.setMinimumSize(QSize(0, 50))
+        font11 = QFont()
+        font11.setBold(True)
+        font11.setItalic(True)
+        font11.setUnderline(True)
+        self.groupBox_12.setFont(font11)
+        self.groupBox_12.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_7 = QVBoxLayout(self.groupBox_12)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.label_13 = QLabel(self.groupBox_12)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setMinimumSize(QSize(0, 100))
         self.label_13.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout.addWidget(self.label_13)
+        self.verticalLayout_7.addWidget(self.label_13)
+
+
+        self.verticalLayout.addWidget(self.groupBox_12)
+
+        self.groupBox_13 = QGroupBox(self.frame_2)
+        self.groupBox_13.setObjectName(u"groupBox_13")
+        self.groupBox_13.setMinimumSize(QSize(0, 50))
+        self.groupBox_13.setFont(font11)
+        self.groupBox_13.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_8 = QVBoxLayout(self.groupBox_13)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.label_18 = QLabel(self.groupBox_13)
+        self.label_18.setObjectName(u"label_18")
+        self.label_18.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_8.addWidget(self.label_18)
+
+
+        self.verticalLayout.addWidget(self.groupBox_13)
 
         self.pushButton_3 = QPushButton(self.frame_2)
         self.pushButton_3.setObjectName(u"pushButton_3")
@@ -558,7 +587,10 @@ class Ui_MainWindow(object):
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"GT-02", None))
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"---", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.groupBox_12.setTitle(QCoreApplication.translate("MainWindow", u"Laser Sequence", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"---", None))
+        self.groupBox_13.setTitle(QCoreApplication.translate("MainWindow", u"Robo Sequence", None))
+        self.label_18.setText(QCoreApplication.translate("MainWindow", u"---", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Reset", None))
         self.menuTeach.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuTeach_2.setTitle(QCoreApplication.translate("MainWindow", u"Teach", None))

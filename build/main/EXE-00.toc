@@ -1,5 +1,5 @@
 ('C:\\Users\\User\\Documents\\Project_2\\AtopRobo\\build\\main\\main.exe',
- True,
+ False,
  False,
  True,
  ['C:\\Users\\User\\Documents\\Project_2\\AtopRobo\\icon.png'],
@@ -76,8 +76,8 @@
  [],
  False,
  False,
- 1737106524,
- [('run.exe',
-   'C:\\Users\\User\\Documents\\Project_2\\AtopRobo\\venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\run.exe',
+ 1737609524,
+ [('runw.exe',
+   'C:\\Users\\User\\Documents\\Project_2\\AtopRobo\\venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')],
  'C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\python313.dll')

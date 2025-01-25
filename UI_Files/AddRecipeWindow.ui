@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>657</width>
-    <height>470</height>
+    <height>467</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,80 +22,90 @@
     <number>9</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-       <bold>true</bold>
-       <underline>true</underline>
-      </font>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QGroupBox{
+     <widget class="QWidget" name="tabWidgetPage1" native="true">
+      <attribute name="title">
+       <string/>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QGroupBox{
 	border:2px dashed black;
 }</string>
-     </property>
-     <property name="title">
-      <string>File List</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="topMargin">
-       <number>25</number>
-      </property>
-      <item>
-       <widget class="QTableWidget" name="tableWidget">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="editTriggers">
-         <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-        </property>
-        <property name="alternatingRowColors">
-         <bool>true</bool>
-        </property>
-        <property name="rowCount">
-         <number>0</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item alignment="">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>200</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-       <bold>true</bold>
-       <underline>true</underline>
-       <kerning>false</kerning>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QGroupBox{
+         </property>
+         <property name="title">
+          <string>File List</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="topMargin">
+           <number>25</number>
+          </property>
+          <item>
+           <widget class="QTableWidget" name="tableWidget">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+            </property>
+            <property name="alternatingRowColors">
+             <bool>true</bool>
+            </property>
+            <property name="rowCount">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+           <underline>true</underline>
+           <kerning>false</kerning>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QGroupBox{
 	border:2px dashed black;
 }
 
@@ -106,156 +116,165 @@ QPushButton{
 QPushButton::hover{
 	background-color: rgb(127, 255, 42);
 }</string>
-     </property>
-     <property name="title">
-      <string>Options</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <property name="topMargin">
-       <number>25</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Add Recipe</string>
-        </property>
-        <property name="icon">
-         <iconset resource="assets.qrc">
-          <normaloff>:/icons/Asstes/Icons/icons8-add-100.png</normaloff>:/icons/Asstes/Icons/icons8-add-100.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Load Recipe</string>
-        </property>
-        <property name="icon">
-         <iconset resource="assets.qrc">
-          <normaloff>:/icons/Asstes/Icons/icons8-load-cargo-96.png</normaloff>:/icons/Asstes/Icons/icons8-load-cargo-96.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton::hover{
+         </property>
+         <property name="title">
+          <string>Options</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="topMargin">
+           <number>25</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Add Recipe</string>
+            </property>
+            <property name="icon">
+             <iconset resource="assets.qrc">
+              <normaloff>:/icons/Asstes/Icons/icons8-add-100.png</normaloff>:/icons/Asstes/Icons/icons8-add-100.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>60</width>
+              <height>60</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Load Recipe</string>
+            </property>
+            <property name="icon">
+             <iconset resource="assets.qrc">
+              <normaloff>:/icons/Asstes/Icons/icons8-load-cargo-96.png</normaloff>:/icons/Asstes/Icons/icons8-load-cargo-96.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>60</width>
+              <height>60</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton::hover{
 	background-color: rgb(255, 153, 28);
 }</string>
-        </property>
-        <property name="text">
-         <string>Delete Recipe</string>
-        </property>
-        <property name="icon">
-         <iconset resource="assets.qrc">
-          <normaloff>:/icons/Asstes/Icons/icons8-delete-all-100.png</normaloff>:/icons/Asstes/Icons/icons8-delete-all-100.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_4">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton::hover{
+            </property>
+            <property name="text">
+             <string>Delete Recipe</string>
+            </property>
+            <property name="icon">
+             <iconset resource="assets.qrc">
+              <normaloff>:/icons/Asstes/Icons/icons8-delete-all-100.png</normaloff>:/icons/Asstes/Icons/icons8-delete-all-100.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>60</width>
+              <height>60</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_4">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton::hover{
 	background-color: rgb(255, 47, 78);
 }</string>
-        </property>
-        <property name="text">
-         <string>Exit</string>
-        </property>
-        <property name="icon">
-         <iconset resource="assets.qrc">
-          <normaloff>:/icons/Asstes/Icons/icons8-exit-96.png</normaloff>:/icons/Asstes/Icons/icons8-exit-96.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>60</width>
-          <height>60</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Orientation::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
+            </property>
+            <property name="text">
+             <string>Exit</string>
+            </property>
+            <property name="icon">
+             <iconset resource="assets.qrc">
+              <normaloff>:/icons/Asstes/Icons/icons8-exit-96.png</normaloff>:/icons/Asstes/Icons/icons8-exit-96.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>60</width>
+              <height>60</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Orientation::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>View Recipe Page</string>
+      </attribute>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -263,22 +282,5 @@ QPushButton::hover{
  <resources>
   <include location="assets.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>pushButton_4</sender>
-   <signal>clicked()</signal>
-   <receiver>AddRecipe</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>539</x>
-     <y>309</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>682</x>
-     <y>323</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

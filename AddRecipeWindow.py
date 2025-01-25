@@ -17,21 +17,28 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QGroupBox, QHBoxLayout,
     QHeaderView, QPushButton, QSizePolicy, QSpacerItem,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+    QTabWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
+    QWidget)
 import assets_rc
 
 class Ui_AddRecipe(object):
     def setupUi(self, AddRecipe):
         if not AddRecipe.objectName():
             AddRecipe.setObjectName(u"AddRecipe")
-        AddRecipe.resize(657, 470)
+        AddRecipe.resize(657, 467)
         icon = QIcon()
         icon.addFile(u":/icons/Asstes/Icons/icons8-add-properties-100.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         AddRecipe.setWindowIcon(icon)
         self.horizontalLayout = QHBoxLayout(AddRecipe)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(-1, 9, -1, -1)
-        self.groupBox = QGroupBox(AddRecipe)
+        self.tabWidget = QTabWidget(AddRecipe)
+        self.tabWidget.setObjectName(u"tabWidget")
+        self.tabWidgetPage1 = QWidget()
+        self.tabWidgetPage1.setObjectName(u"tabWidgetPage1")
+        self.horizontalLayout_2 = QHBoxLayout(self.tabWidgetPage1)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.groupBox = QGroupBox(self.tabWidgetPage1)
         self.groupBox.setObjectName(u"groupBox")
         font = QFont()
         font.setPointSize(12)
@@ -57,9 +64,9 @@ class Ui_AddRecipe(object):
         self.verticalLayout.addWidget(self.tableWidget)
 
 
-        self.horizontalLayout.addWidget(self.groupBox)
+        self.horizontalLayout_2.addWidget(self.groupBox)
 
-        self.groupBox_2 = QGroupBox(AddRecipe)
+        self.groupBox_2 = QGroupBox(self.tabWidgetPage1)
         self.groupBox_2.setObjectName(u"groupBox_2")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -152,11 +159,20 @@ class Ui_AddRecipe(object):
         self.verticalLayout_2.addItem(self.verticalSpacer)
 
 
-        self.horizontalLayout.addWidget(self.groupBox_2)
+        self.horizontalLayout_2.addWidget(self.groupBox_2)
+
+        self.tabWidget.addTab(self.tabWidgetPage1, "")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.tabWidget.addTab(self.tab, "")
+
+        self.horizontalLayout.addWidget(self.tabWidget)
 
 
         self.retranslateUi(AddRecipe)
-        self.pushButton_4.clicked.connect(AddRecipe.close)
+
+        self.tabWidget.setCurrentIndex(0)
+
 
         QMetaObject.connectSlotsByName(AddRecipe)
     # setupUi
@@ -169,5 +185,7 @@ class Ui_AddRecipe(object):
         self.pushButton_2.setText(QCoreApplication.translate("AddRecipe", u"Load Recipe", None))
         self.pushButton_3.setText(QCoreApplication.translate("AddRecipe", u"Delete Recipe", None))
         self.pushButton_4.setText(QCoreApplication.translate("AddRecipe", u"Exit", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage1), "")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("AddRecipe", u"View Recipe Page", None))
     # retranslateUi
 
