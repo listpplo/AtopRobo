@@ -220,6 +220,10 @@ def send_dl2_data():
                     if to_mark == "EmptyCycle" or to_mark == "NG":
                         to_mark = laser_que[1]
                     with open("laser.txt", "w+") as file:
+                            if to_mark == "EmptyCycle":
+                                file.write(" ")
+                            else:
+                                file.write(f"{to_mark}")
                             file.write(f"{to_mark}")
                         
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
@@ -235,6 +239,7 @@ def send_dl2_data():
                     db.commit()
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
 
+                # This command is for the comparison of the data and to determine it is working 
                 if command == 3:
                     plc_device.batch_write("D5014", [0,0,0,0,0,0,0,0,0,0,0,0,0,0], DT.UWORD)
                     print("Comparing")
@@ -243,14 +248,13 @@ def send_dl2_data():
                     print(lvdt1, lvdt2)
 
                     if ((lvdt1 < 43.200) or (lvdt2 < 43.200)) or (abs(lvdt1 -lvdt2) > 0.0205):
-                        # NG condition
+                        # NG condition due to under size or taper
                         plc_device.batch_write("M92", [1], data_type=DT.BIT)
                         time.sleep(0.5)
                         plc_device.batch_write("M92", [0], data_type=DT.BIT)
                         print("NG", lvdt1, lvdt2)
                         laser_que.appendleft("NG")
-                        
-                    
+                                            
                     elif (lvdt1 > 43.260) or (lvdt2 > 43.260):
                           # Condition Oversize
                         plc_device.batch_write("M93", [1], data_type=DT.BIT)

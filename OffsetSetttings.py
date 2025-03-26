@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'PLCSettings.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.8.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,7 +23,7 @@ class Ui_OffsetSettings(object):
     def setupUi(self, OffsetSettings):
         if not OffsetSettings.objectName():
             OffsetSettings.setObjectName(u"OffsetSettings")
-        OffsetSettings.resize(302, 182)
+        OffsetSettings.resize(302, 214)
         self.verticalLayout = QVBoxLayout(OffsetSettings)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.frame = QFrame(OffsetSettings)
@@ -113,6 +113,11 @@ class Ui_OffsetSettings(object):
 
         self.verticalLayout.addWidget(self.frame_2)
 
+        self.pushButton_2 = QPushButton(OffsetSettings)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+
+        self.verticalLayout.addWidget(self.pushButton_2)
+
 
         self.retranslateUi(OffsetSettings)
         self.pushButton_3.clicked.connect(OffsetSettings.close)
@@ -132,5 +137,6 @@ class Ui_OffsetSettings(object):
         self.label_4.setText(QCoreApplication.translate("OffsetSettings", u"Live value :", None))
         self.pushButton.setText(QCoreApplication.translate("OffsetSettings", u"Save", None))
         self.pushButton_3.setText(QCoreApplication.translate("OffsetSettings", u"Cancle", None))
+        self.pushButton_2.setText(QCoreApplication.translate("OffsetSettings", u"Reset Counter", None))
     # retranslateUi
 
