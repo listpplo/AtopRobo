@@ -223,8 +223,11 @@ def send_dl2_data():
                             if to_mark == "EmptyCycle":
                                 file.write(" ")
                             else:
-                                file.write(f"{to_mark}")
-                            file.write(f"{to_mark}")
+                                if to_mark == "A":
+                                    file.write(f"G")
+                                else:
+                                    if to_mark == "B":
+                                        file.write(f"{to_mark}")
                         
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
                 
@@ -235,9 +238,9 @@ def send_dl2_data():
                     status = lst_to_str(plc_device.batch_read("D5014", read_size=10, data_type=DT.UWORD))
                     time_stamp = datetime.now()
 
-                    db.execute(F"INSERT INTO DATA VALUES ('{time_stamp}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {diff.__round__(3)}, '{status}');")
-                    db.commit()
-                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
+                    # db.execute(F"INSERT INTO DATA VALUES ('{time_stamp}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {diff.__round__(3)}, '{status}');")
+                    # db.commit()
+                    # plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
 
                 # This command is for the comparison of the data and to determine it is working 
                 if command == 3:
@@ -246,14 +249,18 @@ def send_dl2_data():
                     lvdt1 : float = plc_device.batch_read("D44", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
                     lvdt2 : float = plc_device.batch_read("D50", read_size=1, data_type=DT.FLOAT)[0].value.__round__(3)
                     print(lvdt1, lvdt2)
+                    plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
 
-                    if ((lvdt1 < 43.200) or (lvdt2 < 43.200)) or (abs(lvdt1 -lvdt2) > 0.0205):
+                    if ((lvdt1 < 43.200) or (lvdt2 < 43.200)) or (abs(lvdt1 -lvdt2) > 0.015):
                         # NG condition due to under size or taper
                         plc_device.batch_write("M92", [1], data_type=DT.BIT)
                         time.sleep(0.5)
                         plc_device.batch_write("M92", [0], data_type=DT.BIT)
                         print("NG", lvdt1, lvdt2)
                         laser_que.appendleft("NG")
+                        db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'NG');")
+                        db.commit()
+                        # plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
                                             
                     elif (lvdt1 > 43.260) or (lvdt2 > 43.260):
                           # Condition Oversize
@@ -262,6 +269,8 @@ def send_dl2_data():
                         plc_device.batch_write("M93", [0], data_type=DT.BIT)
                         print("Oversize", lvdt1, lvdt2)
                         laser_que.appendleft("NG")
+                        db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'OVERSIZE');")
+                        db.commit()
                     
                     elif (43.200 <= lvdt1 <= 43.230) and (43.200 <= lvdt2 <= 43.230):
                         if (abs(lvdt1-lvdt2) <= 0.010):
@@ -271,12 +280,16 @@ def send_dl2_data():
                             plc_device.batch_write("M90", [0], data_type=DT.BIT)
                             print("A", lvdt1, lvdt2)
                             laser_que.appendleft("A")
+                            db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt2).__round__(3)}, 'A');")
+                            db.commit()
                         else:
                             plc_device.batch_write("M91", [1], data_type=DT.BIT)
                             time.sleep(0.5)
                             plc_device.batch_write("M91", [0], data_type=DT.BIT)
                             print("B", lvdt1, lvdt2)
                             laser_que.appendleft("B")
+                            db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'B');")
+                            db.commit()
 
                     elif (43.200 <= lvdt1 <= 43.260 ) and (43.200 <= lvdt2 <= 43.260 ):
                         if (abs(lvdt1 - lvdt2) <= 0.0204):
@@ -286,6 +299,8 @@ def send_dl2_data():
                             plc_device.batch_write("M91", [0], data_type=DT.BIT)
                             print("B", lvdt1, lvdt2)
                             laser_que.appendleft("B")
+                            db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'B');")
+                            db.commit()
 
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
                 

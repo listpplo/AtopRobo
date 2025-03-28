@@ -12,9 +12,11 @@ class TestApp(QWidget, Ui_Form):
 
     def openApp(self):
         if self.comboBox.currentIndex() == 0:
-            os.popen("A_and_B.exe")
+            os.popen("python main.py")
+            # os.popen("A_and_B.exe")
         else:
-            os.popen("B_only.exe")
+            os.popen("python main.py")
+            # os.popen("B_only.exe")
 
         self.close()
 
