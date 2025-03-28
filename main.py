@@ -280,7 +280,7 @@ def send_dl2_data():
                             plc_device.batch_write("M90", [0], data_type=DT.BIT)
                             print("A", lvdt1, lvdt2)
                             laser_que.appendleft("A")
-                            db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt2).__round__(3)}, 'A');")
+                            db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'A');")
                             db.commit()
                         else:
                             plc_device.batch_write("M91", [1], data_type=DT.BIT)
