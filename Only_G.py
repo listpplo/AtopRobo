@@ -237,6 +237,7 @@ def send_dl2_data():
                     diff : float = plc_device.batch_read("D5004", read_size=1, data_type=DT.FLOAT)[0].value
                     status = lst_to_str(plc_device.batch_read("D5014", read_size=10, data_type=DT.UWORD))
                     time_stamp = datetime.now()
+                    
 
                     # db.execute(F"INSERT INTO DATA VALUES ('{time_stamp}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {diff.__round__(3)}, '{status}');")
                     # db.commit()
@@ -251,7 +252,7 @@ def send_dl2_data():
                     print(lvdt1, lvdt2)
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
 
-                    if ((lvdt1 < 43.205) or (lvdt2 < 43.205)) or (abs(lvdt1 -lvdt2) > 0.015):
+                    if ((lvdt1 < 43.205) or (lvdt2 < 43.205)):
                         # NG condition due to under size or taper
                         plc_device.batch_write("M92", [1], data_type=DT.BIT)
                         time.sleep(0.5)
@@ -262,7 +263,7 @@ def send_dl2_data():
                         db.commit()
                         # plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
                                             
-                    elif (lvdt1 > 43.260) or (lvdt2 > 43.260):
+                    elif (lvdt1 > 43.225) or (lvdt2 > 43.225):
                           # Condition Oversize
                         plc_device.batch_write("M93", [1], data_type=DT.BIT)
                         time.sleep(0.5)
@@ -272,35 +273,35 @@ def send_dl2_data():
                         db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'OVERSIZE');")
                         db.commit()
                     
-                    elif (43.200 <= lvdt1 <= 43.230) and (43.200 <= lvdt2 <= 43.230):
-                        if (abs(lvdt1-lvdt2) <= 0.010):
+                    elif (43.205 <= lvdt1 <= 43.225) and (43.205 <= lvdt2 <= 43.225):
+                        # if (abs(lvdt1-lvdt2) <= 0.010):
                             # Condition for A
-                            plc_device.batch_write("M90", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M90", [0], data_type=DT.BIT)
-                            print("A", lvdt1, lvdt2)
-                            laser_que.appendleft("A")
-                            db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'A');")
-                            db.commit()
-                        else:
-                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                            print("B", lvdt1, lvdt2)
-                            laser_que.appendleft("B")
-                            db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'B');")
-                            db.commit()
+                        plc_device.batch_write("M90", [1], data_type=DT.BIT)
+                        time.sleep(0.5)
+                        plc_device.batch_write("M90", [0], data_type=DT.BIT)
+                        print("A", lvdt1, lvdt2)
+                        laser_que.appendleft("A")
+                        db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'A');")
+                        db.commit()
+                        # else:
+                        #     plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                        #     time.sleep(0.5)
+                        #     plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                        #     print("B", lvdt1, lvdt2)
+                        #     laser_que.appendleft("B")
+                        #     db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'B');")
+                        #     db.commit()
 
-                    elif (43.200 <= lvdt1 <= 43.260 ) and (43.200 <= lvdt2 <= 43.260 ):
-                        if (abs(lvdt1 - lvdt2) <= 0.0204):
-                            # Condition B
-                            plc_device.batch_write("M91", [1], data_type=DT.BIT)
-                            time.sleep(0.5)
-                            plc_device.batch_write("M91", [0], data_type=DT.BIT)
-                            print("B", lvdt1, lvdt2)
-                            laser_que.appendleft("B")
-                            db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'B');")
-                            db.commit()
+                    # elif (43.200 <= lvdt1 <= 43.260 ) and (43.200 <= lvdt2 <= 43.260 ):
+                    #     if (abs(lvdt1 - lvdt2) <= 0.0204):
+                    #         # Condition B
+                    #         plc_device.batch_write("M91", [1], data_type=DT.BIT)
+                    #         time.sleep(0.5)
+                    #         plc_device.batch_write("M91", [0], data_type=DT.BIT)
+                    #         print("B", lvdt1, lvdt2)
+                    #         laser_que.appendleft("B")
+                    #         db.execute(F"INSERT INTO DATA VALUES ('{datetime.now()}','{datetime.now().date()}', {lvdt1.__round__(3)}, {lvdt2.__round__(3)}, {(lvdt2-lvdt1).__round__(3)}, 'B');")
+                    #         db.commit()
 
                     plc_device.batch_write("D7591", [0], data_type=DT.UWORD)
                 
